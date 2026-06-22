@@ -1,0 +1,51 @@
+﻿# Secrets and local config
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Runtime data
+*.log
+*.db
+*.db-*
+rag-financial-qa/uploads/
+rag-financial-qa/chroma_data/
+rag-financial-qa/data/
+rag-financial-qa/evals/reports/
+business-data-agent/charts/
+business-data-agent/uvicorn*.log
+
+# Keep public demo sample DB for the Agent project
+!business-data-agent/sample_data/sample.db
+
+# Personal files
+*.docx
+*.pdf
+.resume_extracted.txt
+.claude/
+.agents/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+kb_qa.db
+kb_qa.db-*
+data/
+chroma_data/
+uploads/
+evals/reports/

@@ -1,0 +1,16 @@
+services:
+  rag-api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: sqlite:////app/data/kb_qa.db
+      UPLOAD_DIR: /app/uploads
+      CHROMA_DIR: /app/chroma_data
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+      - ./chroma_data:/app/chroma_data
+    restart: unless-stopped

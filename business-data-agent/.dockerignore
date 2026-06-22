@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+data_analyst.db
+sample_data/*.db
+charts/*.png
+tests/
