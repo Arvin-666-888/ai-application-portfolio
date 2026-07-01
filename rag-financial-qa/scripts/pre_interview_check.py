@@ -146,7 +146,7 @@ def check_runtime_data() -> list[CheckResult]:
             question_count = sum(1 for line in file if line.strip())
 
     return [
-        result("eval_questions_count", question_count >= 15, f"{question_count} questions"),
+        result("eval_questions_count", question_count >= 24, f"{question_count} questions"),
         warn("runtime_data_ignored", "kb_qa.db、uploads、chroma_data 应作为本地运行产物，不建议提交到作品仓库。"),
     ]
 

@@ -4,7 +4,6 @@ import json
 import os
 import re
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -13,11 +12,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-RUNTIME_ROOT = Path(tempfile.mkdtemp(prefix="rag_eval_"))
-os.environ["DEBUG"] = "false"
-os.environ["UPLOAD_DIR"] = str(RUNTIME_ROOT / "uploads")
-os.environ["CHROMA_DIR"] = str(RUNTIME_ROOT / "chroma_data")
-os.environ["DATABASE_URL"] = f"sqlite:///{(RUNTIME_ROOT / 'kb_qa.db').as_posix()}"
+os.environ.setdefault("DEBUG", "false")
 os.chdir(PROJECT_ROOT)
 sys.path.insert(0, str(PROJECT_ROOT))
 

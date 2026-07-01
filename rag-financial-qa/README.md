@@ -103,7 +103,7 @@ python evals/run_eval.py --kb-id 1 --top-k 3 --retrieval-only
 python evals/run_eval.py --validate-only
 ```
 
-评测集每条 case 包含 `category`、`difficulty`、`answer_type`、`expected_sources`、`expected_keywords`、`expected_context_keywords` 和 `should_refuse`，用于区分资料内事实、原因解释、风险问题、资料外问题和金融高风险拒答。
+评测集包含 24 条求职验收问题。每条 case 包含 `category`、`difficulty`、`answer_type`、`expected_sources`、`expected_keywords`、`expected_context_keywords` 和 `should_refuse`，用于区分资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答。
 
 评测指标：
 
@@ -229,5 +229,5 @@ python scripts/demo_e2e.py --base-url http://127.0.0.1:8000
 
 - 当前 PDF 解析以文本提取为主，复杂财报表格、跨页表格和图表理解还需要增强。
 - 混合检索使用轻量关键词重排，后续可以接入 BM25、bge-reranker 或 cross-encoder reranker。
-- 当前评测集是小规模样例，已覆盖资料内事实、原因解释、风险问题、资料外问题和金融高风险拒答；真实求职展示建议扩展到 30-50 条问题，并保存一次真实模型评测报告。
+- 当前评测集是 24 条小型功能验收集，已覆盖资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答；后续如要更接近生产评测，可扩展到 30-50 条并保存一次真实模型评测报告。
 - 当前使用 SQLite 和本地 ChromaDB，生产环境应替换为 PostgreSQL、对象存储、独立向量数据库和任务队列。

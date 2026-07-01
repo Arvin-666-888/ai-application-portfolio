@@ -15,7 +15,7 @@ def test_eval_dataset_has_required_metadata_and_unique_ids():
     cases = load_cases(str(QUESTIONS_PATH))
     ids = [case["id"] for case in cases]
 
-    assert len(cases) >= 15
+    assert len(cases) >= 24
     assert len(ids) == len(set(ids))
     for case in cases:
         assert case.get("category")
@@ -30,10 +30,11 @@ def test_eval_dataset_balances_answerable_and_refusal_cases():
     refusal = [case for case in cases if case["should_refuse"]]
     categories = Counter(case["category"] for case in cases)
 
-    assert len(answerable) >= 8
-    assert len(refusal) >= 4
-    assert categories["financial_guardrail"] >= 2
-    assert categories["out_of_corpus"] >= 2
+    assert len(answerable) >= 16
+    assert len(refusal) >= 8
+    assert categories["financial_guardrail"] >= 3
+    assert categories["out_of_corpus"] >= 5
+    assert categories["cross_document_reasoning"] >= 1
 
 
 def test_answerable_cases_have_sources_and_keywords():

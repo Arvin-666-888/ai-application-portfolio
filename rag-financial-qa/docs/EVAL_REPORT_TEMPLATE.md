@@ -14,7 +14,7 @@
 | CHUNK_OVERLAP | 80 |
 | LEXICAL_WEIGHT | 0.35 |
 | MIN_RELEVANCE_SCORE | 0.05 |
-| 评测问题数 | 15 |
+| 评测问题数 | 24 |
 | 文档集 | `finance_summary_2024.txt`、`risk_notice.txt` |
 
 ## 2. 运行命令

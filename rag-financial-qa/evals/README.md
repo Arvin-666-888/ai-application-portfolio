@@ -6,7 +6,7 @@
 
 - `fixtures/finance_summary_2024.txt`：经营摘要、收入结构、毛利率、管理层展望。
 - `fixtures/risk_notice.txt`：云资源成本、汇率、客户集中度、数据安全风险。
-- `questions.jsonl`：资料内事实、原因解释、风险问题、资料外问题、投资建议类拒答问题。
+- `questions.jsonl`：24 条求职验收问题，覆盖资料内事实、原因解释、风险问题、跨文档综合、资料外问题和投资建议类拒答问题。
 
 每条 case 建议包含：
 
