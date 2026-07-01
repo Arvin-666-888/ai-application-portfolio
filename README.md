@@ -1,4 +1,4 @@
-﻿# AI Application Portfolio: RAG + Agent
+# AI Application Portfolio: RAG + Agent
 
 这是一个面向 AI 应用开发岗位的作品集仓库，包含两个可本地运行的后端项目：
 
@@ -67,6 +67,25 @@ uvicorn app.main:app --reload --port 8001
 - 收入贡献最高的前 5 个客户是谁？
 - 哪些月份净现金流为负？
 
+
+## LangChain 对照实现
+
+两个主项目仍然保留手写实现，同时补充第二版 LangChain demo，用于展示对主流框架抽象的理解：
+
+```powershell
+cd rag-financial-qa
+pip install -r requirements.txt
+pip install -r requirements-langchain.txt
+python examples/langchain_rag_demo.py --mock --question "2024年公司营业收入是多少？"
+
+cd ..\business-data-agent
+pip install -r requirements.txt
+pip install -r requirements-langchain.txt
+python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收入趋势如何？"
+```
+
+说明文档见：`docs/LANGCHAIN_COMPARISON.md`。
+
 ## 评测与测试
 
 - RAG：`evals/questions.jsonl` 覆盖资料内事实、原因解释、风险问题、资料外问题和金融高风险拒答。
@@ -75,8 +94,8 @@ uvicorn app.main:app --reload --port 8001
 
 ## 本地验证记录
 
-- `business-data-agent`：已在 mock mode 下验证，`pytest` 通过 22 个测试，`evals/run_agent_eval.py` 通过 7/7 条评测，`scripts/smoke_demo.py` 可跑通端到端演示。
-- `rag-financial-qa`：已提供 pytest 与 JSONL 评测脚本；本机当前 Python 环境缺少部分依赖，clone 后请先执行 `pip install -r requirements.txt` 和 `pip install -r requirements-dev.txt` 再验证。
+- `rag-financial-qa`：已在 mock mode 下验证，`pytest` 通过 16 个测试，`evals/run_eval.py --validate-only` 通过 24 条评测集结构校验；LangChain 对照 demo 可离线运行。
+- `business-data-agent`：已在 mock mode 下验证，`pytest` 通过 24 个测试，`evals/run_agent_eval.py` 通过 7/7 条评测，LangChain SQL Agent 对照 demo 可离线运行。
 
 ## 仓库安全说明
 

@@ -262,3 +262,15 @@ Agent 执行查询后，如果数据适合可视化，就调用 generate_chart �
 - 当前演示版本主要基于 SQLite 样例库，不夸大为生产级多数据库平台。
 - SQL 安全是 demo 级基础防护，真实生产环境还需要只读账号、权限隔离、超时控制和审计日志。
 - 面向简历展示的说明可查看 `docs/RESUME_PROJECT.md`。
+
+## LangChain 对照 demo
+
+主项目仍然是手写 Function Calling Agent。为了展示框架使用能力，额外提供 LangChain tools / agent 对照实现：
+
+```bash
+pip install -r requirements.txt
+pip install -r requirements-langchain.txt
+python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收入趋势如何？"
+```
+
+该 demo 复用 `DatabaseConnector`、`validate_sql` 和 `sanitize_sql`，用 LangChain `@tool` 封装 `list_tables`、`get_schema`、`execute_sql`，无 API Key 时离线展示工具链，有 API Key 时可用 `create_agent` 让模型选择工具。

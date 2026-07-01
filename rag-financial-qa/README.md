@@ -231,3 +231,16 @@ python scripts/demo_e2e.py --base-url http://127.0.0.1:8000
 - 混合检索使用轻量关键词重排，后续可以接入 BM25、bge-reranker 或 cross-encoder reranker。
 - 当前评测集是 24 条小型功能验收集，已覆盖资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答；后续如要更接近生产评测，可扩展到 30-50 条并保存一次真实模型评测报告。
 - 当前使用 SQLite 和本地 ChromaDB，生产环境应替换为 PostgreSQL、对象存储、独立向量数据库和任务队列。
+
+## LangChain 对照 demo
+
+主项目仍然是手写 RAG 链路。为了展示框架使用能力，额外提供 LangChain 对照实现：
+
+```bash
+pip install -r requirements.txt
+pip install -r requirements-langchain.txt
+python examples/langchain_rag_demo.py --mock --question "2024年公司营业收入是多少？"
+python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收入是多少？"
+```
+
+该 demo 使用 `Document`、`RecursiveCharacterTextSplitter`、Chroma retriever 和可选 `OpenAIEmbeddings/ChatOpenAI`，输出 `answer`、`sources`、`snippet` 和 `relevance`，用于和手写 RAG 实现对比。
