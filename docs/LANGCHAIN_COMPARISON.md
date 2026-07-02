@@ -1,8 +1,6 @@
 # LangChain 对照实现说明
 
-这个仓库的主线仍然是两个手写项目：`rag-financial-qa` 展示从文档解析、切分、Embedding、ChromaDB 检索到 Prompt 生成的完整 RAG 链路；`business-data-agent` 展示手写 Function Calling 循环、工具执行、SQL 安全和工具轨迹。
-
-新增的 LangChain demo 不是替换主项目，而是第二版对照实现，用来说明我不仅能理解底层链路，也能使用主流框架把同类能力快速封装出来。
+本仓库包含两条实现路径：主项目保留手写 RAG / Agent 链路，`examples/` 下提供 LangChain 对照 demo。这样做的目的不是替换主项目，而是用同一批样例数据对比底层实现和框架抽象的差异。
 
 ## RAG 对照
 
@@ -18,11 +16,10 @@ python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收�
 
 实现点：
 
-- 用 LangChain `Document` 承载文档内容和 `source` metadata。
-- 用 `RecursiveCharacterTextSplitter` 对照主项目的手写递归切分器。
-- 用 LangChain Chroma retriever 完成 top-k 检索。
-- 无 API Key 时用本地 `HashEmbeddings` 跑通流程；有 API Key 时可切换到 `OpenAIEmbeddings` 和 `ChatOpenAI`。
-- 输出 `answer / sources / snippet / relevance`，便于和主项目接口返回做对比。
+- 使用 LangChain `Document` 承载文档内容和 `source` metadata。
+- 使用 `RecursiveCharacterTextSplitter` 对照主项目的递归文本切分逻辑。
+- 使用 Chroma retriever 完成 top-k 检索，并输出 `answer`、`sources`、`snippet` 和 `relevance`。
+- 无 API Key 时使用本地 `HashEmbeddings` 跑通流程；有 API Key 时可切换到 `OpenAIEmbeddings` 和 `ChatOpenAI`。
 
 ## Agent 对照
 
@@ -38,24 +35,20 @@ python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收�
 实现点：
 
 - 复用主项目的 `DatabaseConnector`、`validate_sql`、`sanitize_sql`。
-- 用 LangChain `@tool` 封装 `list_tables`、`get_schema`、`execute_sql`。
-- `execute_sql` 仍然只允许 SELECT，危险 SQL 会被主项目安全逻辑拦截。
-- 无 API Key 时离线演示工具注册和固定工具链；有 API Key 时用 `create_agent` 让模型选择工具。
-- 输出 `tool_trace`，和主项目的工具轨迹设计保持一致。
+- 使用 LangChain `@tool` 封装 `list_tables`、`get_schema`、`execute_sql`。
+- `execute_sql` 仍然复用主项目 SQL 安全逻辑，只允许 SELECT，并拦截危险 SQL。
+- 无 API Key 时离线展示工具注册和固定工具链；有 API Key 时使用 `create_agent` 让模型选择工具。
+- 输出 `tool_trace`，与主项目工具轨迹结构保持一致。
 
-## 面试表达
+## 设计取舍
 
-可以这样说：
+- 主项目手写核心链路，便于控制数据流、权限校验、错误处理和评测逻辑。
+- LangChain demo 只放在 `examples/` 中，用于展示同类能力如何映射到框架抽象。
+- 两条路径共用样例数据和安全逻辑，避免出现两套互相不一致的业务规则。
+- 当前对照 demo 重点验证框架使用方式，不承担完整后端接口、鉴权和持久化职责。
 
-> 我的主项目没有直接依赖 LangChain，而是手写了一遍 RAG 和 Agent 的核心链路，这样我能讲清楚每一步为什么存在。之后我补了 LangChain 对照实现：RAG 侧用 Document、TextSplitter、Chroma retriever，Agent 侧用 @tool 和 create_agent，把同样的能力用框架抽象再实现一遍。这样既能展示底层理解，也能说明我会用主流框架提高开发效率。
+## 边界说明
 
-不要这样夸大：
-
-- 不写“主项目基于 LangChain 重构”。
-- 不写“精通 LangChain / LangGraph”。
-- 不写“生产级 Agent 平台”。
-
-简历中稳妥写法：
-
-- 补充 LangChain 对照 demo，使用 `Document`、`RecursiveCharacterTextSplitter`、Chroma retriever 验证同一批金融样例文档的检索流程，并与手写 RAG 链路进行对比。
-- 补充 LangChain tools demo，将表结构查询和只读 SQL 执行封装为工具，对比手写 ToolExecutor 与 `create_agent` 编排方式。
+- 主项目保留独立实现路径，LangChain 只作为对照实现。
+- 当前 Agent demo 不是生产级 Agent 平台，仍需要更完整的权限、审计、资源配额和监控。
+- 当前 RAG demo 使用小规模样例文档，真实语义质量需要配置真实 Embedding 和 Chat 模型后再评估。

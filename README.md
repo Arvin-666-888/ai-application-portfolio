@@ -1,13 +1,13 @@
 # AI Application Portfolio: RAG + Agent
 
-这是一个面向 AI 应用开发岗位的作品集仓库，包含两个可本地运行的后端项目：
+这是一个 AI 应用后端项目集合，包含两个可本地运行的原型项目：
 
 | 项目 | 方向 | 主要能力 |
 |---|---|---|
 | `rag-financial-qa` | 金融文档 RAG 问答 | 文档上传、文本切分、Embedding、ChromaDB 检索、来源引用、域外拒答、JSONL 评测 |
 | `business-data-agent` | 经营数据分析 Agent | Function Calling、工具 schema、自然语言转 SQL、只读 SQL 安全、工具调用轨迹、图表和报告导出 |
 
-> 当前仓库定位为求职展示型原型，重点展示 RAG、Agent 和 AI 应用后端工程链路，不夸大为生产级平台。
+> 当前仓库用于验证 RAG、Agent 和 AI 应用后端工程链路。项目以本地可复现和核心流程完整为目标，尚未覆盖生产环境的完整治理、监控和扩展要求。
 
 ## 技术栈
 

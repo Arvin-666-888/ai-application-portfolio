@@ -73,7 +73,7 @@ answer_keyword_match_rate:
 |  | `LEXICAL_WEIGHT: 0.35 -> 0.5` |  |  |
 |  | `MIN_RELEVANCE_SCORE: 0.05 -> 0.1` |  |  |
 
-## 7. 面试表达版本
+## 7. 结果摘要
 
 可以这样讲：
 

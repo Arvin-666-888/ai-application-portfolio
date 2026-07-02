@@ -2,7 +2,7 @@
 
 基于 RAG（检索增强生成）的金融文档问答原型，使用 FastAPI + ChromaDB + OpenAI-compatible API 实现财报、公告、研报摘要等文档的上传、切分、向量检索、引用溯源、多轮问答、SSE 流式输出和资料外拒答。
 
-> 当前项目定位：求职展示型原型。目标是完整跑通 AI 应用后端链路，并用评测集说明检索和拒答效果；不夸大为生产级投研平台。
+> 当前项目用于验证金融文档 RAG 的核心后端链路，包括文档入库、向量检索、来源返回、拒答控制和评测。项目尚未按生产级投研平台要求建设。
 
 ## 项目亮点
 
@@ -103,7 +103,7 @@ python evals/run_eval.py --kb-id 1 --top-k 3 --retrieval-only
 python evals/run_eval.py --validate-only
 ```
 
-评测集包含 24 条求职验收问题。每条 case 包含 `category`、`difficulty`、`answer_type`、`expected_sources`、`expected_keywords`、`expected_context_keywords` 和 `should_refuse`，用于区分资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答。
+评测集包含 24 条功能验收问题。每条 case 包含 `category`、`difficulty`、`answer_type`、`expected_sources`、`expected_keywords`、`expected_context_keywords` 和 `should_refuse`，用于区分资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答。
 
 评测指标：
 
@@ -159,8 +159,8 @@ app/
     └── vector_store.py     # ChromaDB 封装
 
 docs/
-├── DEMO_CHECKLIST.md        # 面试前演示验收清单
-└── EVAL_REPORT_TEMPLATE.md  # 真实评测报告模板
+├── DEMO_RUNBOOK.md           # 本地演示与验证流程
+└── EVALUATION_REPORT_TEMPLATE.md  # 评测报告模板
 
 evals/
 ├── fixtures/               # 样例金融文档
@@ -192,9 +192,9 @@ cd demo
 pytest
 ```
 
-当前测试聚焦在文本切分、关键词召回、混合重排和金融拒答护栏，这些是 RAG 项目最容易被面试追问的核心逻辑。
+当前测试聚焦在文本切分、关键词召回、混合重排和金融拒答护栏。
 
-面试前总验收：
+本地总体验证：
 
 ```bash
 cd demo
@@ -202,7 +202,7 @@ python scripts/pre_interview_check.py
 ```
 
 该脚本会检查关键文件、依赖安装状态、语法、pytest 和评测问题数量。
-如果只是做静态材料检查、尚未安装运行依赖，可以临时加 `--allow-missing-deps`；正式演示前应安装依赖并让完整检查通过。
+如果只是做静态材料检查、尚未安装运行依赖，可以临时加 `--allow-missing-deps`；完整验证前应安装依赖并让检查通过。
 
 ## 端到端演示验收
 
@@ -213,17 +213,7 @@ cd demo
 python scripts/demo_e2e.py --base-url http://127.0.0.1:8000
 ```
 
-脚本会自动完成注册、登录、创建知识库、上传样例文档、等待 ready、创建对话、资料内问答和股价预测拒答检查。面试前建议先跑这个脚本，再手工打开 Swagger 演示。
-
-## 简历写法建议
-
-**上市公司财报与公告智能问答系统｜FastAPI / ChromaDB / RAG**
-
-- 基于 FastAPI、ChromaDB 和 OpenAI-compatible API 构建金融文档 RAG 问答原型，支持财报/公告上传、文本切分、Embedding 向量化、语义检索和中文问答生成。
-- 设计文档入库和问答两阶段链路，使用 SQLite 管理用户、知识库、文档、处理状态、失败原因和对话元数据，使用 ChromaDB 按知识库隔离向量 collection。
-- 在向量检索基础上加入中文关键词重叠重排和最低相关度过滤，并在回答中返回来源文档、相关片段和相关度，提升答案可核验性。
-- 设计资料外拒答和金融高风险问题护栏，限制股价预测、买卖建议等无依据输出，降低幻觉和合规风险。
-- 实现 JWT 鉴权、多轮对话、SSE 流式响应、Docker 启动配置和 JSONL 自动评测脚本，支持检索命中率、引用支撑率、拒答准确率等指标检查。
+脚本会自动完成注册、登录、创建知识库、上传样例文档、等待 ready、创建对话、资料内问答和股价预测拒答检查。建议先跑这个脚本，再手工打开 Swagger 复核接口。
 
 ## 局限与后续优化
 
@@ -234,7 +224,7 @@ python scripts/demo_e2e.py --base-url http://127.0.0.1:8000
 
 ## LangChain 对照 demo
 
-主项目仍然是手写 RAG 链路。为了展示框架使用能力，额外提供 LangChain 对照实现：
+主项目保留手写 RAG 链路，`examples/` 中额外提供 LangChain 对照实现：
 
 ```bash
 pip install -r requirements.txt
@@ -243,4 +233,4 @@ python examples/langchain_rag_demo.py --mock --question "2024年公司营业收�
 python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收入是多少？"
 ```
 
-该 demo 使用 `Document`、`RecursiveCharacterTextSplitter`、Chroma retriever 和可选 `OpenAIEmbeddings/ChatOpenAI`，输出 `answer`、`sources`、`snippet` 和 `relevance`，用于和手写 RAG 实现对比。
+该 demo 使用 `Document`、`RecursiveCharacterTextSplitter`、Chroma retriever 和可选 `OpenAIEmbeddings/ChatOpenAI`，输出 `answer`、`sources`、`snippet` 和 `relevance`，用于和主项目的手写 RAG 实现进行对比。

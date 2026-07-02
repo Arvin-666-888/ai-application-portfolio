@@ -44,4 +44,4 @@ python evals/run_agent_eval.py --json
 python evals/run_agent_eval.py --real-llm
 ```
 
-默认 mock 模式只用于证明后端工具链、SQL 安全和轨迹保存可以稳定跑通。正式写进简历时，可以补充一次真实模型模式的评测结果。
+默认 mock 模式只用于证明后端工具链、SQL 安全和轨迹保存可以稳定跑通。如需评估真实模型效果，可以配置 API Key 后再补充一次真实模型模式的评测结果。
