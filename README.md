@@ -18,14 +18,27 @@
 
 ## 快速开始
 
+建议每个项目使用独立虚拟环境，避免依赖污染公司电脑上的全局 Python。以下命令适用于 Windows PowerShell；开始前先确认已安装 Python 3.11 或 3.12：
+
+```powershell
+python --version
+```
+
 ### 1. RAG 金融文档问答
 
 ```powershell
 cd rag-financial-qa
-pip install -r requirements.txt
-pytest
+
+# 创建并激活项目独立虚拟环境
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# 安装依赖并运行验证
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pytest -q
 python evals/run_eval.py --validate-only
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 打开 Swagger：`http://127.0.0.1:8000/docs`
@@ -38,18 +51,36 @@ copy .env.example .env
 
 ### 2. 经营数据分析 Agent
 
+打开一个新的 PowerShell 窗口，从仓库根目录执行：
+
 ```powershell
 cd business-data-agent
-pip install -r requirements.txt
-pytest
+
+# 每个项目单独创建虚拟环境
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# 安装依赖并运行验证
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pytest -q
 python evals/run_agent_eval.py
 python scripts/smoke_demo.py
-uvicorn app.main:app --reload --port 8001
+python -m uvicorn app.main:app --reload --port 8001
 ```
 
 打开 Swagger：`http://127.0.0.1:8001/docs`
 
 无 API Key 时默认使用 mock mode，可演示注册、数据源、自然语言分析、SQL 查询、工具轨迹和报告导出。
+
+如果公司电脑的 PowerShell 执行策略不允许运行 `Activate.ps1`，无需修改系统策略，可直接调用虚拟环境中的 Python：
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+演示结束后可执行 `deactivate` 退出虚拟环境。
 
 ## 演示问题
 
@@ -74,13 +105,13 @@ uvicorn app.main:app --reload --port 8001
 
 ```powershell
 cd rag-financial-qa
-pip install -r requirements.txt
-pip install -r requirements-langchain.txt
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-langchain.txt
 python examples/langchain_rag_demo.py --mock --question "2024年公司营业收入是多少？"
 
 cd ..\business-data-agent
-pip install -r requirements.txt
-pip install -r requirements-langchain.txt
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-langchain.txt
 python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收入趋势如何？"
 ```
 
