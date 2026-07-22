@@ -1,0 +1,25 @@
+services:
+  ecommerce-agent:
+    build: .
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: sqlite:////app/data/ecommerce.db
+      SECRET_KEY: local-docker-demo-secret-key-change-before-production
+      SEED_DEMO_DATA: "true"
+      DEMO_DATA_SEED: "20260722"
+      COMMERCE_BACKEND: sqlite
+    volumes:
+      - ecommerce_agent_data:/app/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8002/health', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ecommerce_agent_data:

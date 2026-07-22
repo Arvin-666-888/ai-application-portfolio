@@ -27,6 +27,8 @@ dist/
 *.log
 *.db
 *.db-*
+ecommerce-multi-agent-support/.tmp/
+ecommerce-multi-agent-support/evals/latest_report.json
 rag-financial-qa/uploads/
 rag-financial-qa/chroma_data/
 rag-financial-qa/data/

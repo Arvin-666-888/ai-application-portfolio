@@ -1,11 +1,12 @@
 # AI Application Portfolio: RAG + Agent
 
-这是一个 AI 应用后端项目集合，包含两个可本地运行的原型项目：
+这是一个 AI 应用后端项目集合，包含三个可本地运行和验证的项目：
 
 | 项目 | 方向 | 主要能力 |
 |---|---|---|
 | `rag-financial-qa` | 金融文档 RAG 问答 | 文档上传、文本切分、Embedding、ChromaDB 检索、来源引用、域外拒答、JSONL 评测 |
 | `business-data-agent` | 经营数据分析 Agent | Function Calling、工具 schema、自然语言转 SQL、只读 SQL 安全、工具调用轨迹、图表和报告导出 |
+| `ecommerce-multi-agent-support` | 跨境电商多 Agent 客服 | LangGraph Supervisor、商品/订单/售后分工、JWT 归属校验、敏感动作待审批、Tool Trace、离线评测 |
 
 > 当前仓库用于验证 RAG、Agent 和 AI 应用后端工程链路。项目以本地可复现和核心流程完整为目标，尚未覆盖生产环境的完整治理、监控和扩展要求。
 
@@ -14,6 +15,7 @@
 - Python / FastAPI / SQLAlchemy / Pydantic / SQLite
 - ChromaDB / Embedding / RAG / 来源引用 / 域外拒答
 - OpenAI-compatible API / Function Calling / Agent 工具调用
+- LangGraph StateGraph / Supervisor / 多 Agent 条件路由 / Repository Adapter
 - pytest / JSONL evals / Docker / Swagger / SSE
 
 ## 快速开始
@@ -73,6 +75,23 @@ python -m uvicorn app.main:app --reload --port 8001
 
 无 API Key 时默认使用 mock mode，可演示注册、数据源、自然语言分析、SQL 查询、工具轨迹和报告导出。
 
+### 3. 跨境电商多 Agent 智能客服
+
+```powershell
+cd ecommerce-multi-agent-support
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m pytest -q
+python evals/run_eval.py
+python scripts/smoke_demo.py
+python -m uvicorn app.main:app --reload --port 8002
+```
+
+打开 Swagger：`http://127.0.0.1:8002/docs`
+
+该项目使用结构逼真的仿真数据验证 LangGraph 多 Agent 分工、Tool/Repository 边界、订单越权拦截和售后敏感动作控制。评测结果仅代表本地确定性 V1 路径。
+
 如果公司电脑的 PowerShell 执行策略不允许运行 `Activate.ps1`，无需修改系统策略，可直接调用虚拟环境中的 Python：
 
 ```powershell
@@ -121,12 +140,14 @@ python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收�
 
 - RAG：`evals/questions.jsonl` 覆盖资料内事实、原因解释、风险问题、资料外问题和金融高风险拒答。
 - Agent：`evals/agent_questions.jsonl` 覆盖工具选择、SQL 结构、结果行数和危险 SQL 拦截。
-- 两个项目均包含 pytest 测试，覆盖核心逻辑和安全边界。
+- 电商多 Agent：`evals/cases.jsonl` 覆盖四类路由、商品硬条件、订单越权、售后审批、拒答和提示注入。
+- 三个项目均包含 pytest 测试，覆盖核心逻辑和安全边界。
 
 ## 本地验证记录
 
 - `rag-financial-qa`：已在 mock mode 下验证，`pytest` 通过 16 个测试，`evals/run_eval.py --validate-only` 通过 24 条评测集结构校验；LangChain 对照 demo 可离线运行。
 - `business-data-agent`：已在 mock mode 下验证，`pytest` 通过 24 个测试，`evals/run_agent_eval.py` 通过 7/7 条评测，LangChain SQL Agent 对照 demo 可离线运行。
+- `ecommerce-multi-agent-support`：本地 V1.0 通过 55 项 pytest；30/30 条离线评测通过，路由与工具选择准确率均为 100%，4/4 安全案例通过。指标仅代表固定本地评测集和确定性 fallback 链路。
 
 ## 仓库安全说明
 
