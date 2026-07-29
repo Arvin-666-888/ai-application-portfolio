@@ -1,13 +1,32 @@
 import argparse
 import importlib.util
 import json
+import re
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+PUBLIC_DOCS = [
+    "README.md",
+    "docs/DEMO_RUNBOOK.md",
+    "docs/EVALUATION_REPORT_TEMPLATE.md",
+    "docs/PDF_ROUTER_V1_REPORT.md",
+    "docs/PDF_ROUTER_V2_DESIGN.md",
+    "docs/PDF_ROUTER_V2_REPORT.md",
+    "docs/PDF_ROUTER_V3_DESIGN.md",
+    "docs/PDF_ROUTER_V3_REPORT.md",
+    "docs/RETRIEVAL_V2_REPORT.md",
+    "docs/TASK2_ACCEPTANCE_REPORT.md",
+]
+
+
+MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 
 
 @dataclass
@@ -36,9 +55,17 @@ REQUIRED_FILES = [
     "evals/questions.jsonl",
     "evals/fixtures/finance_summary_2024.txt",
     "evals/fixtures/risk_notice.txt",
-    "docs/DEMO_CHECKLIST.md",
-    "docs/EVAL_REPORT_TEMPLATE.md",
+    "docs/DEMO_RUNBOOK.md",
+    "docs/EVALUATION_REPORT_TEMPLATE.md",
+    "docs/PDF_ROUTER_V1_REPORT.md",
+    "docs/PDF_ROUTER_V2_DESIGN.md",
+    "docs/PDF_ROUTER_V2_REPORT.md",
+    "docs/PDF_ROUTER_V3_DESIGN.md",
+    "docs/PDF_ROUTER_V3_REPORT.md",
+    "docs/RETRIEVAL_V2_REPORT.md",
+    "docs/TASK2_ACCEPTANCE_REPORT.md",
     "scripts/demo_e2e.py",
+    "scripts/migrate_router_v2.py",
 ]
 
 
@@ -113,8 +140,15 @@ def run_command(name: str, command: list[str], cwd: Path) -> CheckResult:
 
 def check_tests(skip_tests: bool) -> list[CheckResult]:
     if skip_tests:
-        return [warn("pytest", "skipped by --skip-tests")]
-    return [run_command("pytest", [sys.executable, "-m", "pytest"], PROJECT_ROOT)]
+        return [warn("pytest", "skipped by --skip-tests; current test status must come from a fresh pytest run")]
+    with tempfile.TemporaryDirectory(prefix="rag-pytest-") as temp_dir:
+        return [
+            run_command(
+                "pytest",
+                [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "--basetemp", temp_dir],
+                PROJECT_ROOT,
+            )
+        ]
 
 
 def check_syntax() -> list[CheckResult]:
@@ -129,12 +163,71 @@ def check_syntax() -> list[CheckResult]:
         "app/services/document_service.py",
         "app/routers/documents.py",
     ]
+    errors = []
+    for relative in files:
+        path = PROJECT_ROOT / relative
+        try:
+            compile(path.read_text(encoding="utf-8"), str(path), "exec")
+        except Exception as exc:
+            errors.append(f"{relative}: {exc}")
+    return [result("python_syntax", not errors, "; ".join(errors))]
+
+
+def check_public_docs() -> list[CheckResult]:
+    broken_links = []
+    forbidden_paths = []
+    for relative in PUBLIC_DOCS:
+        path = PROJECT_ROOT / relative
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        for line_number, line in enumerate(text.splitlines(), start=1):
+            if re.search(r"\bcd\s+demo(?:[/\\]|\b)|demo/(?:data|uploads|chroma_data)\b", line, re.IGNORECASE):
+                forbidden_paths.append(f"{relative}:{line_number}")
+        for target in MARKDOWN_LINK_RE.findall(text):
+            target = target.strip().split("#", 1)[0]
+            if not target or target.startswith(("http://", "https://", "mailto:", "#")):
+                continue
+            resolved = (path.parent / target).resolve()
+            if not resolved.exists():
+                broken_links.append(f"{relative} -> {target}")
+
     return [
-        run_command(
-            "py_compile",
-            [sys.executable, "-B", "-m", "py_compile", *files],
-            PROJECT_ROOT,
+        result("public_docs:no_demo_paths", not forbidden_paths, ", ".join(forbidden_paths)),
+        result("public_docs:local_links", not broken_links, "; ".join(broken_links)),
+    ]
+
+
+def check_release_boundaries() -> list[CheckResult]:
+    config_text = (PROJECT_ROOT / "app" / "config.py").read_text(encoding="utf-8")
+    defaults_ok = all(
+        pattern in config_text
+        for pattern in (
+            "PDF_PADDLE_ARTIFACT_ENABLED: bool = False",
+            'RETRIEVAL_PROFILE: str = "legacy"',
+            'RAG_ANSWER_PROFILE: str = "legacy"',
+            "TOP_K: int = 3",
         )
+    )
+
+    readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+    runbook = (PROJECT_ROOT / "docs" / "DEMO_RUNBOOK.md").read_text(encoding="utf-8")
+    boundary_text = readme + "\n" + runbook
+    facts_ok = all(
+        marker in boundary_text
+        for marker in (
+            "provisional `12/24`",
+            "`verified_v3=0/24 accepted`",
+            "sealed holdout",
+            "独立人工",
+        )
+    )
+    worker_ok = "python -m app.workers.document_worker" in readme and "停留在 `queued`" in readme
+
+    return [
+        result("release_defaults:legacy_l3_disabled", defaults_ok, "expected legacy profiles, L3 disabled, TOP_K=3"),
+        result("release_docs:gate_boundaries", facts_ok, "missing Gate B/Gate C/sealed holdout/attestation boundary"),
+        result("quickstart:document_worker", worker_ok, "README must explain queued status and start document worker"),
     ]
 
 
@@ -146,7 +239,11 @@ def check_runtime_data() -> list[CheckResult]:
             question_count = sum(1 for line in file if line.strip())
 
     return [
-        result("eval_questions_count", question_count >= 24, f"{question_count} questions"),
+        result("eval_questions_present", question_count > 0, f"fresh count: {question_count} questions"),
+        warn("evaluation_boundary", "Question count and pytest totals must be quoted from fresh command output; historical fixed counts are stage-specific only."),
+        warn("gate_b_boundary", "Historical/disclosed Gate B is provisional 12/24 on an AI draft without independent human attestation; it is not finalized."),
+        warn("gate_c_boundary", "Gate C was really executed and failed: verified_v3=0/24 accepted; the new sealed holdout has not run."),
+        warn("release_defaults", "Keep PDF_PADDLE_ARTIFACT_ENABLED=false, RETRIEVAL_PROFILE=legacy, and RAG_ANSWER_PROFILE=legacy by default."),
         warn("runtime_data_ignored", "kb_qa.db、uploads、chroma_data 应作为本地运行产物，不建议提交到作品仓库。"),
     ]
 
@@ -201,6 +298,8 @@ def main() -> int:
         import_results = downgrade_missing_imports(import_results)
     results.extend(import_results)
     results.extend(check_syntax())
+    results.extend(check_public_docs())
+    results.extend(check_release_boundaries())
     results.extend(check_tests(skip_tests=args.skip_tests))
     results.extend(check_runtime_data())
 

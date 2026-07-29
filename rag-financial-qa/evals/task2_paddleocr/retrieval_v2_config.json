@@ -1,0 +1,37 @@
+{
+  "schema_version": "financial-retrieval-v2-config-v1",
+  "profile": "financial_v2",
+  "status": "frozen_after_first_run",
+  "channels": {
+    "table_dense": 50,
+    "table_lexical": 50,
+    "text_dense": 30,
+    "text_lexical": 30
+  },
+  "rrf": {
+    "k": 60,
+    "weights": {
+      "table_lexical": 1.25,
+      "table_dense": 1.0,
+      "text_lexical": 0.75,
+      "text_dense": 0.75
+    }
+  },
+  "rerank": {
+    "normalized_rrf": 0.55,
+    "metric_row_score": 0.2,
+    "statement_scope_score": 0.1,
+    "year_score": 0.05,
+    "company_source_score": 0.05,
+    "content_type_score": 0.05
+  },
+  "provenance_collapse": "at_most_one_chunk_per_table_id",
+  "ground_truth_features_forbidden": [
+    "pdf",
+    "metric",
+    "expected_value",
+    "expected_page",
+    "table_id"
+  ],
+  "eligible_for_business_claim": false
+}

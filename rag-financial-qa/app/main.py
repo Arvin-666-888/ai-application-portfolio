@@ -4,10 +4,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from sqlalchemy import func, select, text
 
 from app.config import settings
-from app.database import init_db
+from app.database import SessionLocal, init_db
+from app.models.models import DocumentJob
 from app.routers import auth, documents, knowledge_bases, chat
+from app.utils.vector_store import vector_store
 
 logger = logging.getLogger("kb_qa")
 
@@ -43,10 +46,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[origin.strip() for origin in settings.CORS_ORIGINS.split(",") if origin.strip()],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 
@@ -86,3 +89,32 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.get("/ready")
+async def readiness():
+    db = SessionLocal()
+    try:
+        db.execute(text("SELECT 1"))
+        queue_counts = dict(
+            db.execute(
+                select(DocumentJob.status, func.count(DocumentJob.id)).group_by(DocumentJob.status)
+            ).all()
+        )
+        vector_store.client.heartbeat()
+    except Exception:
+        logger.exception("Readiness check failed")
+        return JSONResponse(
+            status_code=503,
+            content={"status": "not_ready", "database": "error", "vector_store": "error"},
+        )
+    finally:
+        db.close()
+    pending = sum(queue_counts.get(status, 0) for status in ("queued", "running", "stale"))
+    return {
+        "status": "degraded" if pending else "ready",
+        "database": "ok",
+        "vector_store": "ok",
+        "pending_document_jobs": pending,
+        "job_counts": queue_counts,
+    }

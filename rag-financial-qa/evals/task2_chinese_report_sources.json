@@ -1,0 +1,57 @@
+[
+  {
+    "company": "珠海格力电器股份有限公司",
+    "stock_code": "000651",
+    "report_year": 2024,
+    "filename": "格力电器_2024年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2025-04-28/1223330631.PDF",
+    "source_page": "https://www.cninfo.com.cn/new/disclosure/detail?plate=szse&orgId=gssz0000651&stockCode=000651&announcementId=1223330631&announcementTime=2025-04-28",
+    "page_count": 248,
+    "size_bytes": 5087621,
+    "sha256": "c7184706caf5f57c04a795990967cfc4f4253024e02f8bdaffe2b260df2c6006"
+  },
+  {
+    "company": "美的集团股份有限公司",
+    "stock_code": "000333",
+    "report_year": 2024,
+    "filename": "美的集团_2024年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2025-03-29/1222951181.PDF",
+    "source_page": "https://www.cninfo.com.cn/new/disclosure/detail?plate=szse&orgId=gssz0000333&stockCode=000333&announcementId=1222951181&announcementTime=2025-03-29",
+    "page_count": 295,
+    "size_bytes": 6737887,
+    "sha256": "b17a9b9b84bca1d2a4e4a3cadc5dd5ba5c85e3f1fd2d758acd3315b5b040ecd9"
+  },
+  {
+    "company": "贵州茅台酒股份有限公司",
+    "stock_code": "600519",
+    "report_year": 2024,
+    "filename": "贵州茅台_2024年年度报告.pdf",
+    "pdf_url": "https://www.moutai.com.cn/mtgf/articleFileDir/2025-04/08/8055b7bed7db41bdbc617f4c9b9ec591.pdf",
+    "source_page": "https://www.moutai.com.cn/mtgf/tzzgx/cwbg/index.html",
+    "page_count": 143,
+    "size_bytes": 3626217,
+    "sha256": "5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30"
+  },
+  {
+    "company": "比亚迪股份有限公司",
+    "stock_code": "002594",
+    "report_year": 2024,
+    "filename": "比亚迪_2024年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2025-03-25/1222881496.PDF",
+    "source_page": "https://www.cninfo.com.cn/new/disclosure/detail?plate=szse&orgId=gssz0002594&stockCode=002594&announcementId=1222881496&announcementTime=2025-03-25",
+    "page_count": 290,
+    "size_bytes": 10092140,
+    "sha256": "e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3"
+  },
+  {
+    "company": "招商银行股份有限公司",
+    "stock_code": "600036",
+    "report_year": 2024,
+    "filename": "招商银行_2024年年度报告_A股.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2025-03-26/1222895154.PDF",
+    "source_page": "https://www.cninfo.com.cn/new/disclosure/detail?announcementId=1222895154&announcementTime=2025-03-26&orgId=gssh0600036&stockCode=600036",
+    "page_count": 362,
+    "size_bytes": 6215121,
+    "sha256": "44a8759c94e1ba92f1d96897ca3778592d9a7eb33b53420c19268f0b140d81c3"
+  }
+]

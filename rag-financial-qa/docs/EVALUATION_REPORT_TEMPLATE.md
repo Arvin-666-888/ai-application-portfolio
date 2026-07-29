@@ -14,13 +14,14 @@
 | CHUNK_OVERLAP | 80 |
 | LEXICAL_WEIGHT | 0.35 |
 | MIN_RELEVANCE_SCORE | 0.05 |
-| 评测问题数 | 24 |
+| 评测问题数 | 粘贴本轮 `evals/run_eval.py --validate-only` 的 fresh 输出，不预填固定数 |
 | 文档集 | `finance_summary_2024.txt`、`risk_notice.txt` |
 
 ## 2. 运行命令
 
+在项目根目录（即 `rag-financial-qa/`）执行：
+
 ```bash
-cd demo
 python evals/run_eval.py --kb-id <kb_id> --top-k 3
 ```
 

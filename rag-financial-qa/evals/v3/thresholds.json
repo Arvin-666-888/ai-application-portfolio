@@ -1,0 +1,13 @@
+{
+  "schema_version": "rag-answer-v3-thresholds-v1",
+  "status": "frozen_before_real_generation",
+  "answer_profile": "verified_v3",
+  "thresholds": {
+    "answer_coverage_min": 0.5,
+    "latency_p95_ms_max": 30000,
+    "estimated_cost_per_case_max": 0.05,
+    "cost_currency": "USD"
+  },
+  "cost_gate_policy": "If configured model pricing is unavailable, estimated_cost is unavailable and the cost gate is not evaluable; the run must remain provisional and cannot be finalized.",
+  "claim_boundary": "These operational thresholds are fixed before a real run and do not change application defaults."
+}

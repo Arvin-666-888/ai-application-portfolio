@@ -46,6 +46,7 @@ rag-financial-qa/evals/task2_paddleocr/raw/
 rag-financial-qa/evals/task2_paddleocr/smoke_pages/
 rag-financial-qa/evals/task2_paddleocr/smoke_raw*/
 rag-financial-qa/evals/router_v2_holdout/pdfs/
+rag-financial-qa/evals/router_v2_holdout/private/
 rag-financial-qa/evals/router_v2_holdout/runs/
 rag-financial-qa/evals/v3/runs/
 benchmark/results/*

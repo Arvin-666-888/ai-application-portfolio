@@ -5,12 +5,29 @@ services:
       - "8000:8000"
     env_file:
       - .env
-    environment:
+    environment: &rag-environment
+      # docker_only deliberately rejects a host Windows Paddle worker: paths stored
+      # in this SQLite queue use the /app namespace and are not host-portable.
+      PADDLE_WORKER_DEPLOYMENT_MODE: docker_only
+      PADDLE_WORKER_SHARED_ROOT: /app
       DATABASE_URL: sqlite:////app/data/kb_qa.db
       UPLOAD_DIR: /app/uploads
       CHROMA_DIR: /app/chroma_data
-    volumes:
+      DOCUMENT_PARSE_SNAPSHOT_DIR: /app/parse_snapshots
+      PDF_PADDLE_ARTIFACT_DIR: /app/ocr_artifacts
+    volumes: &rag-volumes
       - ./data:/app/data
       - ./uploads:/app/uploads
       - ./chroma_data:/app/chroma_data
+      - ./parse_snapshots:/app/parse_snapshots
+      - ./ocr_artifacts:/app/ocr_artifacts
+    restart: unless-stopped
+
+  document-worker:
+    build: .
+    command: ["python", "-m", "app.workers.document_worker"]
+    env_file:
+      - .env
+    environment: *rag-environment
+    volumes: *rag-volumes
     restart: unless-stopped
