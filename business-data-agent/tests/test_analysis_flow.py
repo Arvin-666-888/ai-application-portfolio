@@ -69,6 +69,30 @@ def test_datasource_isolation_between_users(client):
     assert response.status_code == 404
 
 
+def test_tool_executor_uses_connector_dialect_for_mysql_sql(monkeypatch):
+    from app.services.agent_service import ToolExecutor
+
+    class Dialect:
+        name = "mysql"
+
+    class Engine:
+        dialect = Dialect()
+
+    class Connector:
+        engine = Engine()
+
+        def execute_query(self, sql):
+            assert "`amount`" in sql
+            assert "`orders`" in sql
+            return [{"amount": 1}]
+
+    executor = ToolExecutor(connector=Connector())
+    result = executor._execute_sql("SELECT `amount` FROM `orders`")
+
+    assert "查询返回 1 行数据" in result
+    assert "`amount`" in executor.last_sql
+
+
 def test_agent_fallback_answer_uses_existing_sql_result():
     from app.services.agent_service import ToolExecutor, _build_fallback_answer
     from app.config import settings

@@ -3,7 +3,7 @@ from typing import Optional
 
 from sqlalchemy import create_engine, text, inspect
 
-from app.utils.sql_safety import validate_table_name
+from app.utils.sql_safety import sanitize_sql, validate_table_name
 
 logger = logging.getLogger("kb_qa.db_connector")
 
@@ -69,9 +69,14 @@ class DatabaseConnector:
             logger.error(f"Get schema failed: {e}")
             return []
 
-    def execute_query(self, sql: str) -> list[dict]:
+    def execute_query(self, sql: str, max_rows: int = 1000) -> list[dict]:
+        safe_sql = sanitize_sql(
+            sql,
+            max_rows=max_rows,
+            dialect=self.engine.dialect.name,
+        )
         with self.engine.connect() as conn:
-            result = conn.execute(text(sql))
+            result = conn.execute(text(safe_sql))
             columns = result.keys()
             rows = [dict(zip(columns, row)) for row in result.fetchall()]
             return rows
@@ -79,7 +84,10 @@ class DatabaseConnector:
     def preview_table(self, table_name: str, rows: int = 5) -> list[dict]:
         if not validate_table_name(table_name):
             raise ValueError(f"Invalid table name: {table_name}")
-        return self.execute_query(f'SELECT * FROM "{table_name}" LIMIT {rows}')
+        if isinstance(rows, bool) or not isinstance(rows, int) or not 1 <= rows <= 100:
+            raise ValueError("rows 必须是 1 到 100 之间的整数")
+        quoted_table = self.engine.dialect.identifier_preparer.quote(table_name)
+        return self.execute_query(f"SELECT * FROM {quoted_table} LIMIT {rows}", max_rows=rows)
 
     def dispose(self):
         if self._engine:

@@ -9,7 +9,7 @@
 - **Function Calling Agent**：模型返回结构化 tool_calls，后端执行工具并回传结果。
 - **财务经营场景化**：围绕收入、成本、毛利、预算、应收账款、现金流设计样例数据。
 - **自然语言查数**：用户用中文提问，Agent 自动获取 schema、生成 SQL、执行查询。
-- **SQL 安全控制**：只允许 SELECT，拦截危险关键字、多语句和注释，自动添加 LIMIT。
+- **SQL 安全控制**：使用 sqlglot AST 限制为单条只读 SELECT，二次拦截危险关键字，并自动添加顶层 LIMIT。
 - **过程可追溯**：保存 Agent 工具调用轨迹，支持复核每一步工具、参数和结果摘要。
 - **Agent 评测集**：固定问题集评估工具选择、SQL 关键结构、结果行数和安全拦截。
 - **可视化与报告**：支持 bar/line/pie 图表，支持 CSV 和 Markdown 报告导出。
@@ -25,15 +25,24 @@ pip install -r requirements.txt
 
 ### 2. 配置环境变量
 
-复制 `.env.example` 为 `.env`，填入你的 API 配置：
+复制 `.env.example` 为 `.env`，配置 MySQL 和模型 API：
 
 ```env
+DATABASE_URL=mysql+pymysql://financial_app:financial_app_password@localhost:3306/financial_platform?charset=utf8mb4
 API_KEY=your-api-key
 BASE_URL=https://api.openai.com/v1
-MODEL=gpt-3.5-turbo
+MODEL=gpt-4o-mini
 ```
 
-> 不配置 API_KEY 也可以运行，系统会使用模拟模式。
+> 推荐在仓库根目录运行 `docker compose up -d mysql redis` 启动本地基础设施。不配置 API_KEY 也可以运行，系统会使用模拟模式。
+
+如需把旧版 SQLite 元数据迁移到 MySQL，在仓库根目录执行：
+
+```bash
+python business-data-agent/migrate_sqlite_to_mysql.py --target "mysql+pymysql://financial_app:financial_app_password@localhost:3306/financial_platform?charset=utf8mb4"
+```
+
+脚本默认读取 `business-data-agent/storage/data_analyst.db`，并迁移 `users`、`datasources`、`analysis_records`；旧版数据库位于其他目录时必须通过 `--source` 显式指定。目标表非空时脚本默认拒绝执行，只有确认覆盖现有元数据后才可添加 `--replace-existing`；`tool_trace` 作为分析记录字段随记录迁移。
 
 ### 3. 运行自动化测试
 
@@ -171,7 +180,7 @@ app/
 |---|---|
 | Agent 循环 | Function Calling 多轮工具调用，最大步数限制 |
 | 工具定义 | `get_schema`, `execute_sql`, `generate_chart`, `list_tables`, `preview_table` |
-| SQL 安全 | 只允许 SELECT + 危险关键字过滤 + 注释过滤 + 多语句过滤 + 自动 LIMIT |
+| SQL 安全 | sqlglot AST 单语句只读校验 + 危险关键字二次过滤 + 顶层 LIMIT |
 | 过程追踪 | 保存 `tool_trace` 和 `rag_sources`，分析详情和 Markdown 报告可查看 |
 | 图表生成 | Matplotlib 动态生成 bar/line/pie |
 | 数据源管理 | SQLAlchemy 连接数据库，读取 schema 和表数据 |
@@ -217,7 +226,7 @@ app/
 
 ### 3. SQL 安全控制
 
-执行前统一做 SQL 安全校验：只允许 SELECT，拦截 INSERT、UPDATE、DELETE、DROP、ALTER 等危险关键字，禁止多语句和注释，并自动添加 LIMIT。生产环境还需要只读账号、权限隔离、查询超时和审计日志。
+执行前统一经过 `sqlglot` AST 安全校验：只允许单条只读 SELECT（含 CTE、JOIN、聚合和子查询），遍历 AST 拦截 DML、DDL、管理命令和嵌套危险节点；AST 通过后再做危险关键字二次校验，并为顶层无 LIMIT 的查询添加行数限制。生产环境还需要只读账号、权限隔离、查询超时和审计日志。
 
 ### 4. 工具轨迹
 
@@ -229,8 +238,9 @@ app/
 
 ### 6. 当前边界
 
-- 当前演示版本主要基于 SQLite 样例库，尚未做生产级多数据库方言适配。
-- SQL 安全是规则级基础防护，生产环境需要 SQL AST、只读账号、字段白名单、资源配额和审计日志。
+- 元数据（用户、数据源配置、分析记录和工具轨迹）默认持久化到 MySQL 8.0，并由 Repository + FastAPI 依赖注入统一访问；测试继续使用隔离 SQLite。
+- 内置财务经营样例库仍使用 SQLite，它是 Agent 查询的数据源，不属于平台元数据库迁移范围。
+- SQL 安全已升级为应用层 AST Guardrail；生产环境仍需要数据库只读账号、表字段白名单、查询超时、资源配额和审计日志。
 - 当前没有完整前端，主要通过 Swagger、脚本和导出报告完成验证。
 
 ## 十、扩展文档与运行注意事项

@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "智能数据分析助手"
     DEBUG: bool = True
 
-    DATABASE_URL: str = "sqlite:///./data_analyst.db"
+    DATABASE_URL: str = "mysql+pymysql://financial_app:financial_app_password@localhost:3306/financial_platform?charset=utf8mb4"
     SECRET_KEY: str = "change-this-secret-key-in-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60

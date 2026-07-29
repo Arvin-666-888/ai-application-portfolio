@@ -2,10 +2,10 @@ import logging
 from datetime import datetime, timedelta
 
 import jwt
-from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.models.models import User
+from app.repositories import UserRepository
 
 logger = logging.getLogger("kb_qa.auth")
 
@@ -46,19 +46,15 @@ def create_access_token(data: dict) -> str:
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 
-def register_user(db: Session, username: str, password: str) -> User:
-    existing = db.query(User).filter(User.username == username).first()
+def register_user(users: UserRepository, username: str, password: str) -> User:
+    existing = users.get_by_username(username)
     if existing:
         raise ValueError("用户名已存在")
-    user = User(username=username, hashed_password=hash_password(password))
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
+    return users.add(User(username=username, hashed_password=hash_password(password)))
 
 
-def authenticate_user(db: Session, username: str, password: str) -> User:
-    user = db.query(User).filter(User.username == username).first()
+def authenticate_user(users: UserRepository, username: str, password: str) -> User:
+    user = users.get_by_username(username)
     if not user:
         raise ValueError("用户名或密码错误")
     if not verify_password(password, user.hashed_password):
@@ -66,8 +62,8 @@ def authenticate_user(db: Session, username: str, password: str) -> User:
     return user
 
 
-def get_user_by_id(db: Session, user_id: int) -> User:
-    user = db.query(User).filter(User.id == user_id).first()
+def get_user_by_id(users: UserRepository, user_id: int) -> User:
+    user = users.get_by_id(user_id)
     if not user:
         raise ValueError("用户不存在")
     return user

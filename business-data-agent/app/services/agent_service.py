@@ -2,10 +2,10 @@ import json
 import logging
 
 import httpx
-from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.models.models import AnalysisRecord
+from app.repositories import AnalysisRepository
 from app.services.chart_service import create_chart
 from app.utils.db_connector import DatabaseConnector
 from app.utils.sql_safety import validate_sql, sanitize_sql
@@ -199,11 +199,16 @@ class ToolExecutor:
         return "\n".join(lines)
 
     def _execute_sql(self, sql: str) -> str:
-        is_valid, msg = validate_sql(sql)
+        dialect = self.connector.engine.dialect.name
+        is_valid, msg = validate_sql(sql, dialect=dialect)
         if not is_valid:
             return f"SQL验证失败: {msg}。请修改SQL，只允许SELECT查询。"
 
-        sql = sanitize_sql(sql, settings.MAX_QUERY_ROWS)
+        sql = sanitize_sql(
+            sql,
+            settings.MAX_QUERY_ROWS,
+            dialect=dialect,
+        )
         self.last_sql = sql
 
         try:
@@ -491,7 +496,7 @@ async def _run_mock_agent(question: str, executor: ToolExecutor) -> dict:
 
 
 def save_analysis_record(
-    db: Session, question: str, answer: str, sql_query: str,
+    analyses: AnalysisRepository, question: str, answer: str, sql_query: str,
     data: list[dict], chart_path: str, ds_id: int, user_id: int,
     tool_trace: list[dict] = None, rag_sources: list[dict] = None,
 ) -> AnalysisRecord:
@@ -506,17 +511,15 @@ def save_analysis_record(
         ds_id=ds_id,
         user_id=user_id,
     )
-    db.add(record)
-    db.commit()
-    db.refresh(record)
-    return record
+    return analyses.add(record)
 
 
-def get_analysis_records(db: Session, user_id: int, ds_id: int = None) -> list[AnalysisRecord]:
-    query = db.query(AnalysisRecord).filter(AnalysisRecord.user_id == user_id)
-    if ds_id:
-        query = query.filter(AnalysisRecord.ds_id == ds_id)
-    return query.order_by(AnalysisRecord.created_at.desc()).all()
+def get_analysis_records(
+    analyses: AnalysisRepository,
+    user_id: int,
+    ds_id: int = None,
+) -> list[AnalysisRecord]:
+    return analyses.list_for_user(user_id, ds_id)
 
 
 def _compact_text(value: str, max_chars: int = 1000) -> str:

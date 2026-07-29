@@ -2,15 +2,15 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.config import settings
+from app.dependencies import get_repositories
 from app.models.models import User
+from app.repositories import Repositories
 from app.schemas.schemas import UserRegister, UserLogin, TokenResponse, UserResponse
 from app.services.auth_service import (
     register_user, authenticate_user, create_access_token, get_user_by_id,
 )
-from app.config import settings
 import jwt as pyjwt
 
 logger = logging.getLogger("kb_qa.auth_router")
@@ -21,7 +21,7 @@ bearer_scheme = HTTPBearer(auto_error=False)
 
 async def get_current_user_dependency(
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
-    db: Session = Depends(get_db),
+    repositories: Repositories = Depends(get_repositories),
 ) -> User:
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise HTTPException(status_code=401, detail="无效的认证头")
@@ -36,24 +36,24 @@ async def get_current_user_dependency(
         raise HTTPException(status_code=401, detail="无效的Token")
 
     try:
-        return get_user_by_id(db, user_id)
+        return get_user_by_id(repositories.users, user_id)
     except ValueError:
         raise HTTPException(status_code=401, detail="用户不存在")
 
 
 @router.post("/register", response_model=UserResponse)
-async def register(req: UserRegister, db: Session = Depends(get_db)):
+async def register(req: UserRegister, repositories: Repositories = Depends(get_repositories)):
     try:
-        user = register_user(db, req.username, req.password)
+        user = register_user(repositories.users, req.username, req.password)
         return user
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.post("/login", response_model=TokenResponse)
-async def login(req: UserLogin, db: Session = Depends(get_db)):
+async def login(req: UserLogin, repositories: Repositories = Depends(get_repositories)):
     try:
-        user = authenticate_user(db, req.username, req.password)
+        user = authenticate_user(repositories.users, req.username, req.password)
         token = create_access_token({"sub": str(user.id)})
         return TokenResponse(access_token=token)
     except ValueError as e:

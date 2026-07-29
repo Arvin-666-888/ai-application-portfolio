@@ -1,13 +1,22 @@
 from sqlalchemy import create_engine, inspect, text
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
 
-engine = create_engine(
-    settings.DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    echo=settings.DEBUG,
-)
+
+def _engine_options(database_url: str) -> dict:
+    options = {
+        "echo": settings.DEBUG,
+        "pool_pre_ping": True,
+    }
+    if database_url.startswith("sqlite"):
+        options["connect_args"] = {"check_same_thread": False}
+    else:
+        options.update({"pool_recycle": 1800, "pool_size": 10, "max_overflow": 20})
+    return options
+
+
+engine = create_engine(settings.DATABASE_URL, **_engine_options(settings.DATABASE_URL))
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -25,12 +34,17 @@ def get_db():
 
 
 def init_db():
+    from app.models import models as _models
+
     Base.metadata.create_all(bind=engine)
     _ensure_demo_columns()
 
 
 def _ensure_demo_columns():
     """Keep the checked-in SQLite demo DB compatible after small schema upgrades."""
+    if engine.dialect.name != "sqlite":
+        return
+
     inspector = inspect(engine)
     if "analysis_records" not in inspector.get_table_names():
         return
