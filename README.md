@@ -75,6 +75,16 @@ python -m uvicorn app.main:app --reload --port 8001
 
 无 API Key 时默认使用 mock mode，可演示注册、数据源、自然语言分析、SQL 查询、工具轨迹和报告导出。
 
+也可从仓库根目录复制 `.env.compose.example` 为 `.env`，替换本地密码和签名密钥后启动 MySQL、Redis 与 Agent：
+
+```powershell
+copy .env.compose.example .env
+docker compose config --quiet
+docker compose up -d mysql redis business-data-agent
+```
+
+该 Compose 仅是本地开发编排：Redis 当前作为基础设施预留，业务代码尚未接入缓存或任务队列；它也不包含金融 RAG 和电商服务，不能视为统一生产中台部署。
+
 ### 3. 跨境电商多 Agent 智能客服
 
 ```powershell
