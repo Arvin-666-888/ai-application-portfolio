@@ -1,0 +1,28 @@
+{
+  "status": "部分通过",
+  "test_date": "2026-07-24",
+  "run_time": "2m",
+  "users": 10,
+  "spawn_rate": 2,
+  "initialized_users_verified": false,
+  "agent_base_url": "http://127.0.0.1:8001",
+  "rag_base_url": "http://127.0.0.1:8000",
+  "mode": "real LLM",
+  "dataset": "Agent 内置财务样例库；RAG conversation 2",
+  "local_docker": "是",
+  "hardware": "Windows 11 Pro 本机",
+  "python": "3.12.4",
+  "reasons": [
+    "历史运行未机器验证所有目标虚拟用户均完成初始化",
+    "历史 success 判定未拒绝 HTTP 200 中的模型失败或 mock 回答"
+  ],
+  "verified": [
+    "提交的 Locust stats CSV 记录 Agent 26、RAG 44、Aggregated 70 个请求且 Failure Count 为 0",
+    "提交的 failures CSV 只有表头",
+    "P95/P99 可从提交的 stats CSV 重算"
+  ],
+  "unverified": [
+    "10 个目标虚拟用户全部完成初始化并持续参与测量",
+    "70 个 HTTP 200 均为真实模型业务成功而非错误文本或 mock 回答"
+  ]
+}

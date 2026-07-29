@@ -48,7 +48,11 @@ rag-financial-qa/evals/task2_paddleocr/smoke_raw*/
 rag-financial-qa/evals/router_v2_holdout/pdfs/
 rag-financial-qa/evals/router_v2_holdout/runs/
 rag-financial-qa/evals/v3/runs/
-benchmark/results/
+benchmark/results/*
+!benchmark/results/README.md
+!benchmark/results/benchmark_stats.csv
+!benchmark/results/benchmark_failures.csv
+!benchmark/results/metadata.json
 business-data-agent/charts/
 business-data-agent/uvicorn*.log
 
