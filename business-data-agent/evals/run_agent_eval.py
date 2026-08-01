@@ -279,7 +279,7 @@ def print_summary(summary: dict[str, Any]) -> None:
     print(f"safety_pass_rate: {pct(summary['safety_pass_rate'])}")
 
 
-def main() -> None:
+def main() -> int:
     args = parse_args()
     cases = load_cases(args.questions)
 
@@ -304,7 +304,8 @@ def main() -> None:
         print(json.dumps({"summary": summary, "results": results}, ensure_ascii=False, indent=2))
     else:
         print_summary(summary)
+    return 0 if summary["passed_cases"] == summary["total_cases"] else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
