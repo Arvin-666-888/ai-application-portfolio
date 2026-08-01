@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 V3_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = V3_DIR.parents[1]
 load_dotenv(PROJECT_ROOT / ".env", override=False)
+os.environ.setdefault("DEBUG", "false")
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.config import settings

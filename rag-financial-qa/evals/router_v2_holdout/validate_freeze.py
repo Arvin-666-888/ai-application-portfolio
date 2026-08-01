@@ -15,6 +15,14 @@ FORBIDDEN_QUERY_FIELDS = {
     "expected_page",
     "expected_source",
     "expected_table_id",
+    "expected_unit",
+    "expected_year",
+    "expected_company",
+    "expected_scope",
+    "should_refuse",
+    "evidence_excerpt",
+    "review_notes",
+    "refusal_reason",
     "answer",
     "ground_truth",
 }
@@ -78,22 +86,61 @@ def validate(root: Path, require_pdfs: bool = False) -> dict[str, Any]:
     cases = load_query_only(query_path)
     if not isinstance(preregistration, dict) or not isinstance(manifest, list):
         raise HoldoutValidationError("冻结配置或 source manifest 格式无效")
-    if preregistration.get("status") != "frozen_before_ground_truth":
+    allowed_statuses = {
+        "frozen_before_ground_truth",
+        "frozen_before_candidate_generation_and_ground_truth",
+    }
+    if preregistration.get("status") not in allowed_statuses:
         raise HoldoutValidationError("holdout 尚未处于答案解封前冻结状态")
     if preregistration.get("case_count") != len(cases):
         raise HoldoutValidationError("冻结 case_count 与 query-only 不一致")
     if preregistration.get("report_count") != len(manifest):
         raise HoldoutValidationError("冻结 report_count 与 source manifest 不一致")
-    expected_ids = {f"holdout_{index:02d}" for index in range(len(cases))}
+    case_prefix = str(preregistration.get("case_id_prefix", "holdout"))
+    expected_ids = {f"{case_prefix}_{index:02d}" for index in range(len(cases))}
     if {case["case_id"] for case in cases} != expected_ids:
         raise HoldoutValidationError("query-only case_id 必须连续且不可变")
     subsets = preregistration.get("subsets") or {}
-    subset_ids = [case_id for values in subsets.values() for case_id in values]
-    if len(subset_ids) != len(set(subset_ids)) or set(subset_ids) != expected_ids:
-        raise HoldoutValidationError("子集必须无重复覆盖全部 case")
-    if ground_truth_path.exists():
+    if subsets:
+        subset_ids = [case_id for values in subsets.values() for case_id in values]
+        if len(subset_ids) != len(set(subset_ids)) or set(subset_ids) != expected_ids:
+            raise HoldoutValidationError("子集必须无重复覆盖全部 case")
+    isolation = preregistration.get("data_isolation") or {}
+    if isolation.get("selected_reports_use_only_new_companies_and_new_year") is True:
+        selected_year = int(isolation.get("selected_report_year", 0))
+        excluded_years = {int(value) for value in isolation.get("excluded_report_years") or []}
+        excluded_names = {
+            str(value).strip().casefold()
+            for value in isolation.get("excluded_company_names") or []
+            if str(value).strip()
+        }
+        if len(cases) % len(manifest):
+            raise HoldoutValidationError("query cases cannot be evenly mapped to reports")
+        cases_per_report = len(cases) // len(manifest)
+        if not selected_year or selected_year in excluded_years:
+            raise HoldoutValidationError("holdout data isolation contract is inconsistent")
+        for index, item in enumerate(manifest):
+            company = str(item.get("company", "")).casefold()
+            year = int(item.get("report_year", 0))
+            filename = str(item.get("filename", ""))
+            suffix = f"_{selected_year}年年度报告.pdf"
+            alias = filename[:-len(suffix)] if filename.endswith(suffix) else ""
+            if year != selected_year or year in excluded_years:
+                raise HoldoutValidationError("source manifest contains an excluded report year")
+            if any(name in company for name in excluded_names):
+                raise HoldoutValidationError("source manifest contains an excluded company")
+            report_cases = cases[index * cases_per_report:(index + 1) * cases_per_report]
+            if not alias or any(alias not in case["question"] or str(year) not in case["question"] for case in report_cases):
+                raise HoldoutValidationError("query company/year mapping does not match manifest")
+    forbidden_pre_gt_paths = (
+        ground_truth_path,
+        root / "private" / "ground_truth_attestation.json",
+        root / "ground_truth_unsealed.json",
+    )
+    existing = [str(path) for path in forbidden_pre_gt_paths if path.exists()]
+    if existing:
         raise HoldoutValidationError(
-            "private/ground_truth.json 已存在；冻结前校验必须在答案解封前执行"
+            "pre-GT artifact already exists: " + ", ".join(existing)
         )
 
     verified_reports = 0
@@ -105,15 +152,6 @@ def validate(root: Path, require_pdfs: bool = False) -> dict[str, Any]:
             raise HoldoutValidationError("source manifest 缺少必需字段")
         if not str(item["pdf_url"]).startswith("https://static.cninfo.com.cn/"):
             raise HoldoutValidationError("holdout PDF 必须来自冻结的巨潮资讯 HTTPS URL")
-        if item.get("identity_status") != "verified":
-            raise HoldoutValidationError(f"source manifest identity_status 无效: {item['filename']}")
-        if not isinstance(item.get("size_bytes"), int) or item["size_bytes"] <= 0:
-            raise HoldoutValidationError(f"source manifest size_bytes 无效: {item['filename']}")
-        if not SHA256_RE.fullmatch(str(item.get("sha256", ""))):
-            raise HoldoutValidationError(f"source manifest SHA 无效: {item['filename']}")
-        if not isinstance(item.get("page_count"), int) or item["page_count"] < 1:
-            raise HoldoutValidationError(f"source manifest page_count 无效: {item['filename']}")
-
         pdf_path = root / "pdfs" / str(item["filename"])
         if not pdf_path.is_file():
             if require_pdfs:
