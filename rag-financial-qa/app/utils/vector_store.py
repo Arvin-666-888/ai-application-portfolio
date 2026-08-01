@@ -8,6 +8,7 @@ import chromadb
 from chromadb.errors import NotFoundError
 
 from app.config import settings
+from app.utils.financial_retrieval import financial_v3_rank
 from app.utils.retrieval import ecommerce_v2_rank, lexical_overlap_score, rank_contexts
 
 logger = logging.getLogger("kb_qa.vector_store")
@@ -537,11 +538,59 @@ class VectorStore:
         return {"channels": channels, "ranking": ranking, "top_k": ranking[:top_k]}
 
     def query_financial_v2(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-        """Compatibility entry point for historical evaluation tooling."""
+        """Compatibility entry point for historical ecommerce evaluation tooling."""
         result = self.query_ecommerce_v2(*args, **kwargs)
         for item in result["ranking"]:
             item["financial_v2_score"] = item.get("ecommerce_v2_score")
         return result
+
+    def query_financial_v3(
+        self,
+        kb_id: int,
+        query_embedding: list[float],
+        query_text: str,
+        top_k: int = 5,
+        candidate_k: int = 100,
+        table_dense_k: int = 50,
+        table_lexical_k: int = 50,
+        text_dense_k: int = 30,
+        text_lexical_k: int = 30,
+        active_index_versions: list[str] | tuple[str, ...] | None = None,
+        active_index_targets: list[tuple[int, str]] | tuple[tuple[int, str], ...] | None = None,
+    ) -> dict[str, Any]:
+        collection = self.get_or_create_collection(kb_id)
+        version_where, _ = self._active_index_where(
+            active_index_versions, active_index_targets,
+        )
+        if collection.count() == 0:
+            empty_channels = {
+                name: []
+                for name in ("table_dense", "table_lexical", "text_dense", "text_lexical")
+            }
+            return {"channels": empty_channels, "ranking": [], "top_k": []}
+        self._validate_query_embedding(
+            query_embedding, self._known_dimension(kb_id, collection)
+        )
+        table_where = self._combine_where(version_where, {"content_type": "table"})
+        text_where = self._combine_where(
+            version_where, {"content_type": {"$ne": "table"}}
+        )
+        channels = {
+            "table_dense": self._dense_candidates(
+                collection, query_embedding, table_dense_k, table_where
+            ),
+            "table_lexical": self._lexical_candidates(
+                collection, query_text, table_lexical_k, table_where
+            ),
+            "text_dense": self._dense_candidates(
+                collection, query_embedding, text_dense_k, text_where
+            ),
+            "text_lexical": self._lexical_candidates(
+                collection, query_text, text_lexical_k, text_where
+            ),
+        }
+        ranking = financial_v3_rank(query_text, channels, top_k=candidate_k)
+        return {"channels": channels, "ranking": ranking, "top_k": ranking[:top_k]}
 
     def delete_document_version(
         self, kb_id: int, doc_id: int, index_version: str,
