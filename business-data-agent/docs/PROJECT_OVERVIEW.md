@@ -37,7 +37,7 @@ pytest 覆盖 SELECT-only、防绕过、每种 SQL scope、绑定参数执行、
 
 ## 当前边界
 
-- 只支持 SQLite；不依赖 MySQL、Redis、CI 或 Docker。
+- 默认元数据库与业务事实源使用 SQLite；可选 MySQL 只承载 User、DataSource、AnalysisRecord 元数据，Redis 仅本地 Compose 预留。
 - V1 注册中的 `shop_id` 仅用于受控 Demo/预配置店铺，证明后续 JWT、Repository 和 SQL 行级隔离；它不构成生产级店铺归属证明。公开生产注册必须由服务端邀请、审批或 membership/角色关系授予店铺身份。
 - mock mode 证明后端链路和确定性口径，不证明真实模型效果。
 - 生产仍需数据库只读账号、超时、资源配额、审计、密钥轮换和 CORS 收敛。

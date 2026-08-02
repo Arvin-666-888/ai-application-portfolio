@@ -198,13 +198,17 @@ def test_run_once_stores_portable_artifact_key(tmp_path, monkeypatch):
     assert captured["closed"] is True
 
 
-def test_compose_keeps_existing_single_api_deployment_contract():
-    """The ecommerce migration must not change the established Compose topology."""
+def test_compose_runs_api_and_document_worker_with_shared_storage():
+    """The API and document worker must share the SQLite queue and artifacts."""
     compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
     assert "rag-api:" in compose
+    assert "document-worker:" in compose
+    assert 'command: ["python", "-m", "app.workers.document_worker"]' in compose
     assert "DATABASE_URL: sqlite:////app/data/kb_qa.db" in compose
     assert "./data:/app/data" in compose
     assert "./uploads:/app/uploads" in compose
     assert "./chroma_data:/app/chroma_data" in compose
-    assert "PADDLE_WORKER_DEPLOYMENT_MODE" not in compose
+    assert "./parse_snapshots:/app/parse_snapshots" in compose
+    assert "./ocr_artifacts:/app/ocr_artifacts" in compose
+    assert "PADDLE_WORKER_DEPLOYMENT_MODE: docker_only" in compose
     assert "paddle-worker:" not in compose

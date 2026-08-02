@@ -75,6 +75,15 @@ python -m app.workers.paddle_worker
 
 Swagger：`http://127.0.0.1:8000/docs`
 
+Docker 模式可同时启动 API 与普通 document worker：
+
+```powershell
+copy .env.example .env
+docker compose up --build
+```
+
+Docker Compose 不包含 Paddle GPU worker；L3 仍需匹配锁文件、共享路径和 fingerprint 的独立受控环境。
+
 ## 配置可信链路
 
 默认保留 legacy 配置，显式开启新路径：

@@ -1,0 +1,48 @@
+name: rag-financial-router-v2
+
+on:
+  push:
+    paths:
+      - "rag-financial-qa/**"
+      - ".github/workflows/rag-financial-router-v2.yml"
+  pull_request:
+    paths:
+      - "rag-financial-qa/**"
+      - ".github/workflows/rag-financial-router-v2.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: rag-financial-qa
+    env:
+      DEBUG: "false"
+      SECRET_KEY: ci-only-rag-secret-key-with-more-than-32-bytes
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.4"
+          cache: pip
+          cache-dependency-path: |
+            rag-financial-qa/requirements.txt
+            rag-financial-qa/requirements-dev.txt
+      - name: Install exact development dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Check dependencies
+        run: python -m pip check
+      - name: Run tests
+        run: python -m pytest tests -q -p no:cacheprovider
+      - name: Validate evaluation dataset
+        run: python evals/run_eval.py --validate-only
+      - name: Validate Router V2 holdout freeze
+        run: python evals/router_v2_holdout/validate_freeze.py
+      - name: Check Router V2 schema migration
+        run: |
+          python scripts/migrate_router_v2.py --apply --database-url sqlite:///router_v2_ci.db
+          python scripts/migrate_router_v2.py --check --database-url sqlite:///router_v2_ci.db
+          python scripts/migrate_router_v2.py --apply --database-url sqlite:///router_v2_ci.db

@@ -1,0 +1,7 @@
+__pycache__/
+.pytest-tmp/
+results/*
+!results/README.md
+!results/benchmark_stats.csv
+!results/benchmark_failures.csv
+!results/metadata.json

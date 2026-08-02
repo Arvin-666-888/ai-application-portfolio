@@ -119,7 +119,9 @@ PDF L1: pdfplumber 全页正文
 ## 技术栈
 
 - Python 3.11 / 3.12
-- FastAPI、SQLAlchemy、Pydantic、SQLite
+- FastAPI、SQLAlchemy、Pydantic
+- SQLite（默认）与可选 MySQL 元数据库
+- Redis 本地编排预留（当前业务代码未接入）
 - LangGraph `StateGraph`
 - LangChain 对照 Demo
 - ChromaDB、pdfplumber、Unstructured、PaddleOCR artifact
@@ -127,7 +129,7 @@ PDF L1: pdfplumber 全页正文
 - pytest、JSONL evals
 - Docker / Docker Compose
 
-没有引入 PostgreSQL、Redis、Celery、Kafka、ColPali 或视觉大模型。
+没有引入 PostgreSQL、Celery、Kafka、ColPali 或视觉大模型。MySQL 只作为数据 Agent 元数据库的可选部署，Redis 只在本地 Compose 中预留，不参与当前业务状态或任务执行。
 
 ## 快速开始
 
@@ -161,6 +163,16 @@ python -m venv .venv
 
 Swagger：`http://127.0.0.1:8001/docs`
 
+可选 MySQL 元数据库与 Redis 本地基础设施：
+
+```powershell
+copy .env.compose.example .env
+docker compose config --quiet
+docker compose up -d mysql redis business-data-agent
+```
+
+业务事实数据源仍是 shop-scoped SQLite；Redis 当前只作为本地基础设施预留。
+
 ### 商品文档 RAG
 
 ```powershell
@@ -182,6 +194,13 @@ $env:SECRET_KEY="replace-with-the-same-random-secret"
 ```
 
 Swagger：`http://127.0.0.1:8000/docs`
+
+也可在 `rag-financial-qa` 目录使用 Docker Compose 同时启动 API 与普通 document worker：
+
+```powershell
+copy .env.example .env
+docker compose up --build
+```
 
 ## 验证证据
 

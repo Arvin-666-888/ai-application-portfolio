@@ -82,6 +82,23 @@ Fresh 本地验证：`58 passed`；固定 mock eval `8/8`，tool/SQL/row/answer/
 - 库存周转和断货风险如何？
 - 我们的商品与竞品价差是多少？
 
+## 可选 MySQL 元数据库
+
+默认仍使用 SQLite 元数据库和 SQLite 业务事实源。需要验证 MySQL 部署时，可从仓库根目录运行：
+
+```bash
+cp .env.compose.example .env
+docker compose up -d mysql redis business-data-agent
+```
+
+Redis 当前只作为本地编排预留，业务代码没有把它用于缓存、状态同步或任务队列。旧 SQLite 元数据可显式迁移：
+
+```bash
+python migrate_sqlite_to_mysql.py --target "mysql+pymysql://financial_app:password@localhost:3306/financial_platform?charset=utf8mb4"
+```
+
+迁移脚本只处理 User、DataSource、AnalysisRecord 元数据；销售、广告、库存和竞品事实源仍保持 shop-scoped SQLite。
+
 ## API
 
 - `POST /api/auth/register`、`POST /api/auth/login`、`GET /api/auth/me`
@@ -91,7 +108,7 @@ Fresh 本地验证：`58 passed`；固定 mock eval `8/8`，tool/SQL/row/answer/
 
 ## 边界
 
-- 当前仅支持 SQLite，不引入 MySQL、Redis、Adapter 层或 Shop 表。
+- 默认元数据库和业务事实源均为 SQLite；可选 MySQL 只承载 User、DataSource、AnalysisRecord 元数据，Redis 仅本地编排预留。
 - V1 的注册请求携带 `shop_id` 只用于受控 Demo 与预配置店铺；它证明 JWT/Repository/SQL 的行级隔离，不等同于生产租户入驻授权。生产环境必须由服务端邀请、管理员审批或成员关系分配店铺，不能信任公开注册者自报的 `shop_id`。
 - 内置三店样例共享一个数据库用于验证行级隔离，不代表生产数据规模或模型质量。
 - 应用层 AST guardrail 不能替代生产只读数据库账号、查询超时、资源配额、审计与密钥管理。

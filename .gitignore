@@ -15,6 +15,7 @@ htmlcov/
 
 # Virtual environments
 .venv/
+/.venv-*/
 venv/
 env/
 
@@ -27,12 +28,32 @@ dist/
 *.log
 *.db
 *.db-*
+*.db.bak*
+/chroma_data/
+/smoke_test/
 ecommerce-multi-agent-support/.tmp/
 ecommerce-multi-agent-support/evals/latest_report.json
+rag-financial-qa/.pytest-*/
 rag-financial-qa/uploads/
 rag-financial-qa/chroma_data/
 rag-financial-qa/data/
+rag-financial-qa/chinese_sample_output/
 rag-financial-qa/evals/reports/
+rag-financial-qa/evals/task2_chinese_text/
+rag-financial-qa/evals/task2_page_checks/
+rag-financial-qa/evals/task2_parse_cache/
+rag-financial-qa/evals/task2_paddleocr/raw/
+rag-financial-qa/evals/task2_paddleocr/smoke_pages/
+rag-financial-qa/evals/task2_paddleocr/smoke_raw*/
+rag-financial-qa/evals/router_v2_holdout/pdfs/
+rag-financial-qa/evals/router_v2_holdout/private/
+rag-financial-qa/evals/router_v2_holdout/runs/
+rag-financial-qa/evals/v3/runs/
+benchmark/results/*
+!benchmark/results/README.md
+!benchmark/results/benchmark_stats.csv
+!benchmark/results/benchmark_failures.csv
+!benchmark/results/metadata.json
 business-data-agent/charts/
 business-data-agent/uvicorn*.log
 
