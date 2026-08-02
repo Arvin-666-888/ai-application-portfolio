@@ -31,7 +31,9 @@ from evals.common.ground_truth_contract import (
 from app.services.answer_verification_service import build_citation_ledger, evidence_preflight
 
 DEFAULT_ROOT = PROJECT_ROOT / "evals" / "router_v2_holdout"
-DEFAULT_LOCK_FILE = PROJECT_ROOT / "requirements-paddleocr-windows-py312.lock.txt"
+DEFAULT_LOCK_FILE = (
+    PROJECT_ROOT / "requirements" / "locks" / "paddleocr-gpu-windows-py312.lock.txt"
+)
 RUN_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 FORBIDDEN_GT_FIELDS = {

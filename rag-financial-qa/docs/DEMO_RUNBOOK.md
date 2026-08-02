@@ -8,7 +8,7 @@ python -m pytest tests/test_ecommerce_migration.py -q -p no:cacheprovider --base
 python -m pytest tests -q -p no:cacheprovider --basetemp .pytest-ecommerce-full
 ```
 
-依赖使用提交 `8d403ca` 的精确组合。不要升级 `requirements-paddleocr-windows-py312.lock.txt`。
+依赖使用已验证的精确组合。当前 Paddle GPU worker 锁位于 `requirements/locks/paddleocr-gpu-windows-py312.lock.txt`，只通过 `requirements/paddle-worker-windows-py312.txt` 安装，不与历史 Task 2 复现锁混装。
 
 ## 2. 启动 API 与普通 worker
 

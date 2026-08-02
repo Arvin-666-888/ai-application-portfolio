@@ -27,14 +27,38 @@ def _pins(path: Path) -> dict[str, str]:
     return pins
 
 
+def test_dependency_entrypoints_are_role_scoped():
+    assert {path.name for path in ROOT.glob("requirements*.txt")} == {
+        "requirements.txt",
+        "requirements-dev.txt",
+    }
+    assert (ROOT / "requirements" / "langchain-baseline.txt").is_file()
+    assert (ROOT / "requirements" / "paddle-worker-windows-py312.txt").is_file()
+    assert (
+        ROOT
+        / "requirements"
+        / "locks"
+        / "task2-reproduction-windows-py312.lock.txt"
+    ).is_file()
+
+    daily_entrypoints = "\n".join(
+        (ROOT / name).read_text(encoding="utf-8")
+        for name in ("requirements.txt", "requirements-dev.txt")
+    )
+    assert "task2-reproduction" not in daily_entrypoints
+    assert "paddleocr-gpu" not in daily_entrypoints
+
+
 def test_windows_worker_requirements_combine_app_and_paddle_without_pin_conflicts():
-    entrypoint = ROOT / "requirements-paddle-worker-windows-py312.txt"
+    entrypoint = ROOT / "requirements" / "paddle-worker-windows-py312.txt"
     lines = [line.strip() for line in entrypoint.read_text(encoding="utf-8").splitlines()]
-    assert "-r requirements.txt" in lines
-    assert "-r requirements-paddleocr-windows-py312.lock.txt" in lines
+    assert "-r ../requirements.txt" in lines
+    assert "-r locks/paddleocr-gpu-windows-py312.lock.txt" in lines
 
     app_pins = _pins(ROOT / "requirements.txt")
-    paddle_pins = _pins(ROOT / "requirements-paddleocr-windows-py312.lock.txt")
+    paddle_pins = _pins(
+        ROOT / "requirements" / "locks" / "paddleocr-gpu-windows-py312.lock.txt"
+    )
     conflicts = {
         name: (app_pins[name], paddle_pins[name])
         for name in app_pins.keys() & paddle_pins.keys()
@@ -86,7 +110,7 @@ def _configure_windows_same_root(monkeypatch, tmp_path):
     monkeypatch.setattr(
         paddle_worker.settings,
         "PADDLE_WORKER_LOCK_FILE",
-        "./requirements-paddleocr-windows-py312.lock.txt",
+        "./requirements/locks/paddleocr-gpu-windows-py312.lock.txt",
     )
 
 

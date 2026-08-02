@@ -1,0 +1,7 @@
+# Windows 11 AMD64 + CPython 3.12 only.
+# Create a clean venv from the project root, then install this profile:
+#   py -3.12 -m venv .venv-paddle-worker
+#   .\.venv-paddle-worker\Scripts\python.exe -m pip install -r requirements/paddle-worker-windows-py312.txt
+# The application pin set intentionally uses numpy==2.3.5 to match the resolved Paddle lock.
+-r ../requirements.txt
+-r locks/paddleocr-gpu-windows-py312.lock.txt

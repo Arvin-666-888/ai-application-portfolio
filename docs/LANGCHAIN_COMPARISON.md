@@ -8,8 +8,7 @@
 
 ```powershell
 cd rag-financial-qa
-pip install -r requirements.txt
-pip install -r requirements-langchain.txt
+pip install -r requirements/langchain-baseline.txt
 python examples/langchain_rag_demo.py --mock --question "Amazon 美国市场 SKU-A100 的价格是多少？"
 python examples/langchain_rag_demo.py --mock --question "SKU-Z999 的价格是多少？"
 ```

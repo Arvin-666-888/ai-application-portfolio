@@ -39,19 +39,32 @@
 
 L1→L2→L3、artifact SHA、job/lease/heartbeat/finalize、版本化 Chroma staging/CAS 和 Citation Ledger 隐私控制均保留。SQLite 与本地 Chroma 适合单机原型，不等于多机生产基础设施。
 
-## 安装
+## 安装与依赖角色
 
-依赖沿用冻结提交 `8d403ca` 的精确版本组合；PaddleOCR lock 不升级。
+项目根目录只保留两个日常入口；其余环境位于 [`requirements/`](requirements/README.md)，不要把多个 lock 叠加安装。
+
+| 使用场景 | 安装命令 | 说明 |
+|---|---|---|
+| API / 普通 Document Worker | `pip install -r requirements.txt` | 当前跨境电商 RAG 主运行环境 |
+| 本地开发 / CI | `pip install -r requirements-dev.txt` | 主运行环境 + 已验证的 `pytest==9.1.1` |
+| LangChain 对照基线 | `pip install -r requirements/langchain-baseline.txt` | 独立虚拟环境；不是默认检索链路 |
+| PaddleOCR GPU Worker | `pip install -r requirements/paddle-worker-windows-py312.txt` | 独立 Windows 11、Python 3.12 环境 |
+| 历史 Task 2 复现 | `pip install -r requirements/locks/task2-reproduction-windows-py312.lock.txt` | 仅用于历史财报评测复现 |
+
+Paddle Worker profile 会组合主运行依赖与 `requirements/locks/paddleocr-gpu-windows-py312.lock.txt`。它和历史 Task 2 lock 保留了不同的 NumPy、OpenAI、Paddle、Torch 与 LangChain 依赖图，**不能安装到同一个虚拟环境**。
+
+日常开发：
 
 ```powershell
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 ```
 
-如需 Paddle worker，请在独立 Windows Python 3.12 环境中使用现有锁文件：
+如需 Paddle worker，请创建独立环境：
 
 ```powershell
-pip install -r requirements-paddleocr-windows-py312.lock.txt
+py -3.12 -m venv .venv-paddle-worker
+.\.venv-paddle-worker\Scripts\python.exe -m pip install -r requirements/paddle-worker-windows-py312.txt
 ```
 
 ## 本地启动
@@ -124,7 +137,7 @@ python -m pytest tests/test_ecommerce_migration.py tests/test_answer_verificatio
 python -m pytest tests -q -p no:cacheprovider --basetemp .pytest-ecommerce-full
 ```
 
-测试覆盖四类事实、单位不猜测、Citation Ledger、fail-closed、PDF 三层路由、artifact 校验、worker lease/heartbeat 和版本化索引发布。本轮 fresh 全量结果为 `378 passed`；活动 `questions.jsonl` 结构校验为 11 条（4 条正向、7 条拒答）。这证明工程合同和固定活动集，不代表真实模型语义质量或重新执行 Paddle GPU OCR。
+测试覆盖四类事实、单位不猜测、Citation Ledger、fail-closed、PDF 三层路由、artifact 校验、worker lease/heartbeat、版本化索引发布、双域检索与评测证据合同。当前 fresh 全量结果为 `421 passed`；活动 `questions.jsonl` 结构校验为 11 条（4 条正向、7 条拒答）。这证明工程合同和固定活动集，不代表真实模型语义质量或重新执行 Paddle GPU OCR。
 
 ## 历史金融验收保护
 

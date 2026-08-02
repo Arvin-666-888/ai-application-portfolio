@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     DOCUMENT_WORKER_POLL_SECONDS: float = 1.0
     DOCUMENT_PARSE_SNAPSHOT_DIR: str = "./parse_snapshots"
     PADDLE_WORKER_DEVICE: str = "gpu"
-    PADDLE_WORKER_LOCK_FILE: str = "./requirements-paddleocr-windows-py312.lock.txt"
+    PADDLE_WORKER_LOCK_FILE: str = "./requirements/locks/paddleocr-gpu-windows-py312.lock.txt"
     PADDLE_WORKER_DEPLOYMENT_MODE: str = "disabled"
     PADDLE_WORKER_SHARED_ROOT: str = "."
     SECRET_KEY: str = "change-this-secret-key-in-production"

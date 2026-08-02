@@ -41,7 +41,9 @@ DEFAULT_CANDIDATES = (
 DEFAULT_PDF_DIR = PROJECT_ROOT / "evals" / "task2_chinese_financial_reports"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "evals" / "task2_paddleocr"
 DEFAULT_SMOKE_SUMMARY = DEFAULT_OUTPUT_DIR / "reports" / "smoke_summary.json"
-DEFAULT_LOCK_FILE = PROJECT_ROOT / "requirements-paddleocr-windows-py312.lock.txt"
+DEFAULT_LOCK_FILE = (
+    PROJECT_ROOT / "requirements" / "locks" / "paddleocr-gpu-windows-py312.lock.txt"
+)
 EXPECTED_PAGES = 400
 EXPECTED_REPORTS = 5
 EXPECTED_PAGES_PER_REPORT = 80

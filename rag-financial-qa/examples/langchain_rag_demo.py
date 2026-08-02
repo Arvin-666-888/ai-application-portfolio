@@ -24,7 +24,7 @@ try:
 except ImportError as exc:  # pragma: no cover - exercised by users without optional deps
     raise SystemExit(
         "Missing LangChain optional dependencies. Install them with:\n"
-        "  pip install -r requirements-langchain.txt"
+        "  pip install -r requirements/langchain-baseline.txt"
     ) from exc
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
