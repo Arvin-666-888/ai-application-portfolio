@@ -1,0 +1,26 @@
+{
+  "schema_version": "router-v2-holdout-embedding-summary-v1",
+  "status": "completed",
+  "ground_truth_loaded": false,
+  "api_called": true,
+  "embedding_identity": {
+    "contract": "openai-compatible-embeddings-v1",
+    "base_url": "https://llm-5hd4wz54ihkatppj.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model": "text-embedding-v2"
+  },
+  "embedding_namespace_fingerprint": "ef7ecc45f828a5a9e94cdfaae31f81a8dd0db8ee9917a530da3636562ace9687",
+  "inputs": {
+    "corpus_file_sha256": "789212124102dbc4a7e979d1d357e8591979316005b67c1ec3dd16ae8bca7b6d",
+    "corpus_canonical_sha256": "1c6f3a4978a610300fe6f07eb570fd53d9710eebfbedbea47373c5c46f216b6c",
+    "query_only_file_sha256": "c66207293f093f2559d2acd2a4be3de7ccdac0dbff9af905a9899f35db56ed19"
+  },
+  "cache": {
+    "namespace_fingerprint": "ef7ecc45f828a5a9e94cdfaae31f81a8dd0db8ee9917a530da3636562ace9687",
+    "unique_text_count": 3807,
+    "initial_hits": 0,
+    "api_embedded": 3807,
+    "final_hits": 3807,
+    "invalid_items": 0,
+    "embedding_dimension": 1536
+  }
+}

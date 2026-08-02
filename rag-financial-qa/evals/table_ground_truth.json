@@ -1,0 +1,212 @@
+[
+  {
+    "pdf": "格力电器_2024年年度报告.pdf",
+    "question": "格力电器2024年度合并利润表中的营业收入是多少？",
+    "metric": "其中：营业收入",
+    "expected_value": "189,163,654,064.64",
+    "expected_page": 113
+  },
+  {
+    "pdf": "格力电器_2024年年度报告.pdf",
+    "question": "格力电器2024年度合并利润表中的净利润是多少？",
+    "metric": "净利润",
+    "expected_value": "32,371,069,287.35",
+    "expected_page": 113
+  },
+  {
+    "pdf": "格力电器_2024年年度报告.pdf",
+    "question": "格力电器2024年度归属于母公司股东的净利润是多少？",
+    "metric": "归属于母公司股东的净利润",
+    "expected_value": "32,184,570,372.28",
+    "expected_page": 113
+  },
+  {
+    "pdf": "格力电器_2024年年度报告.pdf",
+    "question": "格力电器2024年度合并现金流量表中经营活动产生的现金流量净额是多少？",
+    "metric": "经营活动产生的现金流量净额",
+    "expected_value": "29,369,250,570.66",
+    "expected_page": 114
+  },
+  {
+    "pdf": "格力电器_2024年年度报告.pdf",
+    "question": "截至2024年12月31日，格力电器合并资产负债表中的资产总计是多少？",
+    "metric": "资产总计",
+    "expected_value": "368,031,704,522.86",
+    "expected_page": 111
+  },
+  {
+    "pdf": "格力电器_2024年年度报告.pdf",
+    "question": "格力电器2024年制造业的毛利率是多少？",
+    "metric": "制造业",
+    "expected_value": "32.55%",
+    "expected_page": 26
+  },
+  {
+    "pdf": "美的集团_2024年年度报告.pdf",
+    "question": "美的集团2024年度合并口径的营业收入是多少？",
+    "metric": "其中：营业收入",
+    "expected_value": "407,149,600",
+    "expected_page": 158
+  },
+  {
+    "pdf": "美的集团_2024年年度报告.pdf",
+    "question": "美的集团2024年度合并口径的净利润是多少？",
+    "metric": "净利润",
+    "expected_value": "38,757,214",
+    "expected_page": 158
+  },
+  {
+    "pdf": "美的集团_2024年年度报告.pdf",
+    "question": "美的集团2024年度归属于母公司股东的净利润是多少？",
+    "metric": "归属于母公司股东的净利润",
+    "expected_value": "38,537,237",
+    "expected_page": 158
+  },
+  {
+    "pdf": "美的集团_2024年年度报告.pdf",
+    "question": "美的集团2024年度合并口径的经营活动产生的现金流量净额是多少？",
+    "metric": "经营活动产生的现金流量净额",
+    "expected_value": "60,511,572",
+    "expected_page": 160
+  },
+  {
+    "pdf": "美的集团_2024年年度报告.pdf",
+    "question": "截至2024年12月31日，美的集团合并口径的资产总计是多少？",
+    "metric": "资产总计",
+    "expected_value": "604,351,853",
+    "expected_page": 156
+  },
+  {
+    "pdf": "美的集团_2024年年度报告.pdf",
+    "question": "美的集团2024年制造业的毛利率是多少？",
+    "metric": "制造业",
+    "expected_value": "28.24%",
+    "expected_page": 50
+  },
+  {
+    "pdf": "贵州茅台_2024年年度报告.pdf",
+    "question": "贵州茅台2024年度合并利润表中的营业收入是多少元？",
+    "metric": "其中：营业收入",
+    "expected_value": "170,899,152,276.34",
+    "expected_page": 63
+  },
+  {
+    "pdf": "贵州茅台_2024年年度报告.pdf",
+    "question": "贵州茅台2024年度合并利润表中的净利润是多少元？",
+    "metric": "净利润",
+    "expected_value": "89,334,728,025.90",
+    "expected_page": 64
+  },
+  {
+    "pdf": "贵州茅台_2024年年度报告.pdf",
+    "question": "贵州茅台2024年度归属于母公司股东的净利润是多少元？",
+    "metric": "归属于母公司股东的净利润",
+    "expected_value": "86,228,146,421.62",
+    "expected_page": 64
+  },
+  {
+    "pdf": "贵州茅台_2024年年度报告.pdf",
+    "question": "贵州茅台2024年度合并现金流量表中经营活动产生的现金流量净额是多少元？",
+    "metric": "经营活动产生的现金流量净额",
+    "expected_value": "92,463,692,168.43",
+    "expected_page": 67
+  },
+  {
+    "pdf": "贵州茅台_2024年年度报告.pdf",
+    "question": "截至2024年12月31日，贵州茅台合并资产负债表中的资产总计是多少元？",
+    "metric": "资产总计",
+    "expected_value": "298,944,579,918.70",
+    "expected_page": 59
+  },
+  {
+    "pdf": "贵州茅台_2024年年度报告.pdf",
+    "question": "贵州茅台2024年茅台酒产品的毛利率是多少？",
+    "metric": "茅台酒",
+    "expected_value": "94.06",
+    "expected_page": 16
+  },
+  {
+    "pdf": "比亚迪_2024年年度报告.pdf",
+    "question": "比亚迪2024年度合并利润表中的营业收入是多少？",
+    "metric": "营业收入",
+    "expected_value": "777,102,455",
+    "expected_page": 145
+  },
+  {
+    "pdf": "比亚迪_2024年年度报告.pdf",
+    "question": "比亚迪2024年度合并利润表中的净利润是多少？",
+    "metric": "净利润",
+    "expected_value": "41,587,940",
+    "expected_page": 145
+  },
+  {
+    "pdf": "比亚迪_2024年年度报告.pdf",
+    "question": "比亚迪2024年度归属于母公司所有者的净利润是多少？",
+    "metric": "归属于母公司所有者的净利润",
+    "expected_value": "40,254,346",
+    "expected_page": 145
+  },
+  {
+    "pdf": "比亚迪_2024年年度报告.pdf",
+    "question": "比亚迪2024年度合并现金流量表中经营活动产生的现金流量净额是多少？",
+    "metric": "经营活动产生的现金流量净额",
+    "expected_value": "133,453,873",
+    "expected_page": 149
+  },
+  {
+    "pdf": "比亚迪_2024年年度报告.pdf",
+    "question": "截至2024年12月31日，比亚迪合并资产负债表中的资产总计是多少？",
+    "metric": "资产总计",
+    "expected_value": "783,355,855",
+    "expected_page": 142
+  },
+  {
+    "pdf": "比亚迪_2024年年度报告.pdf",
+    "question": "比亚迪2024年汽车、汽车相关产品及其他产品的毛利率是多少？",
+    "metric": "汽车、汽车相关产品及其他",
+    "expected_value": "22.31%",
+    "expected_page": 25
+  },
+  {
+    "pdf": "招商银行_2024年年度报告_A股.pdf",
+    "question": "2024年度招商银行集团的营业收入合计是多少？",
+    "metric": "营业收入合计",
+    "expected_value": "337,488",
+    "expected_page": 138
+  },
+  {
+    "pdf": "招商银行_2024年年度报告_A股.pdf",
+    "question": "2024年度招商银行集团的净利润是多少？",
+    "metric": "净利润",
+    "expected_value": "149,559",
+    "expected_page": 138
+  },
+  {
+    "pdf": "招商银行_2024年年度报告_A股.pdf",
+    "question": "2024年度招商银行集团归属于本行股东的净利润是多少？",
+    "metric": "本行股东的净利润",
+    "expected_value": "148,391",
+    "expected_page": 138
+  },
+  {
+    "pdf": "招商银行_2024年年度报告_A股.pdf",
+    "question": "2024年度招商银行集团经营活动产生的现金流量净额是多少？",
+    "metric": "经营活动产生的现金流量净额",
+    "expected_value": "447,023",
+    "expected_page": 142
+  },
+  {
+    "pdf": "招商银行_2024年年度报告_A股.pdf",
+    "question": "截至2024年12月31日，招商银行集团的资产合计是多少？",
+    "metric": "资产合计",
+    "expected_value": "12,152,036",
+    "expected_page": 134
+  },
+  {
+    "pdf": "招商银行_2024年年度报告_A股.pdf",
+    "question": "截至2024年12月31日，招商银行集团的负债合计是多少？",
+    "metric": "负债合计",
+    "expected_value": "10,918,561",
+    "expected_page": 134
+  }
+]

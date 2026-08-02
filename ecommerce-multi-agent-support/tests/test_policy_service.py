@@ -43,3 +43,15 @@ def test_cancellation_is_not_eligible_after_delivery():
     assert result.eligible_for_review is False
     assert result.proposed_action == "manual_resolution_review"
     assert result.requires_approval is True
+
+
+def test_address_change_is_approval_only_before_shipping():
+    result = AftersalesPolicyService().evaluate(
+        decision=decision("address_change", "change_address"),
+        order={"status": "processing"},
+        shipment={"exception_type": "none"},
+    )
+    assert result.proposed_action == "address_change_review"
+    assert result.requires_approval is True
+    assert result.eligible_for_review is True
+    assert "不保存或执行地址变更" in "；".join(result.next_steps)

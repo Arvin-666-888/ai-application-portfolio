@@ -8,66 +8,54 @@ SENSITIVE_ACTIONS = {
     "cancellation_review",
     "return_review",
     "warranty_review",
+    "address_change_review",
     "manual_resolution_review",
 }
 
 
 class AftersalesPolicyService:
-    """V1 deterministic policy rules; V2 replaces policy text lookup with RAG."""
+    """Deterministic proposal rules. No action is persisted or executed."""
 
-    def evaluate(
-        self,
-        *,
-        decision: AftersalesDecision,
-        order: dict,
-        shipment: dict | None,
-    ) -> PolicyEvaluation:
+    def evaluate(self, *, decision: AftersalesDecision, order: dict, shipment: dict | None) -> PolicyEvaluation:
         issue = decision.issue_type
         requested = decision.requested_action
         order_status = order["status"]
         shipment_exception = shipment.get("exception_type", "none") if shipment else "none"
 
-        if requested == "refund":
-            action = "refund_review"
-        elif requested == "replacement":
-            action = "replacement_review"
-        elif requested == "compensation":
-            action = "compensation_review"
-        elif requested == "cancel":
-            action = "cancellation_review"
-        elif requested == "return":
-            action = "return_review"
-        elif requested == "warranty_service":
-            action = "warranty_review"
-        elif issue in {"lost", "delayed"}:
-            action = "carrier_investigation"
-        else:
-            action = "manual_resolution_review"
+        action_by_request = {
+            "refund": "refund_review",
+            "replacement": "replacement_review",
+            "compensation": "compensation_review",
+            "cancel": "cancellation_review",
+            "return": "return_review",
+            "warranty_service": "warranty_review",
+            "change_address": "address_change_review",
+        }
+        action = action_by_request.get(requested)
+        if action is None:
+            action = "carrier_investigation" if issue in {"lost", "delayed"} else "manual_resolution_review"
 
         required_evidence: list[str] = []
         next_steps = ["核对订单、物流和用户提交的售后信息"]
         eligible = order_status not in {"cancelled"}
         rationale_parts = [f"订单状态为 {order_status}"]
 
-        if issue == "damaged":
+        if issue == "address_change":
+            eligible = order_status in {"paid", "processing"}
+            rationale_parts.append("地址变更仅在未发货阶段进入人工审核")
+            next_steps.append("人工核验新的配送信息；系统不保存或执行地址变更")
+        elif issue == "damaged":
             required_evidence = ["商品或外包装破损照片", "快递面单照片"]
             rationale_parts.append("破损类申请需提交照片证据")
-            if shipment_exception == "damaged":
-                rationale_parts.append("物流记录已标记 damaged 异常")
-            else:
-                rationale_parts.append("物流记录未确认 damaged，当前仅记录用户陈述")
+            rationale_parts.append("物流记录已标记 damaged 异常" if shipment_exception == "damaged" else "物流记录未确认 damaged，当前仅记录用户陈述")
         elif issue == "wrong_item":
             required_evidence = ["收到商品的 SKU 或标签照片", "外包装面单照片"]
             rationale_parts.append("错发类申请需核对实物 SKU 与订单明细")
         elif issue == "lost":
-            rationale_parts.append(
-                "物流记录已标记 lost" if shipment_exception == "lost" else "物流记录未确认 lost，需承运商调查"
-            )
+            rationale_parts.append("物流记录已标记 lost" if shipment_exception == "lost" else "物流记录未确认 lost，需承运商调查")
             next_steps.append("向承运商发起丢件调查")
         elif issue == "delayed":
-            rationale_parts.append(
-                "物流记录已标记 delayed" if shipment_exception == "delayed" else "物流记录未确认 delayed，需核对最新轨迹"
-            )
+            rationale_parts.append("物流记录已标记 delayed" if shipment_exception == "delayed" else "物流记录未确认 delayed，需核对最新轨迹")
             next_steps.append("核对预计送达时间并联系承运商")
         elif issue == "cancel_request":
             eligible = order_status in {"paid", "processing"}

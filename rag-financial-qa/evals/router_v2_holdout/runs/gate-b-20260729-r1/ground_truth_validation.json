@@ -1,0 +1,27 @@
+{
+  "schema_version": "router-v2-holdout-ground-truth-validation-v1",
+  "status": "provisional_only",
+  "ground_truth_loaded": true,
+  "official_score_eligible": false,
+  "official_score_blockers": [
+    "ground_truth_attestation_missing"
+  ],
+  "inputs": {
+    "pre_gt_freeze_file_sha256": "e5e96d924d69fe2c197c5fe2758d4a00baed80dbbe28ef48d96ce4a470023319",
+    "ground_truth_file_sha256": "4542f2bb63c6bd9bbf815487c6d9e62a2f8794c54e1c92a3a8e36bca62562c3a",
+    "ground_truth_attestation_file_sha256": null
+  },
+  "counts": {
+    "case_count": 24
+  },
+  "ground_truth_metadata": {
+    "metadata": {
+      "draft_origin": "ai_agent_draft",
+      "ranking_not_viewed": true,
+      "human_review_status": "pending",
+      "reviewer_independence_declared": false,
+      "claim_boundary": "Provisional AI-authored Ground Truth draft derived only from query_only.jsonl, source_manifest.json, and the four frozen annual-report PDFs. It is not human-reviewed, not an official attestation, and does not establish Gate passage. PDF page numbers are 1-based physical pages."
+    }
+  },
+  "attestation": null
+}

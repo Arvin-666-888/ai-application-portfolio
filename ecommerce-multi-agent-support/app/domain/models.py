@@ -7,10 +7,12 @@ from typing import Any
 @dataclass(frozen=True, slots=True)
 class Product:
     id: int
+    shop_id: str
     sku: str
     name: str
     category: str
     price: Decimal
+    currency: str
     stock: int
     specifications: dict[str, Any]
     is_active: bool
@@ -28,10 +30,12 @@ class OrderItem:
 @dataclass(frozen=True, slots=True)
 class Order:
     id: int
+    shop_id: str
     order_no: str
     user_id: int
     status: str
     total_amount: Decimal
+    currency: str
     created_at: datetime
     items: list[OrderItem] = field(default_factory=list)
 

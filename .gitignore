@@ -51,3 +51,42 @@ business-data-agent/uvicorn*.log
 Thumbs.db
 .idea/
 .vscode/
+
+# Repository-local heavy environments and generated outputs
+.venv-*/
+/chroma_data/
+/benchmark/
+/smoke_test/
+/scripts/
+rag-financial-qa/chinese_sample_output/
+rag-financial-qa/parse_snapshots/
+rag-financial-qa/ocr_artifacts/
+
+# RAG evaluation inputs, caches, and generated candidates
+rag-financial-qa/evals/**/embedding_cache/
+rag-financial-qa/evals/**/ocr/
+rag-financial-qa/evals/task2_chinese_financial_reports/
+rag-financial-qa/evals/task2_chinese_text/
+rag-financial-qa/evals/task2_page_checks/
+rag-financial-qa/evals/task2_parse_cache/
+rag-financial-qa/evals/task2_paddleocr/raw/
+rag-financial-qa/evals/task2_paddleocr/manifest/
+rag-financial-qa/evals/task2_paddleocr/smoke_pages/
+rag-financial-qa/evals/task2_paddleocr/smoke_raw/
+rag-financial-qa/evals/task2_paddleocr/smoke_raw_v2/
+rag-financial-qa/evals/task2_paddleocr/chunks/
+rag-financial-qa/evals/task2_paddleocr/reports/
+rag-financial-qa/evals/router_v2_holdout/private/
+rag-financial-qa/evals/router_v2_holdout/pdfs/
+rag-financial-qa/evals/router_v2_holdout/runs/*/l1_corpus.json
+rag-financial-qa/evals/router_v2_holdout/runs/*/routed_corpus.json
+rag-financial-qa/evals/router_v2_holdout/runs/*/paired_candidates.json
+rag-financial-qa/evals/phase4_holdout/
+rag-financial-qa/evals/phase4_holdout_2025/
+rag-financial-qa/evals/v3/runs/dev30-*
+rag-financial-qa/evals/v3/runs/*/diagnostic_*.json
+rag-financial-qa/evals/v3/runs/*/preflight_diagnostic.json
+rag-financial-qa/kb_qa.db.bak-*
+
+# Keep compact canonical evaluation contracts and summaries; publish large
+# candidate corpora separately as release assets when needed.

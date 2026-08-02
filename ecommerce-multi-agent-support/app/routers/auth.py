@@ -15,7 +15,13 @@ router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 def register(payload: UserCreate, db: Session = Depends(get_db)) -> UserTable:
     if db.scalar(select(UserTable).where(UserTable.username == payload.username)):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Username already exists")
-    user = UserTable(username=payload.username, password_hash=hash_password(payload.password))
+    user = UserTable(
+        username=payload.username,
+        password_hash=hash_password(payload.password),
+        shop_id="shop-us",
+        market="US",
+        timezone="America/Los_Angeles",
+    )
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -27,4 +33,4 @@ def login(payload: UserLogin, db: Session = Depends(get_db)) -> TokenResponse:
     user = authenticate_user(db, payload.username, payload.password)
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
-    return TokenResponse(access_token=create_access_token(user.id))
+    return TokenResponse(access_token=create_access_token(user.id, user.shop_id))

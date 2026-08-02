@@ -1,0 +1,22 @@
+{
+  "schema_version": "router-v2-holdout-retrieval-config-v1",
+  "profiles": [
+    "legacy",
+    "financial_v2"
+  ],
+  "top_k": 5,
+  "diagnostic_k": 100,
+  "legacy": {
+    "dense_k": 100,
+    "lexical_k": 100,
+    "numeric_weight": 0.15
+  },
+  "financial_v2": {
+    "implementation": "VectorStore.query_financial_v2"
+  },
+  "embedding_identity": {
+    "contract": "openai-compatible-embeddings-v1",
+    "base_url": "https://llm-5hd4wz54ihkatppj.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model": "text-embedding-v2"
+  }
+}

@@ -12,7 +12,7 @@ def test_health_and_seed_counts(client):
 
     with SessionLocal() as db:
         assert db.scalar(select(func.count(UserTable.id))) == 12
-        assert db.scalar(select(func.count(ProductTable.id))) == 50
+        assert db.scalar(select(func.count(ProductTable.id))) == 60
         assert db.scalar(select(func.count(OrderTable.id))) == 100
         assert db.scalar(select(func.count(ShipmentTable.id))) == 100
 
@@ -24,4 +24,4 @@ def test_seed_is_idempotent(client):
 
     with SessionLocal() as db:
         counts = seed_demo_data(db, seed=settings.DEMO_DATA_SEED)
-    assert counts == {"users": 12, "products": 50, "orders": 100, "shipments": 100}
+    assert counts == {"users": 12, "products": 60, "orders": 100, "shipments": 100}

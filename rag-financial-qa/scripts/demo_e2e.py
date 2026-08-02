@@ -8,8 +8,9 @@ import httpx
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = [
-    PROJECT_ROOT / "evals" / "fixtures" / "finance_summary_2024.txt",
-    PROJECT_ROOT / "evals" / "fixtures" / "risk_notice.txt",
+    PROJECT_ROOT / "evals" / "fixtures" / "ecommerce_product_manual.txt",
+    PROJECT_ROOT / "evals" / "fixtures" / "ecommerce_customs_compliance.txt",
+    PROJECT_ROOT / "evals" / "fixtures" / "ecommerce_logistics_records.txt",
 ]
 
 
@@ -58,7 +59,7 @@ class DemoClient:
         data = self.request(
             "POST",
             "/api/knowledge-bases",
-            json={"name": name, "description": "E2E demo knowledge base"},
+            json={"name": name, "description": "跨境电商商品、关税合规与物流事实 E2E 演示知识库"},
         ).json()
         return int(data["id"])
 
@@ -94,7 +95,7 @@ class DemoClient:
         data = self.request(
             "POST",
             "/api/chat/conversations",
-            json={"kb_id": kb_id, "title": "E2E 演示对话"},
+            json={"kb_id": kb_id, "title": "跨境电商商品事实 E2E 演示"},
         ).json()
         return int(data["id"])
 
@@ -118,9 +119,33 @@ def assert_source_has_snippet(response: dict, expected_document: str) -> None:
     raise AssertionError(f"Expected source {expected_document} with snippet, got: {sources}")
 
 
+def assert_verified_price(response: dict, expected_document: str) -> None:
+    assert_source_has_snippet(response, expected_document)
+    if response.get("answer_status") != "verified":
+        raise AssertionError(f"Expected verified answer_status, got: {response}")
+    facts = (response.get("structured_answer") or {}).get("facts") or []
+    if len(facts) != 1:
+        raise AssertionError(f"Expected exactly one structured fact, got: {facts}")
+    fact = facts[0]
+    if not (
+        fact.get("fact_type") == "price"
+        and fact.get("value_text") == "79.90"
+        and fact.get("currency") == "USD"
+        and fact.get("sku") == "SKU-A100"
+        and fact.get("citation_ids")
+    ):
+        raise AssertionError(f"Unexpected structured price contract: {fact}")
+    known_citations = {source.get("citation_id") for source in response.get("sources", [])}
+    if not set(fact["citation_ids"]) <= known_citations:
+        raise AssertionError(f"Structured fact cites unknown sources: {response}")
+    verification = response.get("verification") or {}
+    if not verification.get("passed") or not set(fact["citation_ids"]) <= set(verification.get("verified_citation_ids") or []):
+        raise AssertionError(f"Expected verified citations, got: {verification}")
+
+
 def assert_refusal(response: dict) -> None:
     answer = response.get("answer", "")
-    if "无法回答" not in answer and "不提供股价预测" not in answer and "买卖建议" not in answer:
+    if "无法回答" not in answer and "只回答商品价格" not in answer and "一次只查询一类商品事实" not in answer:
         raise AssertionError(f"Expected refusal answer, got: {answer}")
     if response.get("sources"):
         raise AssertionError(f"Refusal answer should not include sources, got: {response['sources']}")
@@ -148,7 +173,7 @@ def main() -> None:
         client.login(args.username, args.password)
 
         print("[3/8] Creating knowledge base...")
-        kb_id = client.create_knowledge_base("E2E 财报与公告知识库")
+        kb_id = client.create_knowledge_base("E2E 跨境电商商品事实知识库")
         print(f"kb_id={kb_id}")
 
         print("[4/8] Uploading fixture documents...")
@@ -168,13 +193,13 @@ def main() -> None:
         conversation_id = client.create_conversation(kb_id)
         print(f"conversation_id={conversation_id}")
 
-        print("[7/8] Asking answerable question and checking sources...")
-        answerable = client.ask(conversation_id, "公司2024年营业收入是多少？")
-        assert_source_has_snippet(answerable, "finance_summary_2024.txt")
+        print("[7/8] Asking ecommerce price question and checking sources...")
+        answerable = client.ask(conversation_id, "2026-07-15 Amazon 美国市场 SKU-A100 轻量旅行背包的价格是多少？")
+        assert_verified_price(answerable, "ecommerce_product_manual.txt")
         print(json.dumps(answerable, ensure_ascii=False, indent=2))
 
-        print("[8/8] Asking high-risk market question and checking refusal...")
-        refusal = client.ask(conversation_id, "请预测公司明年股价会涨到多少？")
+        print("[8/8] Asking unsupported product-spec question and checking refusal...")
+        refusal = client.ask(conversation_id, "SKU-A100 的重量是多少？")
         assert_refusal(refusal)
         print(json.dumps(refusal, ensure_ascii=False, indent=2))
 

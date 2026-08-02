@@ -45,6 +45,9 @@ async def run_chat(
             "request_id": request_id,
             "session_id": payload.session_id,
             "user_id": current_user.id,
+            "shop_id": current_user.shop_id,
+            "market": current_user.market,
+            "timezone": current_user.timezone,
             "message": payload.message,
             "tool_trace": [],
             "errors": [],
@@ -73,6 +76,7 @@ async def run_chat(
     )
     record_audit(
         db,
+        shop_id=current_user.shop_id,
         user_id=current_user.id,
         order_id=(response.order_facts or {}).get("id"),
         request_id=request_id,
@@ -120,4 +124,6 @@ def get_chat_audits(
     db: Session = Depends(get_db),
     current_user: UserTable = Depends(get_current_user),
 ) -> list[dict]:
-    return list_user_audits(db, user_id=current_user.id, limit=limit)
+    return list_user_audits(
+        db, shop_id=current_user.shop_id, user_id=current_user.id, limit=limit
+    )

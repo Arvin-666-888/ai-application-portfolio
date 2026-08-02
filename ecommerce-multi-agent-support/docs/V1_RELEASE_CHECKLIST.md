@@ -1,21 +1,16 @@
-# V1.0 Release Checklist
+# Migration Release Checklist
 
-- [x] FastAPI `version=1.0.0` and `/health` version output.
-- [x] Stable `POST /api/v1/chat` endpoint.
-- [x] Four LangGraph routes: catalog, order, aftersales, unsupported.
-- [x] JWT identity and order ownership checks.
-- [x] Sensitive aftersales actions remain proposals only.
-- [x] Tool Trace and redacted per-user audit logs.
-- [x] Deterministic seed data and smoke demo.
-- [x] 30-case JSONL evaluation with security cases.
-- [x] Exact dependency versions and Docker Compose.
-- [x] Local pytest, evaluation, smoke, dependency and HTTP checks.
-- [x] Push to GitHub and observe the remote Actions run.
-- [x] Create the `v1.0.0` Git tag after the remote workflow passes.
+- [x] RouteName 外部契约迁移为五路客服意图。
+- [x] Supervisor prompt 与确定性规则同步，地址变更优先归售后。
+- [x] 订单/物流独立路由复用 OrderStatusNode/GetOrderStatusTool/Repository。
+- [x] 地址变更产生 approval-only proposal，不保存地址、不执行动作。
+- [x] JWT `sub + shop_id` 与数据库用户记录复核。
+- [x] 商品按 shop、订单/物流按 shop + user + order_no。
+- [x] User/Product/Order/Audit 最小单店字段完成。
+- [x] 固定种子覆盖 US/EU/UK、USD/EUR/GBP 和三种 IANA timezone。
+- [x] trace/audit 地址脱敏测试。
+- [x] pytest：94 passed。
+- [x] eval：47/47，route/tool 100%，security 4/4。
+- [x] 隔离 SQLite smoke：商品、订单、物流、售后、越权和 approval-only 链路通过。
 
-Release evidence:
-
-- V1 commit: `9b8d05ceeb3f785b6ffc8f362e1205bf188dc840`.
-- Release-branch CI: [run 29938088403](https://github.com/Arvin-666-888/ai-application-portfolio/actions/runs/29938088403) — passed.
-- Main-branch CI: [run 29938260727](https://github.com/Arvin-666-888/ai-application-portfolio/actions/runs/29938260727) — passed.
-- Annotated tag: [`v1.0.0`](https://github.com/Arvin-666-888/ai-application-portfolio/releases/tag/v1.0.0).
+边界：未提交 commit；未变更架构基建、CI、Compose、Docker 或 requirements。旧 SQLite schema 不自动迁移，需重建本地演示库。

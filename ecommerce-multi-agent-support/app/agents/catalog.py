@@ -12,11 +12,16 @@ from app.tools.catalog_tools import SearchProductsTool
 CATALOG_PROMPT = """You extract product search filters for the VoltCore catalog.
 Return a structured search decision only. Supported categories are charger, power_bank,
 cable, hub, wireless_charger, accessory, audio, and adapter. Extract an explicit maximum
-price and required charging power when the user provides them. Do not invent constraints.
+price, its ISO currency code when explicit (USD/EUR/GBP), and required charging power when
+user provides them. Do not invent constraints or convert currencies.
 """
 
 
 CatalogModelExtractor = Callable[[str], Awaitable[CatalogSearchDecision]]
+
+
+SHOP_CURRENCIES = {"shop-us": "USD", "shop-eu": "EUR", "shop-uk": "GBP"}
+CURRENCY_ALIASES = {"$": "USD", "€": "EUR", "£": "GBP", "usd": "USD", "eur": "EUR", "gbp": "GBP"}
 
 
 class CatalogAgent:
@@ -41,12 +46,39 @@ class CatalogAgent:
                 pass
         return self._extract_with_rules(message)
 
-    async def run(self, *, message: str, request_id: str) -> dict:
+    async def run(self, *, message: str, shop_id: str, request_id: str) -> dict:
         decision = await self.extract_filters(message)
-        tool_result = self.tool.execute(decision, request_id=request_id)
+        expected_currency = SHOP_CURRENCIES.get(shop_id.casefold())
+        if decision.budget_currency and decision.budget_currency != expected_currency:
+            # MIGRATION: price filters are shop-local; cross-currency budgets fail closed without FX.
+            return {
+                "dispatched_to": "product_inquiry",
+                "product_filters": decision.model_dump(mode="json"),
+                "products": [],
+                "answer": (
+                    f"当前店铺商品使用 {expected_currency}，但预算指定为 {decision.budget_currency}。"
+                    "系统不进行汇率换算，请改用当前店铺币种提供预算。"
+                ),
+                "tool_trace": [],
+            }
+        # MIGRATION: only the historically valid US VC alias is mapped; EU/UK return no fabricated SKU.
+        if decision.keyword and re.fullmatch(r"vc-[a-z]{3}-\d{4}", decision.keyword, re.IGNORECASE):
+            if shop_id.casefold() == "shop-us":
+                decision = decision.model_copy(
+                    update={"keyword": f"SHOP-US-{decision.keyword[3:].upper()}"}
+                )
+            else:
+                return {
+                    "dispatched_to": "product_inquiry",
+                    "product_filters": decision.model_dump(mode="json"),
+                    "products": [],
+                    "answer": "旧版 VC SKU 仅兼容历史 US 商品；请提供当前店铺的 SHOP-EU 或 SHOP-UK SKU。",
+                    "tool_trace": [],
+                }
+        tool_result = self.tool.execute(decision, shop_id=shop_id, request_id=request_id)
         products = tool_result.products
         return {
-            "dispatched_to": "catalog",
+            "dispatched_to": "product_inquiry",
             "product_filters": decision.model_dump(mode="json"),
             "products": products,
             "answer": self._build_answer(products, decision),
@@ -89,26 +121,36 @@ class CatalogAgent:
         )
 
         price_patterns = (
-            r"(?:预算|价格)?\s*(\d+(?:\.\d+)?)\s*元?(?:以内|以下|之内)",
-            r"(?:under|below|less than)\s*[$¥￥]?\s*(\d+(?:\.\d+)?)",
-            r"[$¥￥]\s*(\d+(?:\.\d+)?)\s*(?:or less|max)?",
+            r"(?:预算|价格)?\s*(?P<amount>\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)\s*元(?:以内|以下|之内)",
+            r"(?:under|below|less than)\s*(?P<currency>usd|eur|gbp|[$€£¥￥])?\s*(?P<amount>\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)",
+            r"(?P<currency>usd|eur|gbp|[$€£¥￥])\s*(?P<amount>\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)\s*(?:or less|max|以内|以下)?",
+            r"(?P<amount>\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)\s*(?P<currency>usd|eur|gbp|[$€£¥￥])\s*(?:or less|max|以内|以下)",
         )
         max_price = None
+        budget_currency = None
         for pattern in price_patterns:
             match = re.search(pattern, text)
             if match:
-                max_price = Decimal(match.group(1))
+                max_price = Decimal(match.group("amount").replace(",", ""))
+                currency_token = match.groupdict().get("currency")
+                budget_currency = CURRENCY_ALIASES.get(currency_token.casefold()) if currency_token else None
                 break
 
         power_match = re.search(r"(\d{1,3})\s*(?:w|瓦)", text)
         power_w = int(power_match.group(1)) if power_match else None
 
-        sku_match = re.search(r"\bvc-[a-z]{3}-\d{4}\b", text, flags=re.IGNORECASE)
+        # MIGRATION: accept both legacy VC SKUs and shop-prefixed US/EU/UK SKUs.
+        sku_match = re.search(
+            r"\b(?:vc|shop-(?:us|eu|uk))-[a-z]{3}-\d{4}\b",
+            text,
+            flags=re.IGNORECASE,
+        )
         keyword = sku_match.group(0).upper() if sku_match else None
         return CatalogSearchDecision(
             keyword=keyword,
             category=category,
             max_price=max_price,
+            budget_currency=budget_currency,
             power_w=power_w,
             in_stock_only=True,
             limit=5,
@@ -131,7 +173,7 @@ class CatalogAgent:
             spec_text = "，".join(spec_parts)
             suffix = f"，{spec_text}" if spec_text else ""
             lines.append(
-                f"- {product['name']}（{product['sku']}）：¥{product['price']}，库存 {product['stock']}{suffix}"
+                f"- {product['name']}（{product['sku']}）：{product['currency']} {product['price']}，库存 {product['stock']}{suffix}"
             )
         if decision.power_w is not None:
             lines.append(f"以上结果均满足 {decision.power_w}W 规格要求。")

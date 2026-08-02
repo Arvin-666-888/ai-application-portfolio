@@ -4,10 +4,10 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.models.models import User
+from app.dependencies import get_repositories
+from app.models.models import AnalysisRecord, User
+from app.repositories import Repositories
 from app.routers.auth import get_current_user_dependency
 from app.schemas.schemas import AnalysisRequest, AnalysisResponse, AnalysisRecordResponse
 from app.services.agent_service import run_agent, save_analysis_record, get_analysis_records
@@ -21,11 +21,11 @@ router = APIRouter(prefix="/api/analysis", tags=["智能分析"])
 @router.post("/ask", response_model=AnalysisResponse)
 async def ask_question(
     req: AnalysisRequest,
-    db: Session = Depends(get_db),
+    repositories: Repositories = Depends(get_repositories),
     current_user: User = Depends(get_current_user_dependency),
 ):
     try:
-        connector = get_connector_for_ds(db, req.ds_id, current_user.id)
+        connector = get_connector_for_ds(repositories.datasources, req.ds_id, current_user.id, current_user.shop_id)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
@@ -33,7 +33,7 @@ async def ask_question(
         result = await run_agent(req.question, connector)
 
         record = save_analysis_record(
-            db=db,
+            analyses=repositories.analyses,
             question=req.question,
             answer=result["answer"],
             sql_query=result.get("sql_query", ""),
@@ -43,6 +43,7 @@ async def ask_question(
             rag_sources=result.get("rag_sources", []),
             ds_id=req.ds_id,
             user_id=current_user.id,
+            shop_id=current_user.shop_id,
         )
 
         return _to_analysis_response(record)
@@ -54,47 +55,38 @@ async def ask_question(
 @router.get("/records", response_model=list[AnalysisRecordResponse])
 async def get_records(
     ds_id: int = None,
-    db: Session = Depends(get_db),
+    repositories: Repositories = Depends(get_repositories),
     current_user: User = Depends(get_current_user_dependency),
 ):
-    records = get_analysis_records(db, current_user.id, ds_id)
+    records = get_analysis_records(
+        repositories.analyses,
+        current_user.id,
+        current_user.shop_id,
+        ds_id,
+    )
     return records
 
 
 @router.get("/records/{record_id}", response_model=AnalysisResponse)
 async def get_record_detail(
     record_id: int,
-    db: Session = Depends(get_db),
+    repositories: Repositories = Depends(get_repositories),
     current_user: User = Depends(get_current_user_dependency),
 ):
-    from app.models.models import AnalysisRecord
-    record = db.query(AnalysisRecord).filter(
-        AnalysisRecord.id == record_id,
-        AnalysisRecord.user_id == current_user.id,
-    ).first()
-    if not record:
-        raise HTTPException(status_code=404, detail="分析记录不存在")
-
+    record = _get_owned_record(repositories, current_user, record_id)
     return _to_analysis_response(record)
 
 
 @router.get("/export/csv/{record_id}")
 async def export_csv(
     record_id: int,
-    db: Session = Depends(get_db),
+    repositories: Repositories = Depends(get_repositories),
     current_user: User = Depends(get_current_user_dependency),
 ):
     import csv
 
-    from app.models.models import AnalysisRecord
-    record = db.query(AnalysisRecord).filter(
-        AnalysisRecord.id == record_id,
-        AnalysisRecord.user_id == current_user.id,
-    ).first()
-    if not record:
-        raise HTTPException(status_code=404, detail="分析记录不存在")
-
-    data = json.loads(record.query_result) if record.query_result else []
+    record = _get_owned_record(repositories, current_user, record_id)
+    data = _loads_json(record.query_result, [])
     if not data:
         raise HTTPException(status_code=400, detail="无数据可导出")
 
@@ -113,18 +105,11 @@ async def export_csv(
 @router.get("/export/report/{record_id}")
 async def export_report(
     record_id: int,
-    db: Session = Depends(get_db),
+    repositories: Repositories = Depends(get_repositories),
     current_user: User = Depends(get_current_user_dependency),
 ):
-    from app.models.models import AnalysisRecord
-    record = db.query(AnalysisRecord).filter(
-        AnalysisRecord.id == record_id,
-        AnalysisRecord.user_id == current_user.id,
-    ).first()
-    if not record:
-        raise HTTPException(status_code=404, detail="分析记录不存在")
-
-    data = json.loads(record.query_result) if record.query_result else []
+    record = _get_owned_record(repositories, current_user, record_id)
+    data = _loads_json(record.query_result, [])
 
     report = f"# 数据分析报告\n\n"
     report += f"## 分析问题\n{record.question}\n\n"
@@ -171,7 +156,22 @@ async def export_report(
     )
 
 
-def _to_analysis_response(record) -> AnalysisResponse:
+def _get_owned_record(
+    repositories: Repositories,
+    current_user: User,
+    record_id: int,
+) -> AnalysisRecord:
+    record = repositories.analyses.get_owned(
+        record_id,
+        current_user.id,
+        current_user.shop_id,
+    )
+    if not record:
+        raise HTTPException(status_code=404, detail="分析记录不存在")
+    return record
+
+
+def _to_analysis_response(record: AnalysisRecord) -> AnalysisResponse:
     return AnalysisResponse(
         id=record.id,
         question=record.question,

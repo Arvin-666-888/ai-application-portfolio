@@ -1,236 +1,132 @@
-# 上市公司财报与公告智能问答系统
+# 跨境电商商品事实 RAG
 
-基于 RAG（检索增强生成）的金融文档问答原型，使用 FastAPI + ChromaDB + OpenAI-compatible API 实现财报、公告、研报摘要等文档的上传、切分、向量检索、引用溯源、多轮问答、SSE 流式输出和资料外拒答。
+这是一个基于 FastAPI、ChromaDB 和 OpenAI-compatible API 的纯文本/表格 RAG 原型。系统只发布四类可核验事实：
 
-> 当前项目用于验证金融文档 RAG 的核心后端链路，包括文档入库、向量检索、来源返回、拒答控制和评测。项目尚未按生产级投研平台要求建设。
+- `price`：必须有明确币种的价格；
+- `inventory_quantity`：整数库存数量；
+- `delivery_duration`：带小时、天或工作日单位的配送时长；
+- `customs_duty_rate`：带百分号的关税税率。
 
-## 项目亮点
+每条可信事实可绑定 `SKU / product / platform / market / date / citation`。缺失币种或单位时不猜测；重量、尺寸、电压、功率等规格不在回答范围内。
 
-- **RAG 全链路**：文档解析 -> 文本切分 -> Embedding -> ChromaDB -> 检索 -> Prompt -> 回答生成。
-- **金融场景化**：围绕财报摘要、经营风险、收入结构、管理层展望等问题组织问答。
-- **混合检索雏形**：向量候选召回后，结合中文关键词重叠分数做轻量重排，降低纯向量误召回风险。
-- **来源可追溯**：回答返回来源文档、相关片段和相关度，便于核验。
-- **资料外拒答**：资料不足时拒答；对股价预测、买卖建议等金融高风险问题增加应用层护栏。
-- **后端工程完整性**：FastAPI 分层架构、JWT 鉴权、SQLite 元数据、文档失败原因记录、SSE 流式输出、Docker 启动配置。
-- **可评测**：内置 JSONL 评测集和脚本，输出检索命中率、引用支撑率、拒答准确率、关键词命中率。
-- **可演示**：支持无 API Key 的 mock 模式，便于本地学习和接口联调。
+## 架构与数据流
 
-## 快速启动
-
-### 1. 安装依赖
-
-```bash
-cd demo
-pip install -r requirements.txt
+```text
+[TXT / MD / PDF 上传]
+    │ 文件 SHA + 持久任务
+    ▼
+[SQLite job / lease / heartbeat]
+    │ 解析快照与 artifact hash
+    ▼
+[L1 pdfplumber 全页正文]
+    │ 候选表格页
+    ▼
+[L2 Unstructured hi_res]
+    │ 无有效表格或失败
+    ▼
+[L3 validated Paddle artifact]
+    │ L1 正文 + 可信表格块
+    ▼
+[versioned Chroma staging]
+    │ finalize lease fence + CAS 发布
+    ▼
+[电商意图检索 / rerank]
+    │ 私有 Citation Ledger + verifier
+    ├── 校验失败 ──► [fail-closed 拒答，sources=[]]
+    ▼
+[四类结构化事实 + 最小化引用]
 ```
 
-开发和测试环境：
+L1→L2→L3、artifact SHA、job/lease/heartbeat/finalize、版本化 Chroma staging/CAS 和 Citation Ledger 隐私控制均保留。SQLite 与本地 Chroma 适合单机原型，不等于多机生产基础设施。
 
-```bash
+## 安装
+
+依赖沿用冻结提交 `8d403ca` 的精确版本组合；PaddleOCR lock 不升级。
+
+```powershell
+pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
 
-### 2. 配置环境变量
+如需 Paddle worker，请在独立 Windows Python 3.12 环境中使用现有锁文件：
 
-复制 `.env.example` 为 `.env`，按需填写 API 配置：
-
-```env
-API_KEY=your-api-key
-BASE_URL=https://api.openai.com/v1
-MODEL=gpt-4o-mini
-EMBEDDING_MODEL=text-embedding-3-small
+```powershell
+pip install -r requirements-paddleocr-windows-py312.lock.txt
 ```
 
-不配置 `API_KEY` 也可以运行，系统会使用 mock mode（确定性随机向量 + 模拟回答），适合检查接口和流程。
+## 本地启动
 
-### 3. 启动服务
-
-```bash
+```powershell
+python scripts/migrate_router_v2.py --apply
 uvicorn app.main:app --reload --port 8000
 ```
 
-访问：
+另一个终端启动普通文档 worker；未启动时，上传任务会停留在 `queued`：
 
-```text
-http://localhost:8000/docs
+```powershell
+python -m app.workers.document_worker
 ```
 
-### 4. Docker 启动
+只有启用 L3 且已准备独立 Paddle 环境时，才启动：
 
-```bash
-cd demo
-copy .env.example .env
-docker compose up --build
+```powershell
+python -m app.workers.paddle_worker
 ```
 
-Docker 模式下，SQLite 数据库会保存在 `demo/data/`，上传文件保存在 `demo/uploads/`，向量数据保存在 `demo/chroma_data/`。
+Swagger：`http://127.0.0.1:8000/docs`
 
-## 最小演示流程
+## 配置可信链路
 
-1. 注册/登录，获取 Token。
-2. 创建知识库，例如“某上市公司 2024 财报知识库”。
-3. 上传 `evals/fixtures` 里的金融样例文档。
-4. 等待文档状态变为 `ready`。
-5. 创建对话。
-6. 提问资料内问题，查看回答和来源引用。
-7. 提问资料外问题或股价预测问题，验证拒答。
+默认保留 legacy 配置，显式开启新路径：
 
-建议演示问题：
-
-- 公司 2024 年营业收入是多少？
-- 2024 年毛利率是多少，为什么提升？
-- 云资源价格上升会带来什么风险？
-- 企业知识库系统有哪些数据安全风险？
-- 请预测公司明年股价会涨到多少？
-
-## 自动评测
-
-先上传 `evals/fixtures` 下的样例文档到同一个知识库，再运行：
-
-```bash
-python evals/run_eval.py --kb-id 1 --top-k 3
+```powershell
+$env:RETRIEVAL_PROFILE="ecommerce_v2"
+$env:RAG_ANSWER_PROFILE="verified_v3"
 ```
 
-只评测检索，不调用大模型生成：
+`verified_v3` 只允许上述四类事实。候选答案的事实类型、值、明确单位或币种、身份字段和 citation 必须由同一句话或同一表格行支持；未知 citation、跨片段拼接、歧义多值、额外数字或不支持字段都会拒答。
 
-```bash
-python evals/run_eval.py --kb-id 1 --top-k 3 --retrieval-only
-```
+## 演示问题
 
-先检查评测集结构，不需要启动服务或创建知识库：
+上传以下三份活动 fixture 后可提问；事实按商品手册、关税合规、物流记录分别局部绑定，避免从一份聚合清单跨行拼接：
 
-```bash
-python evals/run_eval.py --validate-only
-```
+- `evals/fixtures/ecommerce_product_manual.txt`
+- `evals/fixtures/ecommerce_customs_compliance.txt`
+- `evals/fixtures/ecommerce_logistics_records.txt`
 
-评测集包含 24 条功能验收问题。每条 case 包含 `category`、`difficulty`、`answer_type`、`expected_sources`、`expected_keywords`、`expected_context_keywords` 和 `should_refuse`，用于区分资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答。
+- `2026-07-15 Amazon 美国市场 SKU-A100 的价格是多少？`
+- `SKU-A100 的库存数量有多少？`
+- `SKU-B200 的配送时长多久？`
+- `SKU-C300 的关税税率是多少？`
 
-评测指标：
+应拒答：
 
-| 指标 | 说明 |
-|---|---|
-| `retrieval_hit_rate@k` | Top-K 检索结果是否命中期望来源或期望关键词 |
-| `source_support_rate` | 返回给用户的 sources 是否能支撑答案 |
-| `refusal_accuracy` | 资料外问题和投资建议类问题是否被拒答 |
-| `answer_keyword_match_rate` | 资料内答案是否覆盖关键事实 |
-
-## API 接口
-
-### 认证
-
-- `POST /api/auth/register` - 注册
-- `POST /api/auth/login` - 登录
-- `GET /api/auth/me` - 获取当前用户
-
-### 知识库
-
-- `GET /api/knowledge-bases` - 知识库列表
-- `POST /api/knowledge-bases` - 创建知识库
-- `DELETE /api/knowledge-bases/{id}` - 删除知识库
-
-### 文档
-
-- `POST /api/documents/upload?kb_id={id}` - 上传文档
-- `GET /api/documents?kb_id={id}` - 文档列表
-- `DELETE /api/documents/{id}` - 删除文档
-
-### 问答
-
-- `POST /api/chat/conversations` - 创建对话
-- `GET /api/chat/conversations` - 对话列表
-- `GET /api/chat/conversations/{id}/messages` - 对话消息
-- `POST /api/chat/{conversation_id}` - 问答（同步）
-- `POST /api/chat/{conversation_id}/stream` - 问答（流式 SSE）
-
-## 项目结构
-
-```text
-app/
-├── main.py                 # 应用入口，中间件，异常处理
-├── config.py               # 配置管理
-├── database.py             # 数据库连接和 Session 管理
-├── models/models.py        # SQLAlchemy ORM 模型
-├── schemas/schemas.py      # Pydantic 请求/响应模型
-├── routers/                # API 路由
-├── services/               # 业务逻辑
-└── utils/
-    ├── retrieval.py        # 关键词召回、混合重排、金融拒答护栏
-    ├── text_splitter.py    # 文本分块
-    └── vector_store.py     # ChromaDB 封装
-
-docs/
-├── DEMO_RUNBOOK.md           # 本地演示与验证流程
-└── EVALUATION_REPORT_TEMPLATE.md  # 评测报告模板
-
-evals/
-├── fixtures/               # 样例金融文档
-├── questions.jsonl         # 评测问题集
-└── run_eval.py             # 评测脚本
-```
-
-## 核心技术点
-
-| 技术点 | 实现方式 |
-|---|---|
-| 文档解析 | TXT/MD 直接读取，PDF 用 pdfplumber |
-| 文本分块 | 递归字符分块，默认 `chunk_size=400`、`overlap=80` |
-| 向量化 | OpenAI-compatible Embedding API，支持 mock mode |
-| 向量存储 | ChromaDB PersistentClient，按知识库隔离 collection |
-| 检索 | 向量候选召回 + 中文关键词重叠分数重排 |
-| 回答生成 | 检索结果拼接 Prompt 后调用大模型 |
-| 来源引用 | 返回来源文档、相关片段和相关度 |
-| 拒答 | Prompt 约束 + 相似度过滤 + 金融高风险问题护栏 |
-| 失败诊断 | 文档处理失败时记录 `error_message` |
-| 多轮对话 | 滑动窗口保留最近历史 |
-| 流式响应 | SSE Server-Sent Events |
-| 认证 | JWT Token + Bearer 认证 |
+- `SKU-A100 的重量是多少？`
+- `SKU-A100 的尺寸和功率是多少？`
+- `把 USD 价格换算成人民币。`
+- 证据只有 `79.90` 而没有明确币种的价格问题。
 
 ## 测试
 
-```bash
-cd demo
-pytest
+Windows 下建议使用项目内 basetemp：
+
+```powershell
+python -m pytest tests/test_ecommerce_migration.py tests/test_answer_verification.py tests/test_retrieval.py -q -p no:cacheprovider --basetemp .pytest-ecommerce-layer
+python -m pytest tests -q -p no:cacheprovider --basetemp .pytest-ecommerce-full
 ```
 
-当前测试聚焦在文本切分、关键词召回、混合重排和金融拒答护栏。
+测试覆盖四类事实、单位不猜测、Citation Ledger、fail-closed、PDF 三层路由、artifact 校验、worker lease/heartbeat 和版本化索引发布。本轮 fresh 全量结果为 `378 passed`；活动 `questions.jsonl` 结构校验为 11 条（4 条正向、7 条拒答）。这证明工程合同和固定活动集，不代表真实模型语义质量或重新执行 Paddle GPU OCR。
 
-本地总体验证：
+## 历史金融验收保护
 
-```bash
-cd demo
-python scripts/pre_interview_check.py
-```
+活动电商入口不改变历史 Gate 结论：historical/disclosed Gate B 仍为 provisional `12/24`，缺独立人工 attestation；Gate C 仍为真实失败的 `verified_v3=0/24 accepted`。原 holdout 已解封，规则修复后的正式声明必须使用新的 sealed holdout，并在 Ground Truth 前冻结候选；独立人工复核不能由代码替代。历史金融报告、冻结 eval/artifact 和失败指标保持原文。
 
-该脚本会检查关键文件、依赖安装状态、语法、pytest 和评测问题数量。
-如果只是做静态材料检查、尚未安装运行依赖，可以临时加 `--allow-missing-deps`；完整验证前应安装依赖并让检查通过。
+## 内容边界
 
-## 端到端演示验收
+- 支持 TXT、Markdown 和 PDF 中可抽取的纯文本、HTML/Markdown 表格。
+- 不引入 ColPali、多模态模型或图像 embedding。
+- 图片、图表、颜色、商品外观、版式关系和仅存在于扫描图像且未被 OCR artifact 提取的内容不可回答。
+- 跨页表格仅在稳定 header signature 与显式前页语义绑定时继承；不主动进行视觉合并。
+- 历史金融 eval、报告和冻结哈希继续作为历史证据保存，不会改写成电商质量结论。新增电商 fixture 和活动测试只证明迁移后的工程合同。
 
-启动服务后运行：
-
-```bash
-cd demo
-python scripts/demo_e2e.py --base-url http://127.0.0.1:8000
-```
-
-脚本会自动完成注册、登录、创建知识库、上传样例文档、等待 ready、创建对话、资料内问答和股价预测拒答检查。建议先跑这个脚本，再手工打开 Swagger 复核接口。
-
-## 局限与后续优化
-
-- 当前 PDF 解析以文本提取为主，复杂财报表格、跨页表格和图表理解还需要增强。
-- 混合检索使用轻量关键词重排，后续可以接入 BM25、bge-reranker 或 cross-encoder reranker。
-- 当前评测集是 24 条小型功能验收集，已覆盖资料内事实、原因解释、风险问题、跨文档综合、资料外问题和金融高风险拒答；后续如要更接近生产评测，可扩展到 30-50 条并保存一次真实模型评测报告。
-- 当前使用 SQLite 和本地 ChromaDB，生产环境应替换为 PostgreSQL、对象存储、独立向量数据库和任务队列。
-
-## LangChain 对照 demo
-
-主项目保留手写 RAG 链路，`examples/` 中额外提供 LangChain 对照实现：
-
-```bash
-pip install -r requirements.txt
-pip install -r requirements-langchain.txt
-python examples/langchain_rag_demo.py --mock --question "2024年公司营业收入是多少？"
-python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收入是多少？"
-```
-
-该 demo 使用 `Document`、`RecursiveCharacterTextSplitter`、Chroma retriever 和可选 `OpenAIEmbeddings/ChatOpenAI`，输出 `answer`、`sources`、`snippet` 和 `relevance`，用于和主项目的手写 RAG 实现进行对比。
+详细步骤见 `docs/DEMO_RUNBOOK.md`，能力与边界摘要见 `PROJECT_SUMMARY.md`。

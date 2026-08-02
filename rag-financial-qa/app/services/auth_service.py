@@ -14,29 +14,23 @@ try:
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     HAS_PASSLIB = True
 except ImportError:
-    import hashlib
     HAS_PASSLIB = False
-    logger.warning("passlib not installed, using simple hash (not for production)")
+    pwd_context = None
+    logger.error("passlib is required for password hashing")
 
 
-def _simple_hash(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
-
-
-def _simple_verify(password: str, hashed: str) -> bool:
-    return _simple_hash(password) == hashed
+def _password_context():
+    if not HAS_PASSLIB or pwd_context is None:
+        raise RuntimeError("密码哈希依赖不可用")
+    return pwd_context
 
 
 def hash_password(password: str) -> str:
-    if HAS_PASSLIB:
-        return pwd_context.hash(password)
-    return _simple_hash(password)
+    return _password_context().hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    if HAS_PASSLIB:
-        return pwd_context.verify(plain_password, hashed_password)
-    return _simple_verify(plain_password, hashed_password)
+    return _password_context().verify(plain_password, hashed_password)
 
 
 def create_access_token(data: dict) -> str:

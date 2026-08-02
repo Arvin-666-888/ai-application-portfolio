@@ -1,0 +1,72 @@
+{
+  "schema_version": "rag-answer-v3-preregistration-v1",
+  "status": "frozen_before_independent_ground_truth",
+  "answer_profile": "verified_v3",
+  "retrieval_profiles": ["legacy", "financial_v2"],
+  "candidate_stage": {
+    "ground_truth_loaded": false,
+    "forbidden_fields": [
+      "expected_value",
+      "expected_page",
+      "expected_source",
+      "expected_table_id",
+      "answer",
+      "ground_truth"
+    ]
+  },
+  "engineering_gates": {
+    "unknown_citation_acceptance_max": 0,
+    "unsupported_numeric_acceptance_max": 0,
+    "accepted_answer_citation_validity_min": 1.0,
+    "schema_error_rate_max": 0.0
+  },
+  "independent_quality_gates": {
+    "accepted_answer_strict_precision_min": 0.9,
+    "coverage_must_be_reported": true,
+    "must_not_underperform_same_candidate_legacy_pipeline": true,
+    "latency_and_cost_thresholds_must_be_frozen_before_real_run": true
+  },
+  "reported_metrics": [
+    "retrieval_recall_at_5",
+    "answer_coverage",
+    "accepted_answer_strict_precision",
+    "numeric_accuracy",
+    "unit_accuracy",
+    "period_accuracy",
+    "company_accuracy",
+    "metric_accuracy",
+    "citation_validity",
+    "unsupported_answer_acceptance_rate",
+    "refusal_precision",
+    "refusal_recall",
+    "verification_reason_distribution",
+    "latency_p50_ms",
+    "latency_p95_ms",
+    "input_tokens",
+    "output_tokens",
+    "estimated_cost",
+    "provider_error_rate",
+    "schema_error_rate"
+  ],
+  "artifact_contract": {
+    "run_path": "runs/<run_id>/",
+    "stages": ["candidate", "generation", "score", "manifest"],
+    "candidate_before_ground_truth": true,
+    "generation_before_ground_truth": true,
+    "finalized_run_immutable": true,
+    "required_identities": [
+      "corpus_file_sha256",
+      "candidate_file_sha256",
+      "candidate_canonical_identity_sha256",
+      "ranking_sha256",
+      "generation_file_sha256",
+      "score_file_sha256",
+      "retrieval_config_sha256",
+      "prompt_config_sha256",
+      "model_identity",
+      "embedding_identity",
+      "scorer_file_sha256"
+    ]
+  },
+  "claim_boundary": "Engineering completion does not imply independent answer-quality acceptance or permission to change defaults."
+}

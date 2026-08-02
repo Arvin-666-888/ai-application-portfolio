@@ -53,8 +53,13 @@ def load_cases(path: str) -> list[dict[str, Any]]:
                 raise ValueError(f"Missing id/question at {path}:{line_no}")
             case.setdefault("expected_tools", [])
             case.setdefault("expected_sql_contains", [])
+            case.setdefault("expected_scope_fields", [])
             case.setdefault("expected_min_rows", 0)
             case.setdefault("should_block", False)
+            if not case.get("sql_to_validate") and not case.get("expected_answer_contains"):
+                raise ValueError(
+                    f"Agent case requires non-empty expected_answer_contains at {path}:{line_no}"
+                )
             cases.append(case)
     return cases
 
@@ -116,15 +121,17 @@ def setup_client(use_real_llm: bool):
 
     username = f"agent_eval_{uuid.uuid4().hex[:8]}"
     password = "password123"
-    client.post("/api/auth/register", json={"username": username, "password": password}).raise_for_status()
-    login_response = client.post("/api/auth/login", json={"username": username, "password": password})
+    shop_id = "amazon-us"
+    credentials = {"shop_id": shop_id, "username": username, "password": password}
+    client.post("/api/auth/register", json=credentials).raise_for_status()
+    login_response = client.post("/api/auth/login", json=credentials)
     login_response.raise_for_status()
     headers = {"Authorization": f"Bearer {login_response.json()['access_token']}"}
     ds_response = client.post(
         "/api/datasources",
         headers=headers,
         json={
-            "name": "内置财务样例库",
+            "name": "内置跨境电商样例库",
             "db_type": "sqlite",
             "connection_string": f"sqlite:///{Path(settings.SAMPLE_DB_PATH).as_posix()}",
         },
@@ -149,6 +156,8 @@ def evaluate_sql_guardrail(case: dict[str, Any]) -> dict[str, Any]:
         "tool_match": None,
         "sql_match": None,
         "row_match": None,
+        "answer_match": None,
+        "scope_match": None,
         "safety_pass": safety_pass,
         "passed": safety_pass,
         "message": message,
@@ -169,7 +178,38 @@ def evaluate_agent_case(client, headers: dict[str, str], ds_id: int, case: dict[
     sql_match = contains_all(body.get("sql_query", ""), case.get("expected_sql_contains", []))
     row_match = len(body.get("data", [])) >= int(case.get("expected_min_rows", 0))
 
-    checks = [value for value in (tool_match, sql_match, row_match) if value is not None]
+    answer = body.get("answer", "")
+    data = body.get("data", [])
+    answer_match = contains_all(answer, case["expected_answer_contains"])
+    expected_scope_fields = case.get("expected_scope_fields", [])
+    time_fields = {
+        "report_date", "order_date", "snapshot_date", "observed_at",
+        "period_start", "period_end",
+    }
+    dimension_values = {
+        field: sorted({
+            str(row[field]) for row in data if row.get(field) not in (None, "")
+        })
+        for field in expected_scope_fields
+        if field not in time_fields
+    }
+    time_values = sorted({
+        str(row[field])
+        for row in data
+        for field in expected_scope_fields
+        if field in time_fields and row.get(field) not in (None, "")
+    })
+    scope_match = (
+        all(values and all(value in answer for value in values) for values in dimension_values.values())
+        and (not any(field in time_fields for field in expected_scope_fields)
+             or bool(time_values) and time_values[0] in answer and time_values[-1] in answer)
+        if expected_scope_fields else None
+    )
+
+    checks = [
+        value for value in (tool_match, sql_match, row_match, answer_match, scope_match)
+        if value is not None
+    ]
     passed = all(checks) if checks else True
     return {
         "id": case["id"],
@@ -182,9 +222,11 @@ def evaluate_agent_case(client, headers: dict[str, str], ds_id: int, case: dict[
         "tool_match": tool_match,
         "sql_match": sql_match,
         "row_match": row_match,
+        "answer_match": answer_match,
+        "scope_match": scope_match,
         "safety_pass": None,
         "passed": passed,
-        "message": body.get("answer", "")[:160],
+        "message": answer[:160],
     }
 
 
@@ -197,6 +239,8 @@ def print_case_result(result: dict[str, Any]) -> None:
     print(f"tool_match: {mark(result['tool_match'])}")
     print(f"sql_match: {mark(result['sql_match'])}")
     print(f"row_match: {mark(result['row_match'])}")
+    print(f"answer_match: {mark(result['answer_match'])}")
+    print(f"scope_match: {mark(result['scope_match'])}")
     print(f"safety_pass: {mark(result['safety_pass'])}")
     print(f"passed: {mark(result['passed'])}")
     if result["sql"]:
@@ -214,6 +258,8 @@ def build_summary(results: list[dict[str, Any]], real_llm: bool) -> dict[str, An
         "tool_match_rate": average_bool([result["tool_match"] for result in results]),
         "sql_match_rate": average_bool([result["sql_match"] for result in results]),
         "row_match_rate": average_bool([result["row_match"] for result in results]),
+        "answer_match_rate": average_bool([result["answer_match"] for result in results]),
+        "scope_match_rate": average_bool([result["scope_match"] for result in results]),
         "safety_pass_rate": average_bool([result["safety_pass"] for result in results]),
     }
 
@@ -228,6 +274,8 @@ def print_summary(summary: dict[str, Any]) -> None:
     print(f"tool_match_rate: {pct(summary['tool_match_rate'])}")
     print(f"sql_match_rate: {pct(summary['sql_match_rate'])}")
     print(f"row_match_rate: {pct(summary['row_match_rate'])}")
+    print(f"answer_match_rate: {pct(summary['answer_match_rate'])}")
+    print(f"scope_match_rate: {pct(summary['scope_match_rate'])}")
     print(f"safety_pass_rate: {pct(summary['safety_pass_rate'])}")
 
 

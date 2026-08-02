@@ -15,7 +15,7 @@ def test_stable_chat_endpoint_persists_redacted_audit(client):
     assert audits.status_code == 200
     latest = audits.json()[0]
     assert latest["action"] == "multi_agent_chat"
-    assert latest["result_summary"]["route"] == "catalog"
+    assert latest["result_summary"]["route"] == "product_inquiry"
     assert latest["result_summary"]["tools"] == ["search_products"]
     assert latest["input_summary"]["message_length"] == len(message)
     assert message not in str(latest)
@@ -48,7 +48,7 @@ def test_aftersales_audit_records_approval_without_execution(client):
     assert response.status_code == 200
 
     latest = client.get("/api/v1/chat/audits", headers=headers).json()[0]
-    assert latest["result_summary"]["route"] == "aftersales"
+    assert latest["result_summary"]["route"] == "aftersales_handling"
     assert latest["result_summary"]["requires_approval"] is True
     assert latest["result_summary"]["proposed_action"] == "refund_review"
 
@@ -61,4 +61,4 @@ def test_legacy_preview_endpoint_remains_compatible(client):
         json={"message": "推荐一个充电器", "session_id": "legacy"},
     )
     assert response.status_code == 200
-    assert response.json()["route"] == "catalog"
+    assert response.json()["route"] == "product_inquiry"

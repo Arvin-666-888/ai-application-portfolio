@@ -23,10 +23,11 @@ def verify_password(password: str, password_hash: str) -> bool:
     return bcrypt.checkpw(password.encode("utf-8"), password_hash.encode("utf-8"))
 
 
-def create_access_token(user_id: int) -> str:
+def create_access_token(user_id: int, shop_id: str) -> str:
     now = datetime.now(timezone.utc)
     payload = {
         "sub": str(user_id),
+        "shop_id": shop_id,
         "iat": now,
         "exp": now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     }
@@ -49,9 +50,14 @@ def get_current_user(
     try:
         payload = jwt.decode(credentials.credentials, settings.SECRET_KEY, algorithms=["HS256"])
         user_id = int(payload["sub"])
+        shop_id = str(payload["shop_id"])
     except (jwt.PyJWTError, KeyError, TypeError, ValueError) as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid access token") from exc
-    user = db.get(UserTable, user_id)
+
+    # MIGRATION: trust shop context only after matching both JWT claims to the database row.
+    user = db.scalar(
+        select(UserTable).where(UserTable.id == user_id, UserTable.shop_id == shop_id)
+    )
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid access token")
     return user

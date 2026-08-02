@@ -3,6 +3,7 @@ from collections.abc import Awaitable, Callable
 from langchain_openai import ChatOpenAI
 
 from app.agents.contracts import AftersalesDecision
+from app.agents.supervisor import SupervisorRouter
 from app.config import settings
 from app.nodes.order import extract_order_no
 from app.tools.order_tools import GetOrderStatusTool
@@ -11,8 +12,8 @@ from app.tools.policy_tools import EvaluateAftersalesPolicyTool
 
 AFTERSALES_PROMPT = """You classify an ecommerce aftersales request.
 Return a structured decision only. Supported issue types are damaged, wrong_item, lost,
-delayed, cancel_request, return_request, warranty, and other. Supported requested actions
-are refund, replacement, compensation, cancel, return, warranty_service, and investigate.
+delayed, cancel_request, return_request, warranty, address_change, and other. Supported requested actions
+are refund, replacement, compensation, cancel, return, warranty_service, change_address, and investigate.
 Describe only what the user claims; do not treat a claim as a verified order or shipment fact.
 """
 
@@ -35,6 +36,10 @@ class AftersalesAgent:
         self._llm_enabled = bool(settings.API_KEY) if llm_enabled is None else llm_enabled
 
     async def classify(self, message: str) -> AftersalesDecision:
+        local_decision = self._classify_with_rules(message)
+        # MIGRATION: address PII and explicit cancellation remain deterministic local classifications.
+        if local_decision.issue_type in {"address_change", "cancel_request"}:
+            return local_decision
         if self._llm_enabled:
             try:
                 classifier = self._model_classifier or self._classify_with_llm
@@ -49,12 +54,13 @@ class AftersalesAgent:
         *,
         message: str,
         user_id: int,
+        shop_id: str,
         request_id: str,
     ) -> dict:
         decision = await self.classify(message)
         order_no = extract_order_no(message)
         base_result = {
-            "dispatched_to": "aftersales",
+            "dispatched_to": "aftersales_handling",
             "issue_type": decision.issue_type,
         }
         if order_no is None:
@@ -73,6 +79,7 @@ class AftersalesAgent:
         order_result = self.order_tool.execute(
             order_no=order_no,
             user_id=user_id,
+            shop_id=shop_id,
             request_id=request_id,
         )
         if order_result.order is None:
@@ -136,32 +143,42 @@ class AftersalesAgent:
     @staticmethod
     def _classify_with_rules(message: str) -> AftersalesDecision:
         text = message.casefold()
+        address_change = SupervisorRouter._is_address_change(message)
+        explicit_cancel = SupervisorRouter._is_explicit_cancel(message)
         issue_rules = (
             ("wrong_item", ("错发", "发错", "错误商品", "wrong item")),
             ("damaged", ("破损", "损坏", "坏了", "damaged", "broken")),
             ("lost", ("丢件", "丢失", "没收到", "lost", "missing package")),
             ("delayed", ("延误", "太慢", "未按时", "delayed", "late")),
-            ("cancel_request", ("取消订单", "撤销订单", "cancel")),
             ("return_request", ("退货", "return")),
             ("warranty", ("保修", "质保", "warranty")),
         )
-        issue_type = next(
-            (name for name, keywords in issue_rules if any(keyword in text for keyword in keywords)),
-            "other",
-        )
+        if address_change:
+            issue_type = "address_change"
+        elif explicit_cancel:
+            issue_type = "cancel_request"
+        else:
+            issue_type = next(
+                (name for name, keywords in issue_rules if any(keyword in text for keyword in keywords)),
+                "other",
+            )
 
         action_rules = (
             ("refund", ("退款", "refund")),
             ("replacement", ("换货", "补发", "replacement", "replace")),
             ("compensation", ("赔偿", "补偿", "compensation")),
-            ("cancel", ("取消订单", "撤销订单", "cancel")),
             ("return", ("退货", "return")),
             ("warranty_service", ("保修", "质保", "warranty")),
         )
-        requested_action = next(
-            (name for name, keywords in action_rules if any(keyword in text for keyword in keywords)),
-            "investigate",
-        )
+        if address_change:
+            requested_action = "change_address"
+        elif explicit_cancel:
+            requested_action = "cancel"
+        else:
+            requested_action = next(
+                (name for name, keywords in action_rules if any(keyword in text for keyword in keywords)),
+                "investigate",
+            )
         return AftersalesDecision(
             issue_type=issue_type,
             requested_action=requested_action,
@@ -188,5 +205,5 @@ class AftersalesAgent:
             lines.append("需要补充：" + "、".join(policy["required_evidence"]) + "。")
         lines.append("下一步：" + "；".join(policy["next_steps"]) + "。")
         if policy["requires_approval"]:
-            lines.append("该动作仅为待审批方案，当前未执行退款、补偿、取消、退货或换货。")
+            lines.append("该动作仅为待审批方案，当前未执行退款、补偿、取消、退货、换货或地址变更，也未保存任何地址。")
         return "\n".join(lines)

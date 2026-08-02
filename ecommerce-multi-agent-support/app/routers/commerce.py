@@ -23,9 +23,10 @@ def search_products(
     in_stock_only: bool = True,
     limit: int = Query(default=10, ge=1, le=50),
     db: Session = Depends(get_db),
-    _: UserTable = Depends(get_current_user),
+    current_user: UserTable = Depends(get_current_user),
 ) -> list:
     return build_repositories(db).catalog.search(
+        shop_id=current_user.shop_id,
         keyword=keyword,
         category=category,
         max_price=max_price,
@@ -40,7 +41,9 @@ def list_orders(
     db: Session = Depends(get_db),
     current_user: UserTable = Depends(get_current_user),
 ) -> list:
-    return build_repositories(db).orders.list_owned_orders(user_id=current_user.id, limit=limit)
+    return build_repositories(db).orders.list_owned_orders(
+        shop_id=current_user.shop_id, user_id=current_user.id, limit=limit
+    )
 
 
 @router.get("/orders/{order_no}", response_model=OrderResponse)
@@ -50,9 +53,12 @@ def get_order(
     current_user: UserTable = Depends(get_current_user),
 ):
     request_id = f"req_{uuid4().hex}"
-    order = build_repositories(db).orders.get_owned_order(order_no=order_no, user_id=current_user.id)
+    order = build_repositories(db).orders.get_owned_order(
+        shop_id=current_user.shop_id, order_no=order_no, user_id=current_user.id
+    )
     record_audit(
         db,
+        shop_id=current_user.shop_id,
         user_id=current_user.id,
         order_id=order.id if order else None,
         request_id=request_id,
@@ -62,10 +68,7 @@ def get_order(
         result_summary={"found": order is not None},
     )
     if order is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Order not found or access denied",
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found or access denied")
     return order
 
 
@@ -76,12 +79,8 @@ def get_shipment(
     current_user: UserTable = Depends(get_current_user),
 ):
     shipment = build_repositories(db).shipments.get_owned_order_shipment(
-        order_no=order_no,
-        user_id=current_user.id,
+        shop_id=current_user.shop_id, order_no=order_no, user_id=current_user.id
     )
     if shipment is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Shipment not found or access denied",
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Shipment not found or access denied")
     return shipment

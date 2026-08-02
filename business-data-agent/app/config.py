@@ -6,10 +6,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = "智能数据分析助手"
+    APP_NAME: str = "跨境电商经营数据分析 Agent"
     DEBUG: bool = True
 
-    DATABASE_URL: str = "sqlite:///./data_analyst.db"
+    DATABASE_URL: str = "sqlite:///./business_data_agent.db"
     SECRET_KEY: str = "change-this-secret-key-in-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60

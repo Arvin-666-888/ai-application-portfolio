@@ -1,0 +1,3268 @@
+{
+  "schema_version": "router-v2-holdout-ocr-preflight-v1",
+  "status": "passed",
+  "ground_truth_loaded": false,
+  "inputs": {
+    "candidate_manifest_file_sha256": "a509e51adb7a0c5432422e7ab97914c06667ed350d3200a7e6608b90a2f6e715",
+    "lock_file_sha256": "f6a25c2a12daca034dee8f267c852edeea885241e4645cb4fdaefd714e640a00"
+  },
+  "engine": {
+    "configuration": {
+      "name": "PP-StructureV3",
+      "lang": "ch",
+      "use_table_recognition": true,
+      "use_doc_orientation_classify": false,
+      "use_doc_unwarping": false,
+      "use_textline_orientation": false,
+      "use_formula_recognition": false,
+      "use_seal_recognition": false,
+      "use_chart_recognition": false,
+      "device": "gpu"
+    },
+    "locked_versions": {
+      "aiohappyeyeballs": "2.7.1",
+      "aiohttp": "3.14.3",
+      "aiosignal": "1.4.0",
+      "aistudio-sdk": "0.3.8",
+      "annotated-types": "0.8.0",
+      "anyio": "4.14.2",
+      "attrs": "26.1.0",
+      "bce-python-sdk": "0.9.76",
+      "beautifulsoup4": "4.15.0",
+      "cachetools": "7.1.6",
+      "certifi": "2026.7.22",
+      "chardet": "7.4.3",
+      "charset-normalizer": "3.4.9",
+      "click": "8.4.2",
+      "colorama": "0.4.6",
+      "colorlog": "6.12.0",
+      "crc32c": "2.8",
+      "cssselect": "1.4.0",
+      "cssutils": "2.15.0",
+      "distro": "1.9.0",
+      "einops": "0.8.2",
+      "encutils": "1.0.0",
+      "et-xmlfile": "2.0.0",
+      "filelock": "3.32.0",
+      "frozenlist": "1.8.0",
+      "fsspec": "2026.6.0",
+      "ftfy": "6.3.1",
+      "future": "1.0.0",
+      "h11": "0.16.0",
+      "hf-xet": "1.5.2",
+      "httpcore": "1.0.9",
+      "httpx": "0.28.1",
+      "huggingface-hub": "1.24.0",
+      "idna": "3.18",
+      "imagesize": "2.0.0",
+      "jinja2": "3.1.6",
+      "jiter": "0.16.0",
+      "joblib": "1.5.3",
+      "latex2mathml": "3.81.0",
+      "lxml": "6.1.1",
+      "markupsafe": "3.0.3",
+      "modelscope": "1.38.1",
+      "modelscope-hub": "0.1.8",
+      "more-itertools": "11.1.0",
+      "multidict": "6.7.1",
+      "narwhals": "2.24.0",
+      "networkx": "3.6.1",
+      "numpy": "2.3.5",
+      "nvidia-cublas-cu11": "11.11.3.6",
+      "nvidia-cuda-nvrtc-cu11": "11.8.89",
+      "nvidia-cuda-runtime-cu11": "11.8.89",
+      "nvidia-cudnn-cu11": "8.9.4.19",
+      "nvidia-cufft-cu11": "10.9.0.58",
+      "nvidia-curand-cu11": "10.3.0.86",
+      "nvidia-cusolver-cu11": "11.4.1.48",
+      "nvidia-cusparse-cu11": "11.7.5.86",
+      "openai": "2.48.0",
+      "opencv-contrib-python": "4.10.0.84",
+      "openpyxl": "3.1.5",
+      "opt-einsum": "3.3.0",
+      "packaging": "26.2",
+      "paddleocr": "3.7.0",
+      "paddlepaddle-gpu": "3.3.0",
+      "paddlex": "3.7.2",
+      "pandas": "3.0.5",
+      "pillow": "12.3.0",
+      "premailer": "3.10.0",
+      "prettytable": "3.18.0",
+      "propcache": "0.5.2",
+      "protobuf": "6.33.4",
+      "psutil": "7.2.2",
+      "py-cpuinfo": "9.0.0",
+      "pyclipper": "1.4.0",
+      "pycryptodome": "3.23.0",
+      "pydantic": "2.13.4",
+      "pydantic-core": "2.46.4",
+      "pymupdf": "1.28.0",
+      "pypdfium2": "5.12.1",
+      "python-bidi": "0.6.11",
+      "python-dateutil": "2.9.0.post0",
+      "python-docx": "1.2.0",
+      "pyyaml": "6.0.2",
+      "regex": "2026.7.19",
+      "requests": "2.34.2",
+      "ruamel-yaml": "0.19.1",
+      "safetensors": "0.8.0",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.0",
+      "sentencepiece": "0.2.2",
+      "setuptools": "83.0.0",
+      "shapely": "2.1.2",
+      "six": "1.17.0",
+      "sniffio": "1.3.1",
+      "soupsieve": "2.9.1",
+      "threadpoolctl": "3.6.0",
+      "tiktoken": "0.13.0",
+      "tokenizers": "0.23.1",
+      "tqdm": "4.69.1",
+      "typing-inspection": "0.4.2",
+      "typing-extensions": "4.16.0",
+      "tzdata": "2026.3",
+      "ujson": "5.13.0",
+      "urllib3": "2.7.0",
+      "wcwidth": "0.8.2",
+      "yarl": "1.24.5"
+    },
+    "lock_file_sha256": "f6a25c2a12daca034dee8f267c852edeea885241e4645cb4fdaefd714e640a00",
+    "configuration_fingerprint": "2f7a6c2f4ebd4599f953ab37072d3705cdb3c307b030e0b108448360f22667e6"
+  },
+  "counts": {
+    "expected_reports": 4,
+    "expected_pages": 320,
+    "artifact_states": {
+      "missing": 320
+    },
+    "unexpected_artifacts": 0
+  },
+  "jobs": [
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 3,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 9,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 10,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 11,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 12,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 13,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 41,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 42,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 43,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 46,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 49,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 50,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 94,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 97,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 106,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 107,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 114,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 115,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 117,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 118,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 119,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 120,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 121,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 122,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 123,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 124,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 125,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 126,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 127,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 128,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 129,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 130,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 131,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 132,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 136,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 137,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 138,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 139,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 140,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 141,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 143,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 144,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 145,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 147,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 148,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 149,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 150,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 151,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 152,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 153,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 154,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 155,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 157,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 158,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 160,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 161,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 162,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 163,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 166,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 169,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 170,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 171,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 172,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 173,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 200,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 203,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 204,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 205,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 206,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 207,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 208,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 209,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 224,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 225,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 238,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 239,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 240,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 242,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 245,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 1,
+      "source": "海尔智家_2024年年度报告.pdf",
+      "pdf_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "page_number": 246,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 2,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 3,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 6,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 7,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 8,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 9,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 10,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 11,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 12,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 13,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 14,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 15,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 16,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 17,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 18,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 52,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 53,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 56,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 57,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 58,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 59,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 60,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 61,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 62,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 63,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 64,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 65,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 66,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 67,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 68,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 69,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 70,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 71,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 72,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 73,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 74,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 76,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 77,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 78,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 79,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 80,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 82,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 83,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 84,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 85,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 86,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 87,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 89,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 90,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 91,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 92,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 93,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 94,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 95,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 97,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 98,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 99,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 100,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 101,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 115,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 116,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 117,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 118,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 119,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 120,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 121,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 122,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 123,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 126,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 127,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 128,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 129,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 130,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 131,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 140,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 141,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 142,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 143,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 144,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 2,
+      "source": "五粮液_2024年年度报告.pdf",
+      "pdf_sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "page_number": 147,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 3,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 6,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 7,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 8,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 9,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 20,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 21,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 22,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 28,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 29,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 30,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 81,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 109,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 110,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 114,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 115,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 116,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 117,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 118,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 119,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 120,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 121,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 122,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 123,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 124,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 125,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 130,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 131,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 132,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 134,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 135,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 137,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 138,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 139,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 147,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 149,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 150,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 152,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 153,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 155,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 157,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 161,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 162,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 163,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 164,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 165,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 166,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 167,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 168,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 190,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 199,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 200,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 201,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 202,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 203,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 204,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 205,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 206,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 207,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 208,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 209,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 210,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 211,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 212,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 213,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 215,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 222,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 223,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 224,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 225,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 226,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 227,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 229,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 234,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 235,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 236,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 238,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 239,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 247,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 3,
+      "source": "格力电器_2023年年度报告.pdf",
+      "pdf_sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "page_number": 248,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 6,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 9,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 10,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 11,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 12,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 51,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 52,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 53,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 54,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 55,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 93,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 94,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 150,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 151,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 152,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 153,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 154,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 159,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 160,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 161,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 162,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 163,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 164,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 165,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 166,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 167,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 171,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 172,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 173,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 174,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 175,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 176,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 178,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 179,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 186,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 187,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 188,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 189,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 190,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 191,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 193,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 194,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 196,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 198,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 229,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 234,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 239,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 240,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 241,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 242,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 243,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 244,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 245,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 246,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 247,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 248,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 249,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 250,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 251,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 252,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 253,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 254,
+      "reasons": [
+        "financial_table_title",
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 255,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 256,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 257,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 267,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 273,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 274,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 275,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 278,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 279,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 280,
+      "reasons": [
+        "numeric_financial_page",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 281,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 282,
+      "reasons": [
+        "financial_table_title",
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 283,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 284,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 285,
+      "reasons": [
+        "title_neighbor"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 287,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 288,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    },
+    {
+      "doc_id": 4,
+      "source": "美的集团_2023年年度报告.pdf",
+      "pdf_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "page_number": 290,
+      "reasons": [
+        "numeric_financial_page"
+      ]
+    }
+  ]
+}

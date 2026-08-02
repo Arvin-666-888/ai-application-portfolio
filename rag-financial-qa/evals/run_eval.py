@@ -35,7 +35,7 @@ def get_default_top_k() -> int:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run offline evaluation for the RAG knowledge-base demo.")
+    parser = argparse.ArgumentParser(description="Run offline evaluation for the cross-border ecommerce RAG knowledge-base demo.")
     parser.add_argument("--kb-id", type=int, help="Knowledge base ID that already contains indexed eval documents.")
     parser.add_argument("--questions", default="evals/questions.jsonl", help="Path to JSONL eval questions.")
     parser.add_argument("--top-k", type=int, default=get_default_top_k(), help="Number of chunks to retrieve per question.")
@@ -106,15 +106,36 @@ def validate_dataset(cases: list[dict[str, Any]]) -> list[str]:
             errors.append(f"{case_id or index} invalid difficulty: {case.get('difficulty')}")
 
         if not case.get("should_refuse"):
-            for field in ("expected_keywords", "expected_sources", "expected_context_keywords"):
+            for field in (
+                "expected_keywords",
+                "expected_sources",
+                "expected_context_keywords",
+                "expected_fact_type",
+                "expected_value",
+                "expected_sku",
+            ):
                 if not case.get(field):
                     errors.append(f"{case_id or index} missing {field} for answerable case")
+            fact_type = case.get("expected_fact_type")
+            if fact_type == "price" and not case.get("expected_currency"):
+                errors.append(f"{case_id or index} price case missing expected_currency")
+            if fact_type in {"delivery_duration", "customs_duty_rate"} and not case.get("expected_unit"):
+                errors.append(f"{case_id or index} unit-bearing case missing expected_unit")
 
     summary = dataset_summary(cases)
-    if summary["refusal_cases"] < 3:
-        errors.append("refusal cases should be at least 3")
-    if len(summary["by_category"]) < 4:
-        errors.append("categories should cover at least 4 types")
+    required_categories = {
+        "ecommerce_price", "ecommerce_inventory", "ecommerce_logistics",
+        "ecommerce_compliance", "out_of_corpus_sku", "unsupported_fact",
+        "multi_fact_guardrail", "complex_formula_guardrail", "insufficient_evidence",
+    }
+    if summary["answerable_cases"] != 4:
+        errors.append("active ecommerce dataset should contain exactly four answerable fact cases")
+    if summary["refusal_cases"] < 6:
+        errors.append("active ecommerce dataset should include at least 6 refusal cases")
+    if not required_categories <= set(summary["by_category"]):
+        errors.append("active ecommerce dataset is missing required refusal categories")
+    if not {"medium", "hard"} <= set(summary["by_difficulty"]):
+        errors.append("active ecommerce dataset should include medium and hard cases")
     return errors
 
 
@@ -152,10 +173,21 @@ def source_matches(source: Any, expected_sources: list[str]) -> bool:
 
 
 def context_has_keywords(contexts: list[dict[str, Any]], keywords: list[str]) -> bool:
+    if not keywords:
+        return True
     return any(
-        contains_keyword(ctx.get("content", ""), keyword)
+        all(contains_keyword(ctx.get("content", ""), keyword) for keyword in keywords)
         for ctx in contexts
-        for keyword in keywords
+    )
+
+
+def contexts_match_contract(contexts: list[dict[str, Any]], case: dict[str, Any]) -> bool:
+    expected_sources = case.get("expected_sources", [])
+    expected_keywords = case.get("expected_context_keywords", [])
+    return any(
+        source_matches(ctx.get("source", ""), expected_sources)
+        and all(contains_keyword(ctx.get("content", ""), keyword) for keyword in expected_keywords)
+        for ctx in contexts
     )
 
 
@@ -168,9 +200,7 @@ def has_retrieval_hit(contexts: list[dict[str, Any]], case: dict[str, Any]) -> b
     if not expected_sources and not expected_context_keywords:
         return None
 
-    source_hit = any(source_matches(ctx.get("source", ""), expected_sources) for ctx in contexts)
-    keyword_hit = context_has_keywords(contexts, expected_context_keywords)
-    return source_hit or keyword_hit
+    return contexts_match_contract(contexts, case)
 
 
 def has_source_support(contexts: list[dict[str, Any]], sources: list[dict[str, Any]], case: dict[str, Any]) -> bool | None:
@@ -183,8 +213,7 @@ def has_source_support(contexts: list[dict[str, Any]], sources: list[dict[str, A
         return None
 
     source_hit = any(source_matches(source.get("document", ""), expected_sources) for source in sources)
-    keyword_hit = context_has_keywords(contexts, expected_context_keywords)
-    return source_hit or keyword_hit
+    return source_hit and contexts_match_contract(contexts, case)
 
 
 def detect_refusal(answer: str) -> bool:
@@ -216,13 +245,11 @@ def mark(value: bool | None) -> str:
 
 
 async def evaluate_case(case: dict[str, Any], kb_id: int, top_k: int, retrieval_only: bool) -> dict[str, Any]:
+    from app.services.answer_verification_service import build_citation_ledger, evidence_preflight
     from app.services.rag_service import (
-        RAG_SYSTEM_PROMPT,
-        build_messages,
         build_sources,
-        financial_guardrail_refusal,
-        format_context,
-        generate_answer,
+        ecommerce_guardrail_refusal,
+        execute_answer_from_contexts,
         retrieve_context,
     )
     result: dict[str, Any] = {
@@ -235,11 +262,15 @@ async def evaluate_case(case: dict[str, Any], kb_id: int, top_k: int, retrieval_
         "detected_refusal": None,
         "refusal_correct": None,
         "keyword_rate": None,
+        "evidence_preflight": None,
+        "structured_contract": None,
+        "citation_verified": None,
+        "answer_status": None,
         "error": None,
     }
 
     try:
-        guardrail_answer = financial_guardrail_refusal(case["question"])
+        guardrail_answer = ecommerce_guardrail_refusal(case["question"])
         if guardrail_answer:
             result["answer"] = guardrail_answer
             result["detected_refusal"] = True
@@ -253,23 +284,45 @@ async def evaluate_case(case: dict[str, Any], kb_id: int, top_k: int, retrieval_
         result["retrieval_hit"] = has_retrieval_hit(contexts, case)
         result["source_support"] = has_source_support(contexts, sources, case)
 
+        if not case.get("should_refuse"):
+            preflight = evidence_preflight(case["question"], build_citation_ledger(contexts))
+            result["evidence_preflight"] = preflight.passed
+
         if retrieval_only:
             return result
 
-        messages = build_messages(
-            system_prompt=RAG_SYSTEM_PROMPT,
+        execution = await execute_answer_from_contexts(
+            case["question"],
+            contexts,
             history=[],
-            question=case["question"],
-            context=format_context(contexts),
-            max_history_rounds=0,
+            answer_profile="verified_v3",
         )
-        answer = await generate_answer(messages)
-        detected_refusal = detect_refusal(answer)
-        result["answer"] = answer
+        result["answer"] = execution.answer
+        result["answer_status"] = execution.answer_status
+        result["sources"] = execution.sources
+        detected_refusal = execution.answer_status == "refused" or detect_refusal(execution.answer)
         result["detected_refusal"] = detected_refusal
         result["refusal_correct"] = detected_refusal == bool(case.get("should_refuse", False))
         if not case.get("should_refuse"):
-            result["keyword_rate"] = keyword_match_rate(answer, case.get("expected_keywords", []))
+            fact = execution.structured_answer.facts[0] if execution.structured_answer and len(execution.structured_answer.facts) == 1 else None
+            result["structured_contract"] = bool(
+                execution.answer_status == "verified"
+                and fact
+                and fact.fact_type == case.get("expected_fact_type")
+                and contains_keyword(fact.value_text, case.get("expected_value"))
+                and fact.currency == case.get("expected_currency")
+                and fact.unit == case.get("expected_unit")
+                and fact.sku == case.get("expected_sku")
+            )
+            result["citation_verified"] = bool(
+                fact
+                and fact.citation_ids
+                and execution.verification
+                and execution.verification.passed
+                and set(fact.citation_ids) <= set(execution.verification.verified_citation_ids)
+            )
+            result["keyword_rate"] = keyword_match_rate(execution.answer, case.get("expected_keywords", []))
+            result["source_support"] = has_source_support(contexts, execution.sources, case)
     except Exception as exc:
         result["error"] = str(exc)
 
@@ -327,8 +380,12 @@ def print_case_result(result: dict[str, Any], max_answer_chars: int, retrieval_o
     if len(answer) > max_answer_chars:
         preview += "..."
     print(f"answer: {preview}")
+    print(f"answer_status: {result['answer_status']}")
     print(f"detected_refusal: {result['detected_refusal']}")
     print(f"refusal_correct: {mark(result['refusal_correct'])}")
+    print(f"evidence_preflight: {mark(result['evidence_preflight'])}")
+    print(f"structured_contract: {mark(result['structured_contract'])}")
+    print(f"citation_verified: {mark(result['citation_verified'])}")
     print(f"keyword_match_rate: {pct(result['keyword_rate'])}")
 
 

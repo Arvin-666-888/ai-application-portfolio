@@ -1,7 +1,11 @@
 # requirements.txt: fastapi==0.139.0, httpx==0.28.1, pydantic==2.13.4
 import argparse
+import atexit
 import json
+import os
+import shutil
 import sys
+import tempfile
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -13,6 +17,12 @@ from fastapi.testclient import TestClient
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
+# MIGRATION: 旧单库评测 -> 每次使用隔离的 shop_id 新 schema，避免读取或改写本地演示数据库。
+_EVAL_TEMP_DIR = Path(tempfile.mkdtemp(prefix="ecommerce-eval-"))
+atexit.register(shutil.rmtree, _EVAL_TEMP_DIR, True)
+os.environ["DATABASE_URL"] = f"sqlite:///{(_EVAL_TEMP_DIR / 'ecommerce-eval.db').as_posix()}"
+
+from app.database import engine
 from app.main import app
 
 
@@ -74,6 +84,22 @@ def check_case(case: dict[str, Any], data: dict[str, Any]) -> list[str]:
             failures.append(f"expected SKU {case['expected_sku']} not returned")
     if "min_products" in case and len(data.get("products", [])) < case["min_products"]:
         failures.append("product result count below minimum")
+    if "expected_currency" in case:
+        for product in data.get("products", []):
+            if product.get("currency") != case["expected_currency"]:
+                failures.append(f"product {product.get('sku')} has wrong currency")
+    if "expected_max_price" in case:
+        expect_equal(
+            "max_price",
+            Decimal(str(case["expected_max_price"])),
+            Decimal(str(data.get("product_filters", {}).get("max_price"))),
+        )
+    if "expected_budget_currency" in case:
+        expect_equal(
+            "budget_currency",
+            case["expected_budget_currency"],
+            data.get("product_filters", {}).get("budget_currency"),
+        )
     if "max_products" in case and len(data.get("products", [])) > case["max_products"]:
         failures.append("product result count above maximum")
 
@@ -99,6 +125,18 @@ def check_case(case: dict[str, Any], data: dict[str, Any]) -> list[str]:
         expect_equal("policy_code", case["expected_policy_code"], (data.get("policy_result") or {}).get("policy_code"))
     if "answer_contains" in case and case["answer_contains"] not in (data.get("answer") or ""):
         failures.append(f"answer does not contain {case['answer_contains']!r}")
+    if "answer_contains_all" in case:
+        for expected_text in case["answer_contains_all"]:
+            if expected_text not in (data.get("answer") or ""):
+                failures.append(f"answer does not contain {expected_text!r}")
+
+    if case.get("proposal_only"):
+        if not data.get("requires_approval"):
+            failures.append("proposal-only case does not require approval")
+        if "当前未执行" not in (data.get("answer") or ""):
+            failures.append("proposal-only answer does not state that no action was executed")
+        if not data.get("proposed_action"):
+            failures.append("proposal-only case has no proposed action")
 
     if case.get("security_case"):
         if data.get("order_facts") is not None or data.get("shipment_facts") is not None:
@@ -209,6 +247,7 @@ def main() -> int:
         return 0
 
     report = run(args.cases)
+    engine.dispose()
     args.json_report.parent.mkdir(parents=True, exist_ok=True)
     args.md_report.parent.mkdir(parents=True, exist_ok=True)
     args.json_report.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

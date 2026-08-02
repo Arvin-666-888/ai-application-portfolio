@@ -2,57 +2,42 @@ import json
 import logging
 
 import httpx
-from sqlalchemy.orm import Session
+import sqlglot
+from sqlglot import exp
 
 from app.config import settings
 from app.models.models import AnalysisRecord
+from app.repositories import AnalysisRepository
 from app.services.chart_service import create_chart
 from app.utils.db_connector import DatabaseConnector
 from app.utils.sql_safety import validate_sql, sanitize_sql
 
 logger = logging.getLogger("kb_qa.agent")
 
-AGENT_SYSTEM_PROMPT = """你是一个专业的企业经营数据分析 Agent。你既可以查询内部结构化经营数据库，也可以检索企业知识库中的财报、公告、制度、指标口径和业务说明文档。
+# MIGRATION: legacy generic financial analyst prompt -> scoped cross-border ecommerce operator prompt.
+AGENT_SYSTEM_PROMPT = """你是跨境电商经营数据分析 Agent，服务端已固定当前 shop_id。你只能分析当前店铺在 Amazon、TikTok Shop 或 Shopee 的业务数据。
 
-你可以使用以下工具：
-1. get_schema - 获取数据库表结构
-2. execute_sql - 执行 SQL 查询（只允许 SELECT）
-3. generate_chart - 生成数据图表（bar柱状图/line折线图/pie饼图）
-4. list_tables - 列出所有表
-5. preview_table - 预览表数据
-6. query_rag - 检索企业知识库，获取非结构化文档依据和来源
+可用工具：get_schema、execute_sql、generate_chart、list_tables、preview_table、query_rag。
+核心主题：广告 ROI/ROAS、选品、库存周转和竞品价差。
 
-工具选择规则：
-- 涉及金额、趋势、排名、分组统计、同比环比、预算执行、应收风险等结构化数据问题时，使用 SQL 工具链。
-- 涉及制度、政策、指标口径、业务规则、财报公告、外部背景、原因解释等非结构化知识时，调用 query_rag。
-- 如果用户问题同时要求“查数据”和“解释原因/判断是否符合规则”，先用 SQL 查询数据，再用 query_rag 检索文档依据，最后综合回答。
+固定口径：
+- ROAS = attributed_sales / ad_spend；广告 ROI = (attributed_sales - attributed_refunds - attributed_platform_fees - attributed_cogs - ad_spend) / ad_spend。分母为 0 时返回 NULL。
+- 商品经营贡献 = gross_sales - refunds - platform_fees - cogs，用于选品判断；不要把销售额当利润。
+- 30 天库存周转率 = trailing_30d_units_sold / average_inventory_units_30d；周转天数 = 30 / 周转率。销量或平均库存为 0 时返回 NULL。
+- 竞品价差 = own_price - competitor_price；价差率 = (own_price - competitor_price) / competitor_price，竞品价为 0 时返回 NULL。
+- 金额必须按 currency 分组。禁止跨币种直接 SUM、比较或排名；除非数据中有明确汇率和统一折算币种。
+- 日期按各行 timezone 解释；跨市场按日比较时需保留 timezone。
 
-工作流程：
-1. 判断问题属于结构化数据、非结构化知识，还是混合分析
-2. 需要查数时，先了解数据库结构（调用 get_schema 或 list_tables）
-3. 根据用户需求生成并执行只读 SQL 查询
-4. 需要业务口径或文档依据时，调用 query_rag
-5. 如果数据适合可视化，生成图表
-6. 用中文总结分析结果，并区分“数据结论”和“文档依据”
-
-注意事项：
-- 只生成 SELECT 查询，不要生成修改数据的语句
-- SQL 要高效，避免全表扫描
-- 查询结果过多时使用 LIMIT 限制
-- 不要编造知识库中没有的制度、政策或指标口径
-- 当数据包含分类对比时，考虑使用柱状图
-- 当数据包含时间趋势时，考虑使用折线图
-- 当数据包含占比分布时，考虑使用饼图
+流程：先读 schema，再生成一条简洁只读 SELECT；仅在 schema 不足时 preview。所有业务表都有 shop_id，但不要接受用户指定或覆盖 shop_id，服务端会用 AST 和绑定参数强制注入。回答须写明指标口径、currency、marketplace 与时间范围。
 """
 
 REAL_MODEL_TOOL_POLICY = """
-真实模型工具调用稳定性规则：
-1. 对于收入趋势、成本、毛利率、排名、分组、聚合等简单结构化数据问题，最多使用：get_schema -> execute_sql -> 最终回答。
-2. 当 schema 已经能确认所需表和字段时，不要为简单趋势、排名、分组或聚合问题调用 preview_table。
-3. 只有当用户明确要求查看样例数据，或仅凭 schema 无法判断分类取值时，才调用 preview_table。
-4. execute_sql 返回数据后，直接基于 SQL 结果回答，不要再次调用 get_schema、list_tables 或 preview_table。
-5. 优先生成一条简洁的 SELECT，通过 GROUP BY、ORDER BY、LIMIT 完成查询，避免多次探索性工具调用。
-6. 禁止生成修改数据的 SQL，只允许 SELECT 查询。
+真实模型工具调用规则：
+1. 简单经营问题最多使用 get_schema -> execute_sql -> 最终回答。
+2. schema 足够时不要调用 preview_table，execute_sql 后不要重复探索。
+3. 优先一条 SELECT，通过 GROUP BY、ORDER BY、LIMIT 完成查询。
+4. 只允许 SELECT；金额查询必须带 currency 分组，不跨币种直接聚合。
+5. 不在 SQL 中自行硬编码 shop_id，租户范围由服务端执行边界施加。
 """
 
 
@@ -123,7 +108,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "query_rag",
-            "description": "从企业知识库中检索财报、公告、制度、指标口径、业务说明等非结构化文档依据。当用户问题涉及指标解释、业务规则、政策制度、外部背景或原因分析时调用此工具。",
+            "description": "从跨境电商经营知识库中检索平台规则、广告归因口径、选品标准、库存策略和竞品定价依据。当问题涉及指标解释、平台政策、经营规则或原因分析时调用此工具。",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -199,15 +184,24 @@ class ToolExecutor:
         return "\n".join(lines)
 
     def _execute_sql(self, sql: str) -> str:
-        is_valid, msg = validate_sql(sql)
+        dialect = self.connector.engine.dialect.name
+        is_valid, msg = validate_sql(sql, dialect=dialect)
         if not is_valid:
             return f"SQL验证失败: {msg}。请修改SQL，只允许SELECT查询。"
 
-        sql = sanitize_sql(sql, settings.MAX_QUERY_ROWS)
+        sql = sanitize_sql(
+            sql,
+            settings.MAX_QUERY_ROWS,
+            dialect=dialect,
+        )
+        try:
+            _enforce_business_aggregation_policy(sql, dialect=dialect)
+        except PermissionError as exc:
+            return f"SQL业务口径验证失败: {exc}。金额聚合和排名必须保留 marketplace、currency 边界。"
         self.last_sql = sql
 
         try:
-            result = self.connector.execute_query(sql)
+            result = self.connector.execute_query(sql, max_rows=settings.MAX_QUERY_ROWS)
             self.last_query_result = result
 
             if not result:
@@ -260,7 +254,7 @@ class ToolExecutor:
 
     async def _query_rag(self, args: dict) -> str:
         if not settings.RAG_ENABLED:
-            return "知识库检索未启用。若需要结合财报、公告、制度或指标口径，请配置 RAG_ENABLED=true。"
+            return "知识库检索未启用。若需要结合平台规则、广告归因口径、选品标准、库存策略或竞品定价依据，请配置 RAG_ENABLED=true。"
 
         question = str(args.get("question", "")).strip()
         if not question:
@@ -350,29 +344,18 @@ async def run_agent(question: str, connector: DatabaseConnector) -> dict:
                 data = response.json()
         except Exception as e:
             logger.error(f"LLM call failed: {e}")
-            return {
-                "answer": f"大模型调用失败: {str(e)}",
-                "sql_query": executor.last_sql,
-                "data": executor.last_query_result[:20],
-                "chart_path": executor.generated_chart or None,
-                "tool_trace": executor.tool_trace,
-                "rag_sources": executor.rag_sources,
-            }
+            return _agent_result(
+                executor,
+                f"大模型调用失败: {str(e)}",
+                data_limit=20,
+            )
 
         choice = data["choices"][0]
         finish_reason = choice["finish_reason"]
         assistant_message = choice["message"]
 
         if finish_reason == "stop":
-            answer = assistant_message.get("content", "")
-            return {
-                "answer": answer,
-                "sql_query": executor.last_sql,
-                "data": executor.last_query_result[:50],
-                "chart_path": executor.generated_chart or None,
-                "tool_trace": executor.tool_trace,
-                "rag_sources": executor.rag_sources,
-            }
+            return _agent_result(executor, assistant_message.get("content", ""))
 
         if finish_reason == "tool_calls":
             messages.append(assistant_message)
@@ -394,105 +377,156 @@ async def run_agent(question: str, connector: DatabaseConnector) -> dict:
                 })
 
     if executor.last_query_result:
-        return {
-            "answer": _build_fallback_answer(question, executor),
-            "sql_query": executor.last_sql,
-            "data": executor.last_query_result[:50],
-            "chart_path": executor.generated_chart or None,
-            "tool_trace": executor.tool_trace,
-            "rag_sources": executor.rag_sources,
-        }
+        return _agent_result(executor, _build_fallback_answer(question, executor))
 
+    return _agent_result(executor, "分析步骤过多，请简化您的问题或分步提问。")
+
+
+async def _run_mock_agent(question: str, executor: ToolExecutor) -> dict:
+    tables = executor.connector.get_tables()
+    await executor.execute("get_schema", {})
+
+    if "ad_performance" in tables and any(keyword in question.upper() for keyword in ["ROAS", "ROI", "广告"]):
+        sql = """
+            SELECT
+                report_date,
+                platform,
+                marketplace,
+                timezone,
+                currency,
+                ROUND(SUM(attributed_sales) / NULLIF(SUM(ad_spend), 0), 4) AS roas,
+                ROUND((SUM(attributed_sales) - SUM(attributed_refunds) -
+                       SUM(attributed_platform_fees) - SUM(attributed_cogs) - SUM(ad_spend)) /
+                      NULLIF(SUM(ad_spend), 0), 4) AS ad_roi
+            FROM ad_performance
+            GROUP BY report_date, platform, marketplace, timezone, currency
+            ORDER BY report_date, platform
+        """
+        await executor.execute("execute_sql", {"sql": sql})
+        answer = (
+            f"[模拟回答] 关于「{question}」，已按日期、平台、市场和币种计算广告效率。"
+            "ROAS=归因销售额/广告花费；广告ROI=(归因销售额-归因退款-归因平台费-归因COGS-广告花费)/广告花费。"
+            "结果保留 currency，不跨币种直接聚合。"
+        )
+    elif "inventory_snapshots" in tables and any(keyword in question for keyword in ["库存", "周转", "断货"]):
+        sql = """
+            SELECT
+                snapshot_date,
+                platform,
+                marketplace,
+                timezone,
+                currency,
+                sku,
+                product_name,
+                on_hand_units,
+                CASE
+                    WHEN on_hand_units IS NULL THEN NULL
+                    WHEN on_hand_units = 0 THEN 1
+                    ELSE 0
+                END AS is_stockout,
+                CASE WHEN on_hand_units IS NULL THEN 1 ELSE 0 END AS is_inventory_unknown,
+                average_inventory_units_30d,
+                trailing_30d_units_sold,
+                CASE
+                    WHEN trailing_30d_units_sold = 0 OR average_inventory_units_30d = 0 THEN NULL
+                    ELSE ROUND(trailing_30d_units_sold / average_inventory_units_30d, 4)
+                END AS inventory_turnover_rate_30d,
+                CASE
+                    WHEN trailing_30d_units_sold = 0 OR average_inventory_units_30d = 0 THEN NULL
+                    ELSE ROUND(30.0 * average_inventory_units_30d / trailing_30d_units_sold, 2)
+                END AS inventory_turnover_days
+            FROM inventory_snapshots
+            ORDER BY is_inventory_unknown DESC, is_stockout DESC, inventory_turnover_days
+        """
+        await executor.execute("execute_sql", {"sql": sql})
+        answer = (
+            f"[模拟回答] 关于「{question}」，30天库存周转率=近30天销量/30天平均库存；"
+            "周转天数=30/周转率。销量或平均库存为0时返回NULL；on_hand_units=0 标记断货，"
+            "on_hand_units 为 NULL 时独立标记 unknown inventory risk。"
+        )
+    elif "competitor_prices" in tables and any(keyword in question for keyword in ["竞品", "价差", "价格"]):
+        sql = """
+            SELECT
+                observed_at,
+                platform,
+                marketplace,
+                timezone,
+                currency,
+                sku,
+                product_name,
+                competitor_name,
+                own_price,
+                competitor_price,
+                ROUND(own_price - competitor_price, 2) AS price_gap,
+                ROUND((own_price - competitor_price) / NULLIF(competitor_price, 0), 4) AS price_gap_rate
+            FROM competitor_prices
+            ORDER BY price_gap_rate DESC
+        """
+        await executor.execute("execute_sql", {"sql": sql})
+        answer = (
+            f"[模拟回答] 关于「{question}」，竞品价差=自有价-竞品价；"
+            "价差率=价差/竞品价。结果保留 marketplace、currency 和 observed_at。"
+        )
+    elif "sales_records" in tables and any(keyword in question for keyword in ["选品", "商品", "贡献", "利润"]):
+        sql = """
+            WITH product_contribution AS (
+                SELECT
+                    platform,
+                    marketplace,
+                    timezone,
+                    currency,
+                    MIN(order_date) AS period_start,
+                    MAX(order_date) AS period_end,
+                    sku,
+                    product_name,
+                    SUM(units_sold) AS units_sold,
+                    ROUND(SUM(gross_sales - refunds - platform_fees - cogs), 2) AS operating_contribution
+                FROM sales_records
+                GROUP BY platform, marketplace, timezone, currency, sku, product_name
+            )
+            SELECT
+                *,
+                RANK() OVER (
+                    PARTITION BY marketplace, currency
+                    ORDER BY operating_contribution DESC
+                ) AS contribution_rank
+            FROM product_contribution
+            ORDER BY marketplace, currency, contribution_rank, sku
+        """
+        await executor.execute("execute_sql", {"sql": sql})
+        answer = (
+            f"[模拟回答] 关于「{question}」，商品经营贡献=销售额-退款-平台费-COGS。"
+            "结果按 marketplace、currency 分区排名，不把销售额当利润，也不跨币种排名；"
+            "范围使用查询结果中的实际 period_start、period_end、marketplace、currency 与 timezone。"
+        )
+    else:
+        answer = (
+            f"[模拟回答] 关于「{question}」，当前库包含 {len(tables)} 个跨境电商业务表："
+            f"{', '.join(tables)}。请询问广告ROAS/ROI、选品、库存周转或竞品价差。"
+        )
+
+    return _agent_result(executor, answer)
+
+
+def _agent_result(
+    executor: ToolExecutor,
+    answer: str,
+    data_limit: int = 50,
+) -> dict:
+    rows = executor.last_query_result[:data_limit]
     return {
-        "answer": "分析步骤过多，请简化您的问题或分步提问。",
+        "answer": _append_result_scope(answer, rows),
         "sql_query": executor.last_sql,
-        "data": executor.last_query_result[:50],
+        "data": rows,
         "chart_path": executor.generated_chart or None,
         "tool_trace": executor.tool_trace,
         "rag_sources": executor.rag_sources,
     }
 
 
-async def _run_mock_agent(question: str, executor: ToolExecutor) -> dict:
-    tables = executor.connector.get_tables()
-
-    if "revenue_records" in tables and "毛利率" in question and any(keyword in question for keyword in ["产品线", "各产品"]):
-        sql = """
-            SELECT
-                product_line,
-                SUM(revenue) AS total_revenue,
-                SUM(gross_profit) AS total_gross_profit,
-                ROUND(SUM(gross_profit) * 1.0 / SUM(revenue), 4) AS gross_margin
-            FROM revenue_records
-            GROUP BY product_line
-            ORDER BY gross_margin DESC
-        """
-        await executor.execute("get_schema", {})
-        await executor.execute("execute_sql", {"sql": sql})
-        answer = f"[模拟回答] 关于「{question}」，系统已按产品线汇总 revenue_records 表。\n"
-        answer += "毛利率口径为 SUM(gross_profit) / SUM(revenue)，结果按毛利率从高到低排序。"
-        return {
-            "answer": answer,
-            "sql_query": executor.last_sql,
-            "data": executor.last_query_result[:50],
-            "chart_path": None,
-            "tool_trace": executor.tool_trace,
-            "rag_sources": executor.rag_sources,
-        }
-
-    if "revenue_records" in tables and any(keyword in question for keyword in ["收入", "营收", "趋势"]):
-        sql = """
-            SELECT
-                record_month,
-                SUM(revenue) AS total_revenue,
-                SUM(cost) AS total_cost,
-                SUM(gross_profit) AS total_gross_profit,
-                ROUND(SUM(gross_profit) * 1.0 / SUM(revenue), 4) AS gross_margin
-            FROM revenue_records
-            GROUP BY record_month
-            ORDER BY record_month
-        """
-        await executor.execute("get_schema", {})
-        await executor.execute("execute_sql", {"sql": sql})
-        answer = f"[模拟回答] 关于「{question}」，系统已按月份汇总 revenue_records 表。\n"
-        answer += "从模拟数据看，2024 年收入整体呈上升趋势，年末收入水平高于年初。"
-        return {
-            "answer": answer,
-            "sql_query": executor.last_sql,
-            "data": executor.last_query_result[:50],
-            "chart_path": None,
-            "tool_trace": executor.tool_trace,
-            "rag_sources": executor.rag_sources,
-        }
-
-    await executor.execute("get_schema", {})
-    schema = executor.connector.get_schema()
-
-    answer = f"[模拟回答] 关于「{question}」，这是一个模拟分析结果。\n"
-    answer += f"数据库包含 {len(tables)} 个表：{', '.join(tables)}。\n"
-    answer += "请配置 API_KEY 以获取真实的 Agent 分析能力。\n\n"
-
-    if schema:
-        first_table = schema[0]["table"]
-        try:
-            preview = executor.connector.preview_table(first_table, 3)
-            answer += f"表 {first_table} 预览：\n{json.dumps(preview, ensure_ascii=False, default=str)}\n"
-        except Exception:
-            pass
-
-    return {
-        "answer": answer,
-        "sql_query": executor.last_sql,
-        "data": executor.last_query_result[:50],
-        "chart_path": None,
-        "tool_trace": executor.tool_trace,
-        "rag_sources": executor.rag_sources,
-    }
-
-
 def save_analysis_record(
-    db: Session, question: str, answer: str, sql_query: str,
-    data: list[dict], chart_path: str, ds_id: int, user_id: int,
+    analyses: AnalysisRepository, question: str, answer: str, sql_query: str,
+    data: list[dict], chart_path: str, ds_id: int, user_id: int, shop_id: str,
     tool_trace: list[dict] = None, rag_sources: list[dict] = None,
 ) -> AnalysisRecord:
     record = AnalysisRecord(
@@ -505,18 +539,18 @@ def save_analysis_record(
         rag_sources=json.dumps(rag_sources or [], ensure_ascii=False, default=str),
         ds_id=ds_id,
         user_id=user_id,
+        shop_id=shop_id,
     )
-    db.add(record)
-    db.commit()
-    db.refresh(record)
-    return record
+    return analyses.add(record)
 
 
-def get_analysis_records(db: Session, user_id: int, ds_id: int = None) -> list[AnalysisRecord]:
-    query = db.query(AnalysisRecord).filter(AnalysisRecord.user_id == user_id)
-    if ds_id:
-        query = query.filter(AnalysisRecord.ds_id == ds_id)
-    return query.order_by(AnalysisRecord.created_at.desc()).all()
+def get_analysis_records(
+    analyses: AnalysisRepository,
+    user_id: int,
+    shop_id: str,
+    ds_id: int = None,
+) -> list[AnalysisRecord]:
+    return analyses.list_owned(user_id, shop_id, ds_id)
 
 
 def _compact_text(value: str, max_chars: int = 1000) -> str:
@@ -524,6 +558,75 @@ def _compact_text(value: str, max_chars: int = 1000) -> str:
     if len(text) <= max_chars:
         return text
     return text[:max_chars] + "...[truncated]"
+
+
+def _enforce_business_aggregation_policy(sql: str, dialect: str | None = None) -> None:
+    """Fail closed when monetary aggregation/ranking drops market-currency boundaries."""
+    statement = sqlglot.parse_one(sql, read=dialect)
+    monetary_columns = {
+        "gross_sales", "refunds", "platform_fees", "cogs", "ad_spend",
+        "attributed_sales", "attributed_refunds", "attributed_platform_fees",
+        "attributed_cogs", "unit_cost", "own_price", "competitor_price",
+        "operating_contribution", "price_gap", "price_gap_rate",
+    }
+
+    for select in statement.find_all(exp.Select):
+        direct_tables = {
+            table.name.casefold()
+            for table in select.find_all(exp.Table)
+            if table.find_ancestor(exp.Select) is select
+        }
+        reads_cross_border_facts = bool(direct_tables & {
+            "sales_records", "ad_performance", "inventory_snapshots", "competitor_prices",
+        })
+        has_monetary_aggregate = any(
+            isinstance(function, (exp.Sum, exp.Avg))
+            and any(
+                column.name.casefold() in monetary_columns
+                for column in function.find_all(exp.Column)
+            )
+            for function in select.walk()
+        )
+        windows = list(select.find_all(exp.Window))
+        has_monetary_rank = any(
+            isinstance(window.this, (exp.Rank, exp.DenseRank, exp.RowNumber))
+            and any(
+                column.name.casefold() in monetary_columns
+                for ordered in window.find_all(exp.Ordered)
+                for column in ordered.find_all(exp.Column)
+            )
+            for window in windows
+        )
+        if not ((reads_cross_border_facts and has_monetary_aggregate) or has_monetary_rank):
+            continue
+
+        group = select.args.get("group")
+        group_columns = {
+            column.name.casefold()
+            for column in (group.expressions if group is not None else [])
+            for column in column.find_all(exp.Column)
+        }
+        if reads_cross_border_facts and has_monetary_aggregate and not {
+            "marketplace", "currency",
+        } <= group_columns:
+            raise PermissionError("金额聚合必须按 marketplace、currency 分组")
+
+        for window in windows:
+            if not isinstance(window.this, (exp.Rank, exp.DenseRank, exp.RowNumber)):
+                continue
+            if not any(
+                column.name.casefold() in monetary_columns
+                for ordered in window.find_all(exp.Ordered)
+                for column in ordered.find_all(exp.Column)
+            ):
+                continue
+            partition_columns = {
+                column.name.casefold()
+                for expression in (window.args.get("partition_by") or [])
+                for column in expression.find_all(exp.Column)
+            }
+            if not {"marketplace", "currency"} <= partition_columns:
+                raise PermissionError("金额排名必须按 marketplace、currency partition")
 
 
 def _tools_for_real_model() -> list[dict]:
@@ -571,19 +674,100 @@ def _build_fallback_answer(question: str, executor: ToolExecutor) -> str:
         f"本次 SQL 返回 {len(rows)} 行，主要字段包括：{', '.join(columns)}。",
     ]
 
-    if "record_month" in first_row and len(rows) >= 2:
-        numeric_fields = [key for key, value in first_row.items() if isinstance(value, (int, float))]
-        metric = "total_revenue" if "total_revenue" in first_row else (numeric_fields[0] if numeric_fields else "")
-        if metric:
+    if "report_date" in first_row and len(rows) >= 2:
+        requested = question.casefold()
+        metrics = []
+        if "roi" in requested and "ad_roi" in first_row:
+            metrics.append("ad_roi")
+        if "roas" in requested and "roas" in first_row:
+            metrics.append("roas")
+        if not metrics:
+            metrics = [metric for metric in ("roas", "ad_roi") if metric in first_row]
+        for metric in metrics:
             start = rows[0].get(metric)
             end = rows[-1].get(metric)
             if isinstance(start, (int, float)) and isinstance(end, (int, float)):
                 direction = "上升" if end > start else "下降" if end < start else "基本持平"
-                lines.append(f"按月份看，{metric} 从 {start} 变化到 {end}，整体呈{direction}趋势。")
+                lines.append(f"按报告日期看，{metric} 从 {start} 变化到 {end}，整体呈{direction}趋势。")
 
-    if "product_line" in first_row and "gross_margin" in first_row:
-        top = max(rows, key=lambda row: row.get("gross_margin") or 0)
-        lines.append(f"按产品线看，毛利率最高的是 {top.get('product_line')}，毛利率为 {top.get('gross_margin')}。")
+    if "inventory_turnover_days" in first_row:
+        valid = [
+            row for row in rows
+            if isinstance(row.get("inventory_turnover_days"), (int, float))
+        ]
+        if valid:
+            fastest = min(valid, key=lambda row: row["inventory_turnover_days"])
+            lines.append(
+                f"库存周转最快的 SKU 是 {fastest.get('sku')}，约 "
+                f"{fastest['inventory_turnover_days']} 天。"
+            )
+        else:
+            lines.append("当前结果缺少可计算的库存周转天数，请检查平均库存和近30天销量。")
+        stockouts = [row.get("sku") for row in rows if row.get("on_hand_units") == 0]
+        if stockouts:
+            lines.append(f"断货风险 SKU：{', '.join(str(sku) for sku in stockouts if sku)}。")
+        unknown_inventory = [
+            row.get("sku") for row in rows if row.get("on_hand_units") is None
+        ]
+        if unknown_inventory:
+            lines.append(
+                "Unknown inventory risk SKU："
+                f"{', '.join(str(sku) for sku in unknown_inventory if sku)}。"
+            )
 
-    lines.append("你可以继续查看 sql_query、data 和 tool_trace 复核查询口径。")
+    scope = _result_scope(rows)
+    if scope:
+        lines.append(f"查询结果实际范围：{scope}。")
+    lines.append("请结合 sql_query 与 data 复核指标口径和租户边界。")
     return "\n".join(lines)
+
+
+def _append_result_scope(answer: str, rows: list[dict]) -> str:
+    scope = _result_scope(rows)
+    if not scope:
+        return answer
+    scope_line = f"查询结果实际范围：{scope}。"
+    normalized_answer = "".join(str(answer).split()).casefold()
+    normalized_scope = "".join(scope_line.split()).casefold()
+    if normalized_scope in normalized_answer:
+        return answer
+    return f"{answer.rstrip()}\n{scope_line}"
+
+
+def _result_scope(rows: list[dict]) -> str:
+    marketplaces = sorted({
+        str(row["marketplace"])
+        for row in rows
+        if row.get("marketplace") not in (None, "")
+    })
+    currencies = sorted({
+        str(row["currency"])
+        for row in rows
+        if row.get("currency") not in (None, "")
+    })
+    timezones = sorted({
+        str(row["timezone"])
+        for row in rows
+        if row.get("timezone") not in (None, "")
+    })
+    time_fields = (
+        "report_date", "order_date", "snapshot_date", "observed_at",
+        "period_start", "period_end",
+    )
+    time_values = [
+        str(row[field])
+        for row in rows
+        for field in time_fields
+        if row.get(field) not in (None, "")
+    ]
+
+    parts = []
+    if time_values:
+        parts.append(f"时间 {min(time_values)} 至 {max(time_values)}")
+    if marketplaces:
+        parts.append(f"marketplace {', '.join(marketplaces)}")
+    if currencies:
+        parts.append(f"currency {', '.join(currencies)}")
+    if timezones:
+        parts.append(f"timezone {', '.join(timezones)}")
+    return "；".join(parts)

@@ -1,154 +1,212 @@
-# AI Application Portfolio: RAG + Agent
+# Cross-Border Ecommerce AI Application Portfolio
 
-这是一个 AI 应用后端项目集合，包含三个可本地运行和验证的项目：
+面向跨境电商场景的 AI 应用工程项目集，覆盖 **多 Agent 客服、经营数据分析 Agent、商品文档 RAG** 三条完整后端链路。
 
-| 项目 | 方向 | 主要能力 |
-|---|---|---|
-| `rag-financial-qa` | 金融文档 RAG 问答 | 文档上传、文本切分、Embedding、ChromaDB 检索、来源引用、域外拒答、JSONL 评测 |
-| `business-data-agent` | 经营数据分析 Agent | Function Calling、工具 schema、自然语言转 SQL、只读 SQL 安全、工具调用轨迹、图表和报告导出 |
-| `ecommerce-multi-agent-support` | 跨境电商多 Agent 客服 | LangGraph Supervisor、商品/订单/售后分工、JWT 归属校验、敏感动作待审批、Tool Trace、离线评测 |
+项目统一使用 Python、FastAPI、SQLAlchemy、Pydantic、SQLite 和 pytest；在需要状态编排时使用 LangGraph，在文档检索中使用 ChromaDB。当前版本聚焦本地可复现、租户边界、结构化输出、可审计工具调用和评测证据，不把 mock 或固定评测集结果描述为生产业务效果。
 
-> 当前仓库用于验证 RAG、Agent 和 AI 应用后端工程链路。项目以本地可复现和核心流程完整为目标，尚未覆盖生产环境的完整治理、监控和扩展要求。
+## 项目矩阵
 
-## 技术栈
+| 项目 | 业务场景 | 核心能力 | Fresh 验证 |
+|---|---|---|---|
+| [`ecommerce-multi-agent-support`](ecommerce-multi-agent-support/) | 跨境电商多 Agent 客服 | 商品咨询、售后处理、订单查询、物流追踪、JWT 店铺隔离、敏感动作待审批 | **94 passed**；eval **47/47** |
+| [`business-data-agent`](business-data-agent/) | 跨境电商经营数据分析 | Amazon / TikTok Shop / Shopee 销售、广告、库存、竞品数据；Function Calling；SQL AST Guardrail | **58 passed**；eval **8/8** |
+| [`rag-financial-qa`](rag-financial-qa/) | 跨境电商商品文档 RAG | 商品手册、关税合规、物流单据；Citation Ledger；四类数值事实校验；三层 PDF 解析 | **378 passed**；活动集 **11 条 PASS** |
 
-- Python / FastAPI / SQLAlchemy / Pydantic / SQLite
-- ChromaDB / Embedding / RAG / 来源引用 / 域外拒答
-- OpenAI-compatible API / Function Calling / Agent 工具调用
-- LangGraph StateGraph / Supervisor / 多 Agent 条件路由 / Repository Adapter
-- pytest / JSONL evals / Docker / Swagger / SSE
+> `rag-financial-qa` 是历史兼容目录名。当前活动业务已迁移为跨境电商商品事实 RAG；历史金融 PDF Router、PaddleOCR 和真实评测证据仍按原结果保留。
 
-## 快速开始
+## 总体架构
 
-建议每个项目使用独立虚拟环境，避免依赖污染公司电脑上的全局 Python。以下命令适用于 Windows PowerShell；开始前先确认已安装 Python 3.11 或 3.12：
-
-```powershell
-python --version
+```text
+[跨境电商用户 / 店铺运营]
+            │ 1. JWT / 问题 / 文档
+            ▼
+[FastAPI API + 可信 shop_id 上下文]
+            │
+            ├──► [LangGraph 客服 Supervisor]
+            │       ├─ 商品咨询 ─► Catalog Tool ─► Repository
+            │       ├─ 订单/物流 ─► Order Tool ───► Repository
+            │       └─ 售后处理 ─► Policy Tool ──► 待审批 Proposal
+            │
+            ├──► [经营数据分析 Agent]
+            │       └─ Function Calling ─► sqlglot AST Guardrail
+            │                              └─► shop-scoped SQLite
+            │
+            └──► [商品文档 RAG]
+                    ├─ pdfplumber / hi_res / Paddle artifact
+                    ├─ ChromaDB 文本与表格检索
+                    └─ Citation Ledger + verified_v3 fail-closed
 ```
 
-### 1. RAG 金融文档问答
+## 核心工程能力
 
-```powershell
-cd rag-financial-qa
+### 1. 多 Agent 客服
 
-# 创建并激活项目独立虚拟环境
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+外部路由契约固定为：
 
-# 安装依赖并运行验证
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m pytest -q
-python evals/run_eval.py --validate-only
-python -m uvicorn app.main:app --reload --port 8000
+```text
+product_inquiry
+aftersales_handling
+order_query
+logistics_tracking
+unsupported
 ```
 
-打开 Swagger：`http://127.0.0.1:8000/docs`
+该契约在接口和评测中由 Pydantic/Literal 约束。
 
-无 API Key 时可以使用 mock mode 跑通接口链路。真实模型效果需要配置 `.env`：
+- JWT 同时携带 `sub + shop_id`，并与数据库用户记录复核。
+- 商品按 `shop_id` 隔离；订单和物流按 `shop_id + user_id + order_no` 查询。
+- 支持 USD、EUR、GBP 和 LA、Berlin、London 店铺时区。
+- 退款、取消订单、修改地址只生成 `requires_approval=true` 的待审批方案，不执行真实动作。
+- 地址文本在本地确定性短路，避免姓名、电话和完整地址进入外部模型。
+- 跨币种预算不做隐式换算，币种与店铺不匹配时 fail closed。
 
-```powershell
-copy .env.example .env
-```
+详见 [客服项目 README](ecommerce-multi-agent-support/README.md) 和 [架构文档](ecommerce-multi-agent-support/docs/ARCHITECTURE.md)。
 
 ### 2. 经营数据分析 Agent
 
-打开一个新的 PowerShell 窗口，从仓库根目录执行：
+内置跨境电商事实表：
 
-```powershell
-cd business-data-agent
+- `sales_records`
+- `ad_performance`
+- `inventory_snapshots`
+- `competitor_prices`
 
-# 每个项目单独创建虚拟环境
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+典型问题：
 
-# 安装依赖并运行验证
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python -m pytest -q
-python evals/run_agent_eval.py
-python scripts/smoke_demo.py
-python -m uvicorn app.main:app --reload --port 8001
+- 广告 ROAS / ROI 趋势
+- 按 marketplace、currency 分区的选品贡献排名
+- 库存周转、断货和库存未知风险
+- 自有商品与竞品的价格差和价差率
+
+安全边界：
+
+- `sqlglot` AST 只允许单条只读 SELECT。
+- 拦截 DDL/DML、多语句、SQL 注释、副作用函数和不可验证 LIMIT。
+- 在每个业务 Select scope 注入绑定参数 `:shop_id`。
+- 金额聚合必须保留 marketplace 和 currency；排名必须按市场和币种分区。
+- User、DataSource、AnalysisRecord、Repository 和 connector cache 均使用 `user_id + shop_id`。
+
+详见 [数据 Agent README](business-data-agent/README.md) 和 [项目概览](business-data-agent/docs/PROJECT_OVERVIEW.md)。
+
+### 3. 商品文档 RAG
+
+当前只发布四类可验证数值事实：
+
+| Fact type | 必需证据 |
+|---|---|
+| `price` | 数值 + 明确币种 |
+| `inventory_quantity` | 非负整数 |
+| `delivery_duration` | 数值 + hour/day/business_day |
+| `customs_duty_rate` | 数值 + percent |
+
+文档处理链保持纯文本和表格方案：
+
+```text
+PDF L1: pdfplumber 全页正文
+    └─► L2: Unstructured hi_res 候选表格页
+            └─► L3: validated PaddleOCR artifact
+                    └─► ChromaDB 文本/表格检索
+                            └─► Citation Ledger + 结构化事实校验
 ```
 
-打开 Swagger：`http://127.0.0.1:8001/docs`
+- 不引入 ColPali、多模态模型或图像 embedding。
+- 同一局部证据必须绑定 SKU、商品、平台、市场、日期、数值和单位/币种。
+- 未知 citation、跨片段拼接、歧义多值、额外数字、资料外 SKU 或超范围事实均拒答并返回 `sources=[]`。
+- API 与 document worker 分离；上传只入队，worker 完成解析和索引发布。
 
-无 API Key 时默认使用 mock mode，可演示注册、数据源、自然语言分析、SQL 查询、工具轨迹和报告导出。
+详见 [RAG README](rag-financial-qa/README.md)、[技术概要](rag-financial-qa/PROJECT_SUMMARY.md) 和 [Demo Runbook](rag-financial-qa/docs/DEMO_RUNBOOK.md)。
 
-### 3. 跨境电商多 Agent 智能客服
+## 技术栈
+
+- Python 3.11 / 3.12
+- FastAPI、SQLAlchemy、Pydantic、SQLite
+- LangGraph `StateGraph`
+- LangChain 对照 Demo
+- ChromaDB、pdfplumber、Unstructured、PaddleOCR artifact
+- sqlglot AST Guardrail
+- pytest、JSONL evals
+- Docker / Docker Compose
+
+没有引入 PostgreSQL、Redis、Celery、Kafka、ColPali 或视觉大模型。
+
+## 快速开始
+
+建议每个项目使用独立虚拟环境。
+
+### 多 Agent 客服
 
 ```powershell
 cd ecommerce-multi-agent-support
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-python -m pytest -q
-python evals/run_eval.py
-python scripts/smoke_demo.py
-python -m uvicorn app.main:app --reload --port 8002
-```
-
-打开 Swagger：`http://127.0.0.1:8002/docs`
-
-该项目使用结构逼真的仿真数据验证 LangGraph 多 Agent 分工、Tool/Repository 边界、订单越权拦截和售后敏感动作控制。评测结果仅代表本地确定性 V1 路径。
-
-如果公司电脑的 PowerShell 执行策略不允许运行 `Activate.ps1`，无需修改系统策略，可直接调用虚拟环境中的 Python：
-
-```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe evals\run_eval.py
+.\.venv\Scripts\python.exe scripts\smoke_demo.py
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --port 8002
 ```
 
-演示结束后可执行 `deactivate` 退出虚拟环境。
+Swagger：`http://127.0.0.1:8002/docs`
 
-## 演示问题
+### 经营数据分析 Agent
 
-### RAG 项目
+```powershell
+cd business-data-agent
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe evals\run_agent_eval.py --json
+.\.venv\Scripts\python.exe scripts\smoke_demo.py
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --port 8001
+```
 
-- 公司 2024 年营业收入是多少？
-- 2024 年毛利率是多少，为什么提升？
-- 云资源价格上升会带来什么风险？
-- 请预测公司明年股价会涨到多少？
+Swagger：`http://127.0.0.1:8001/docs`
 
-### Agent 项目
-
-- 2024 年每月收入趋势如何？
-- 各产品线毛利率是多少？
-- 收入贡献最高的前 5 个客户是谁？
-- 哪些月份净现金流为负？
-
-
-## LangChain 对照实现
-
-两个主项目仍然保留手写实现，同时补充第二版 LangChain demo，用于展示对主流框架抽象的理解：
+### 商品文档 RAG
 
 ```powershell
 cd rag-financial-qa
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements-langchain.txt
-python examples/langchain_rag_demo.py --mock --question "2024年公司营业收入是多少？"
-
-cd ..\business-data-agent
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements-langchain.txt
-python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收入趋势如何？"
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+$env:SECRET_KEY="replace-with-at-least-32-random-characters"
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe evals\run_eval.py --validate-only
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --port 8000
 ```
 
-说明文档见：`docs/LANGCHAIN_COMPARISON.md`。
+文档上传后还需在另一个终端启动：
 
-## 评测与测试
+```powershell
+cd rag-financial-qa
+$env:SECRET_KEY="replace-with-the-same-random-secret"
+.\.venv\Scripts\python.exe -m app.workers.document_worker
+```
 
-- RAG：`evals/questions.jsonl` 覆盖资料内事实、原因解释、风险问题、资料外问题和金融高风险拒答。
-- Agent：`evals/agent_questions.jsonl` 覆盖工具选择、SQL 结构、结果行数和危险 SQL 拦截。
-- 电商多 Agent：`evals/cases.jsonl` 覆盖四类路由、商品硬条件、订单越权、售后审批、拒答和提示注入。
-- 三个项目均包含 pytest 测试，覆盖核心逻辑和安全边界。
+Swagger：`http://127.0.0.1:8000/docs`
 
-## 本地验证记录
+## 验证证据
 
-- `rag-financial-qa`：已在 mock mode 下验证，`pytest` 通过 16 个测试，`evals/run_eval.py --validate-only` 通过 24 条评测集结构校验；LangChain 对照 demo 可离线运行。
-- `business-data-agent`：已在 mock mode 下验证，`pytest` 通过 24 个测试，`evals/run_agent_eval.py` 通过 7/7 条评测，LangChain SQL Agent 对照 demo 可离线运行。
-- `ecommerce-multi-agent-support`：本地 V1.0 通过 55 项 pytest；30/30 条离线评测通过，路由与工具选择准确率均为 100%，4/4 安全案例通过。指标仅代表固定本地评测集和确定性 fallback 链路。
+三个项目在独立目录、独立 `app` 包上下文中运行：
 
-## 仓库安全说明
+| 项目 | pytest | 活动评测 / Smoke |
+|---|---:|---|
+| 多 Agent 客服 | 94 passed | 47/47；route/tool 100%；security 4/4；隔离 SQLite smoke 通过 |
+| 数据分析 Agent | 58 passed | 8/8；tool/SQL/row/answer/scope/safety 均为 100%；API smoke 通过 |
+| 商品文档 RAG | 378 passed | 11 条活动集结构校验通过；发布边界预检 50 PASS / 0 FAIL |
+| **合计** | **530 passed** | 固定本地工程合同，不代表生产业务指标 |
 
-本仓库不提交 `.env`、API Key、本地运行数据库、上传文件、向量库数据、虚拟环境、缓存和日志。示例数据仅用于本地演示和评测。
+RAG 历史证据没有被当前电商结果覆盖：
+
+- historical/disclosed Gate B：provisional `12/24`，缺独立人工 attestation。
+- Gate C：真实执行但失败，`verified_v3=0/24 accepted`。
+- 修复后的新 sealed holdout 尚未执行，默认配置继续保持 legacy / L3 disabled。
+
+详见 [LangChain 对照说明](docs/LANGCHAIN_COMPARISON.md) 和 RAG 历史报告目录。
+
+## 当前边界
+
+- 本仓库证明的是可复现工程链路、权限边界和固定评测合同，不证明云模型准确率或生产 SLA。
+- 客服敏感动作只有 proposal，没有审批持久化、恢复点和真实平台写回。
+- 数据 Agent 的公开注册 `shop_id` 仅用于受控 Demo；生产租户入驻需要服务端邀请、审批或 membership 体系。
+- RAG 的真实语义质量需要配置真实 Embedding/Chat 模型后独立评测。
+- PaddleOCR GPU 全量运行使用单独锁定环境；仓库不提交虚拟环境、真实 PDF、OCR 缓存或大型 candidate corpus。
+- 本地 `.env`、API Key、运行数据库、上传文件、Chroma 数据、缓存和日志均不应提交。

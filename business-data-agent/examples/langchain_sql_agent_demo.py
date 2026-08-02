@@ -39,8 +39,8 @@ def load_env_file(path: Path) -> None:
 
 
 class LangChainSqlDemo:
-    def __init__(self, database_path: Path):
-        self.connector = DatabaseConnector(f"sqlite:///{database_path.as_posix()}")
+    def __init__(self, database_path: Path, shop_id: str = "amazon-us"):
+        self.connector = DatabaseConnector(f"sqlite:///{database_path.as_posix()}", shop_id)
         self.tool_trace: list[dict] = []
 
     def record(self, name: str, arguments: dict, result: object, success: bool = True) -> None:
@@ -89,27 +89,32 @@ class LangChainSqlDemo:
 
 
 def choose_offline_sql(question: str) -> str | None:
-    if any(word in question for word in ["收入", "营收", "趋势", "每月"]):
+    if any(word in question.upper() for word in ["ROAS", "ROI", "广告"]):
         return """
-        SELECT record_month, SUM(revenue) AS total_revenue
-        FROM revenue_records
-        GROUP BY record_month
-        ORDER BY record_month
+        SELECT report_date, platform, marketplace, currency,
+               SUM(attributed_sales) / NULLIF(SUM(ad_spend), 0) AS roas,
+               (SUM(attributed_sales) - SUM(attributed_refunds) -
+                SUM(attributed_platform_fees) - SUM(attributed_cogs) - SUM(ad_spend)) /
+               NULLIF(SUM(ad_spend), 0) AS ad_roi
+        FROM ad_performance
+        GROUP BY report_date, platform, marketplace, currency
+        ORDER BY report_date
         """
-    if "毛利率" in question and any(word in question for word in ["产品线", "各产品"]):
+    if any(word in question for word in ["库存", "周转"]):
         return """
-        SELECT product_line,
-               SUM(gross_profit) * 1.0 / NULLIF(SUM(revenue), 0) AS gross_margin
-        FROM revenue_records
-        GROUP BY product_line
-        ORDER BY gross_margin DESC
+        SELECT sku, product_name, currency,
+               average_inventory_units_30d,
+               trailing_30d_units_sold / NULLIF(average_inventory_units_30d, 0) AS inventory_turnover_rate_30d,
+               30.0 * average_inventory_units_30d / NULLIF(trailing_30d_units_sold, 0) AS inventory_turnover_days
+        FROM inventory_snapshots
+        ORDER BY inventory_turnover_days
         """
     return None
 
 
 def check_dangerous_sql(tools) -> dict:
     execute_sql = next(item for item in tools if item.name == "execute_sql")
-    raw = execute_sql.invoke({"sql": "DROP TABLE revenue_records"})
+    raw = execute_sql.invoke({"sql": "DROP TABLE ad_performance"})
     return json.loads(raw)
 
 
@@ -172,8 +177,8 @@ def run_real_agent(question: str, database_path: Path) -> dict:
         model=llm,
         tools=tools,
         system_prompt=(
-            "你是一个经营数据分析 Agent。必须先查看 schema，再只生成 SELECT SQL。"
-            "需要查数时调用 execute_sql，禁止执行写入、删除、DDL 或多语句 SQL。"
+            "你是跨境电商经营数据分析 Agent。必须先查看 schema，再只生成 SELECT SQL。"
+            "金额按 currency 分组，禁止跨币种直接聚合；shop_id 由服务端强制施加。"
         ),
     )
     result = agent.invoke({"messages": [{"role": "user", "content": question}]})
@@ -190,7 +195,7 @@ def run_real_agent(question: str, database_path: Path) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the LangChain comparison SQL Agent demo.")
-    parser.add_argument("--question", default="2024年每月收入趋势如何？")
+    parser.add_argument("--question", default="2026年广告ROAS和ROI趋势如何？")
     parser.add_argument("--mock", action="store_true", help="Force offline tool demo mode.")
     parser.add_argument("--database", default=str(PROJECT_ROOT / "sample_data" / "sample.db"))
     args = parser.parse_args()

@@ -23,10 +23,12 @@ class SearchProductsTool:
         self,
         decision: CatalogSearchDecision,
         *,
+        shop_id: str,
         request_id: str,
     ) -> SearchProductsToolResult:
         started = perf_counter()
         candidates = self.repository.search(
+            shop_id=shop_id,
             keyword=decision.keyword,
             category=decision.category,
             max_price=decision.max_price,
@@ -48,6 +50,7 @@ class SearchProductsTool:
                 "keyword": decision.keyword,
                 "category": decision.category,
                 "max_price": str(decision.max_price) if decision.max_price is not None else None,
+                "budget_currency": decision.budget_currency,
                 "power_w": decision.power_w,
                 "in_stock_only": decision.in_stock_only,
                 "limit": decision.limit,
@@ -72,6 +75,7 @@ class SearchProductsTool:
             "name": product.name,
             "category": product.category,
             "price": str(product.price),
+            "currency": product.currency,
             "stock": product.stock,
             "specifications": product.specifications,
         }

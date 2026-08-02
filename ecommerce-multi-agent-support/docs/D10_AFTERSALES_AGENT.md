@@ -1,56 +1,19 @@
 # D10 Aftersales Agent
 
-## 直觉
-
-Aftersales Agent 将用户诉求、本人订单事实、物流事实和固定售后政策组合为结构化处理方案，但不执行退款、补偿、取消、退货或换货。
+`aftersales_handling` 组合用户诉求、当前店铺中的本人订单/物流事实和固定政策，只输出方案，不执行动作。
 
 ```text
-用户投诉
-    -> Supervisor 路由到 aftersales
-    -> Aftersales Agent 分类 issue_type / requested_action
-    -> get_order_status Tool
-    -> order_no + JWT user_id 归属校验
-    -> evaluate_aftersales_policy Tool
-    -> proposed_action + required_evidence + requires_approval
-    -> 事实化回复
+用户诉求
+ -> issue_type / requested_action
+ -> get_order_status(shop_id + user_id + order_no)
+ -> evaluate_aftersales_policy
+ -> proposed_action + requires_approval
 ```
 
-## 用户陈述与系统事实
+地址变更是售后类型：`address_change / change_address`。未发货订单可提出 `address_change_review`，已发货或不可处理状态转人工复核；两者都不保存新地址、不修改订单。
 
-系统明确区分：
+敏感动作包括退款、换货、补偿、取消、退货、质保、地址变更和人工复核。`requires_approval=true` 只是风险标记，不表示存在审批记录或已执行动作。
 
-- 用户陈述：“收到的商品破损”。
-- 系统事实：物流记录中的 `exception_type`。
+Tool trace 只记录 issue/action、订单状态和物流异常，不记录完整地址。聊天审计只保存消息长度、路由、工具名和提案元数据。
 
-当用户声称破损而物流记录为 `none` 时，政策结果会写明“物流记录未确认 damaged，当前仅记录用户陈述”，并要求提交商品、包装和面单照片。
-
-## V1 固定政策
-
-V1 使用确定性 Python 规则覆盖：破损、错发、丢件、延误、取消、退货和质保。V2 会使用真实公开政策文档和 RAG 提供来源，但退款金额、权限和审批仍由确定性规则控制。
-
-敏感建议包括：
-
-- `refund_review`
-- `replacement_review`
-- `compensation_review`
-- `cancellation_review`
-- `return_review`
-- `warranty_review`
-
-这些动作都只能设置 `requires_approval=true`。D10 没有 Action Executor，不会更新订单、创建退款或调用外部支付 API。
-
-## Tool Trace
-
-正常售后链路包含两个工具：
-
-1. `get_order_status`
-2. `evaluate_aftersales_policy`
-
-越权或订单不存在时，只执行第一个工具并立即停止，不查询政策，也不泄露物流。
-
-## 当前边界
-
-- 固定政策用于验证 Agent 与风险控制边界，不代表真实平台政策。
-- 缺少订单号时要求补充，不调用工具。
-- 配置 API Key 后可使用 Pydantic 结构化问题分类；模型失败会退回规则分类。
-- 人工审批、状态恢复和幂等执行属于 V3。
+当前边界：固定政策用于验证 Agent 与安全控制；真实政策 RAG、LangGraph interrupt/resume、幂等执行器仍未实现。

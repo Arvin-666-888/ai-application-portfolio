@@ -1,0 +1,939 @@
+{
+  "attestation": null,
+  "case_count": 24,
+  "cases": [
+    {
+      "case_id": "holdout_00",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_01",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_02",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_03",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_04",
+      "scores": {
+        "legacy": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_05",
+      "scores": {
+        "legacy": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_06",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": true,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_07",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": true,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_08",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_09",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": true,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_10",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": true,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_11",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_12",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_13",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_14",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_15",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_16",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_17",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": true,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_18",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_19",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_20",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_21",
+      "scores": {
+        "legacy": {
+          "accepted": true,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": true,
+          "numeric_correct": true,
+          "period_correct": true,
+          "refused": false,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_22",
+      "scores": {
+        "legacy": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    },
+    {
+      "case_id": "holdout_23",
+      "scores": {
+        "legacy": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        },
+        "verified_v3": {
+          "accepted": false,
+          "citation_valid": null,
+          "company_correct": true,
+          "metric_correct": false,
+          "numeric_correct": false,
+          "period_correct": true,
+          "refused": true,
+          "schema_error": false,
+          "should_refuse": false,
+          "strict_correct": false,
+          "unit_correct": false,
+          "unknown_citation_accepted": false,
+          "unsupported_numeric_accepted": false
+        }
+      }
+    }
+  ],
+  "gate_c": {
+    "checks": {
+      "accepted_answer_strict_precision_min": false,
+      "answer_coverage_min": false,
+      "citation_validity": false,
+      "estimated_cost_per_case_max": false,
+      "latency_p95_ms_max": true,
+      "not_underperform_same_candidate_legacy": false,
+      "schema_error": true,
+      "unknown_citation": true,
+      "unsupported_numeric": true
+    },
+    "passed": false
+  },
+  "ground_truth_loaded": true,
+  "identities": {
+    "generation_file_sha256": "2ac6f44c61241e75dccb04b9c747967abeb2f6ec26154c677f4a688b90990fca",
+    "ground_truth_attestation_file_sha256": null,
+    "ground_truth_file_sha256": "4542f2bb63c6bd9bbf815487c6d9e62a2f8794c54e1c92a3a8e36bca62562c3a",
+    "scorer_file_sha256": "db924ef740eec4edad47afab27d8ef1a35f0b25d23d7f8bea9d81b59a8310d22"
+  },
+  "metrics": {
+    "legacy": {
+      "accepted_answer_strict_precision": 0.2,
+      "answer_coverage": 0.833333,
+      "citation_validity": 0.0,
+      "company_accuracy": 1.0,
+      "estimated_cost": {
+        "status": "unavailable"
+      },
+      "input_tokens": 54412,
+      "latency_p50_ms": 9790,
+      "latency_p95_ms": 22873,
+      "metric_accuracy": 0.708333,
+      "numeric_accuracy": 0.791667,
+      "output_tokens": 13358,
+      "period_accuracy": 1.0,
+      "provider_error_rate": 0.0,
+      "refusal_precision": 0.0,
+      "refusal_recall": 0.0,
+      "retrieval_recall_at_5": 0.75,
+      "schema_error_rate": 0.0,
+      "unit_accuracy": 0.291667,
+      "unknown_citation_acceptance_count": 0,
+      "unsupported_answer_acceptance_rate": 0.0,
+      "unsupported_numeric_acceptance_count": 0,
+      "verification_reason_distribution": {
+        "accepted": 20,
+        "refused": 4
+      }
+    },
+    "verified_v3": {
+      "accepted_answer_strict_precision": 0.0,
+      "answer_coverage": 0.0,
+      "citation_validity": 0.0,
+      "company_accuracy": 1.0,
+      "estimated_cost": {
+        "status": "unavailable"
+      },
+      "input_tokens": 9067,
+      "latency_p50_ms": 1,
+      "latency_p95_ms": 17407,
+      "metric_accuracy": 0.0,
+      "numeric_accuracy": 0.0,
+      "output_tokens": 3254,
+      "period_accuracy": 1.0,
+      "provider_error_rate": 0.0,
+      "refusal_precision": 0.0,
+      "refusal_recall": 0.0,
+      "retrieval_recall_at_5": 0.75,
+      "schema_error_rate": 0.0,
+      "unit_accuracy": 0.0,
+      "unknown_citation_acceptance_count": 0,
+      "unsupported_answer_acceptance_rate": 0.0,
+      "unsupported_numeric_acceptance_count": 0,
+      "verification_reason_distribution": {
+        "answer_fact_citation_mismatch": 2,
+        "answer_missing_citation": 2,
+        "fact_1:evidence_mismatch_or_cross_fragment": 3,
+        "fact_1:question_scope_mismatch": 1,
+        "fact_2:evidence_mismatch_or_cross_fragment": 1,
+        "missing_financial_facts": 1,
+        "no_fact_binding": 20
+      }
+    }
+  },
+  "official_score_blockers": [
+    "ground_truth_attestation_missing"
+  ],
+  "provisional": true,
+  "run_id": "v3-holdout-20260729-r1",
+  "schema_version": "rag-answer-v3-score-v1",
+  "status": "provisional"
+}

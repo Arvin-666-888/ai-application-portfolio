@@ -1,0 +1,29 @@
+{
+  "schema_version": "router-v2-holdout-ocr-run-v1",
+  "status": "passed",
+  "ground_truth_loaded": false,
+  "inputs": {
+    "ocr_preflight_file_sha256": "aab29090d2086994b74de2ae83f78da538c87a4f396d54aa6e547371a7692ea7"
+  },
+  "engine_configuration_fingerprint": "2f7a6c2f4ebd4599f953ab37072d3705cdb3c307b030e0b108448360f22667e6",
+  "counts": {
+    "expected_pages": 320,
+    "artifact_pages": 320,
+    "completed_pages": 320,
+    "failed_pages": 0,
+    "missing_pages": 0,
+    "stale_pages": 0,
+    "unexpected_pages": 0,
+    "page_mapping_errors": 0,
+    "pages_with_tables": 243,
+    "pages_without_tables": 77,
+    "total_tables": 549
+  },
+  "run": {
+    "elapsed_seconds": 467.6551,
+    "processed_this_run": 320,
+    "reused_completed_pages": 0,
+    "queued_this_run": 320,
+    "errors_this_run": 0
+  }
+}

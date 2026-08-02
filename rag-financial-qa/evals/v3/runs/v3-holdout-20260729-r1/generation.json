@@ -1,0 +1,2921 @@
+{
+  "case_count": 24,
+  "cases": [
+    {
+      "case_id": "holdout_00",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料，海尔智家2024年度合并利润表中的营业收入为285,981,225,203.93元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "0646ad7230e5a720b8e8c369056aaca0557aa7f641fd2b72bc836507daa0c33d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "8aa292b6a189114e1093ddecb551c227b9204ecae511e0767a592e0ef791de33",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "1a10992f0703c211e0544a2b1d5924aa29670fc241c84ec373895e6a963911e3",
+              "content_type": "table",
+              "page_number": 123,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "4efcbfbe42de061aafe10a01359d3944b08071e66ba4e918ffb28b506ad659ab",
+              "content_type": "table",
+              "page_number": 224,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0b8ee90449d9394c7002f5cfeafaf0629f688dc6ce231066672c787d451e4bcb",
+              "content_type": "table",
+              "page_number": 121,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 13753,
+          "latency_ms": 13753,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2410,
+            "output_tokens": 625,
+            "total_tokens": 3035
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "0646ad7230e5a720b8e8c369056aaca0557aa7f641fd2b72bc836507daa0c33d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "8aa292b6a189114e1093ddecb551c227b9204ecae511e0767a592e0ef791de33",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "1a10992f0703c211e0544a2b1d5924aa29670fc241c84ec373895e6a963911e3",
+              "content_type": "table",
+              "page_number": 123,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "4efcbfbe42de061aafe10a01359d3944b08071e66ba4e918ffb28b506ad659ab",
+              "content_type": "table",
+              "page_number": 224,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0b8ee90449d9394c7002f5cfeafaf0629f688dc6ce231066672c787d451e4bcb",
+              "content_type": "table",
+              "page_number": 121,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_01",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，海尔智家2024年度合并利润表中的净利润为19,575,612,501.68元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "0646ad7230e5a720b8e8c369056aaca0557aa7f641fd2b72bc836507daa0c33d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "8aa292b6a189114e1093ddecb551c227b9204ecae511e0767a592e0ef791de33",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "49c74c22b896828e5f273949ce22a3b3a583d038ee80ddb00735b27e054777c5",
+              "content_type": "table",
+              "page_number": 246,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "0a14d72d4db8fbbb1f0ddb288cfcd3edf29c430d220e8fb6ba352e0f906e6b00",
+              "content_type": "table",
+              "page_number": 206,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "4efcbfbe42de061aafe10a01359d3944b08071e66ba4e918ffb28b506ad659ab",
+              "content_type": "table",
+              "page_number": 224,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 12066,
+          "latency_ms": 12066,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2416,
+            "output_tokens": 589,
+            "total_tokens": 3005
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "0646ad7230e5a720b8e8c369056aaca0557aa7f641fd2b72bc836507daa0c33d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "8aa292b6a189114e1093ddecb551c227b9204ecae511e0767a592e0ef791de33",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "49c74c22b896828e5f273949ce22a3b3a583d038ee80ddb00735b27e054777c5",
+              "content_type": "table",
+              "page_number": 246,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "0a14d72d4db8fbbb1f0ddb288cfcd3edf29c430d220e8fb6ba352e0f906e6b00",
+              "content_type": "table",
+              "page_number": 206,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "4efcbfbe42de061aafe10a01359d3944b08071e66ba4e918ffb28b506ad659ab",
+              "content_type": "table",
+              "page_number": 224,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_02",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料，海尔智家2024年度归属于母公司股东的净利润为18,741,120,122.93元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "49c74c22b896828e5f273949ce22a3b3a583d038ee80ddb00735b27e054777c5",
+              "content_type": "table",
+              "page_number": 246,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "c46b2173ece9eff1a811f1ce9a060074b398290e585dca662d82623cdf7569b5",
+              "content_type": "table",
+              "page_number": 246,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "4efcbfbe42de061aafe10a01359d3944b08071e66ba4e918ffb28b506ad659ab",
+              "content_type": "table",
+              "page_number": 224,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "d5c53f4d786003bc2ca8d283aa1630bc6f45f06ef2da8860802d332cfbaa9cf6",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0646ad7230e5a720b8e8c369056aaca0557aa7f641fd2b72bc836507daa0c33d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 7455,
+          "latency_ms": 7455,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2189,
+            "output_tokens": 325,
+            "total_tokens": 2514
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "49c74c22b896828e5f273949ce22a3b3a583d038ee80ddb00735b27e054777c5",
+              "content_type": "table",
+              "page_number": 246,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "c46b2173ece9eff1a811f1ce9a060074b398290e585dca662d82623cdf7569b5",
+              "content_type": "table",
+              "page_number": 246,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "4efcbfbe42de061aafe10a01359d3944b08071e66ba4e918ffb28b506ad659ab",
+              "content_type": "table",
+              "page_number": 224,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "d5c53f4d786003bc2ca8d283aa1630bc6f45f06ef2da8860802d332cfbaa9cf6",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0646ad7230e5a720b8e8c369056aaca0557aa7f641fd2b72bc836507daa0c33d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_03",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，海尔智家2024年度合并现金流量表中经营活动产生的现金流量净额为26,543,081,911.96元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "e74d7efe298ff34b35e3ed8f30eb864921758c2c48f9a476b1701afa03bbed75",
+              "content_type": "table",
+              "page_number": 126,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "2e824ba72e48475a79a05765c3c9dba6555757a3e5b09e03ecc4ae85f3d3b77a",
+              "content_type": "table",
+              "page_number": 125,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "b5bd4a011a5503746e0a44945e88522e8e2b5053cb42d3b654318a4dd56bb08b",
+              "content_type": "table",
+              "page_number": 206,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "7bcfb5ffdf7628c947d05707397919d52162164b4c086b7e58a3856be34e9dec",
+              "content_type": "table",
+              "page_number": 41,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "a23fb138cb10cdc5e31d5abd7987f961609b30b35e7c01e2f680aeb194a19760",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 9414,
+          "latency_ms": 9414,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2463,
+            "output_tokens": 455,
+            "total_tokens": 2918
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "e74d7efe298ff34b35e3ed8f30eb864921758c2c48f9a476b1701afa03bbed75",
+              "content_type": "table",
+              "page_number": 126,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "2e824ba72e48475a79a05765c3c9dba6555757a3e5b09e03ecc4ae85f3d3b77a",
+              "content_type": "table",
+              "page_number": 125,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "b5bd4a011a5503746e0a44945e88522e8e2b5053cb42d3b654318a4dd56bb08b",
+              "content_type": "table",
+              "page_number": 206,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "7bcfb5ffdf7628c947d05707397919d52162164b4c086b7e58a3856be34e9dec",
+              "content_type": "table",
+              "page_number": 41,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "a23fb138cb10cdc5e31d5abd7987f961609b30b35e7c01e2f680aeb194a19760",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_04",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料无法回答该问题。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "0ea6227fc819d8df4edd269e5ab905309fe8178c6ebda2acf15ddd22a720e42f",
+              "content_type": "table",
+              "page_number": 129,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "3ece85ca5d231c01cd0e54004cee26064e15a1776bacb0b89d9c985173b7170d",
+              "content_type": "table",
+              "page_number": 12,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "4ff71ff31d643e3c0ccec1d04dedd8990ec251863f33f889ad958da96bf56927",
+              "content_type": "table",
+              "page_number": 128,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "eb7a3dbc6837fe80b1ea1e07bc6f1998d61159c4e1e70cadacd194ab69fbcb3a",
+              "content_type": "table",
+              "page_number": 118,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "635f47d4508c039e0d9bd550ec9ad11a5b750b1adcbc42251acb0e9b14a81298",
+              "content_type": "table",
+              "page_number": 117,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 6399,
+          "latency_ms": 6399,
+          "refusal_code": null,
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2553,
+            "output_tokens": 297,
+            "total_tokens": 2850
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "0ea6227fc819d8df4edd269e5ab905309fe8178c6ebda2acf15ddd22a720e42f",
+              "content_type": "table",
+              "page_number": 129,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "3ece85ca5d231c01cd0e54004cee26064e15a1776bacb0b89d9c985173b7170d",
+              "content_type": "table",
+              "page_number": 12,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "4ff71ff31d643e3c0ccec1d04dedd8990ec251863f33f889ad958da96bf56927",
+              "content_type": "table",
+              "page_number": 128,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "eb7a3dbc6837fe80b1ea1e07bc6f1998d61159c4e1e70cadacd194ab69fbcb3a",
+              "content_type": "table",
+              "page_number": 118,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "635f47d4508c039e0d9bd550ec9ad11a5b750b1adcbc42251acb0e9b14a81298",
+              "content_type": "table",
+              "page_number": 117,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_05",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料无法回答该问题。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "1d944ca5332e873b659dd5c68403e3e94a438084eac377c58cedfcefedbb08c5",
+              "content_type": "table",
+              "page_number": 43,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "a23fb138cb10cdc5e31d5abd7987f961609b30b35e7c01e2f680aeb194a19760",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "f1867540dfa6658be2629799423f19ab105378216195288fb7efe8849311ec9e",
+              "content_type": "table",
+              "page_number": 42,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "4db5d0a8d09b5d69b2f28d1f0e942b0ccf500ff1e9810ee571ab2b94c749db60",
+              "content_type": "table",
+              "page_number": 115,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0b4e68861d6edaaf0772060f52d0c22d00d74bd5ecbb041b25e09ba89c807891",
+              "content_type": "table",
+              "page_number": 200,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 15671,
+          "latency_ms": 15671,
+          "refusal_code": null,
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 1929,
+            "output_tokens": 807,
+            "total_tokens": 2736
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "1d944ca5332e873b659dd5c68403e3e94a438084eac377c58cedfcefedbb08c5",
+              "content_type": "table",
+              "page_number": 43,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "a23fb138cb10cdc5e31d5abd7987f961609b30b35e7c01e2f680aeb194a19760",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "f1867540dfa6658be2629799423f19ab105378216195288fb7efe8849311ec9e",
+              "content_type": "table",
+              "page_number": 42,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "4db5d0a8d09b5d69b2f28d1f0e942b0ccf500ff1e9810ee571ab2b94c749db60",
+              "content_type": "table",
+              "page_number": 115,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0b4e68861d6edaaf0772060f52d0c22d00d74bd5ecbb041b25e09ba89c807891",
+              "content_type": "table",
+              "page_number": 200,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 8990,
+          "latency_ms": 8991,
+          "refusal_code": "missing_financial_facts",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2139,
+            "output_tokens": 425,
+            "total_tokens": 2564
+          },
+          "verification": {
+            "errors": [
+              "missing_financial_facts"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": 0
+        }
+      }
+    },
+    {
+      "case_id": "holdout_06",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，五粮液2024年度合并利润表中的营业收入为89,175,178,322.70元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "36c7f7ecb086445190518f4a3667e6307814f26a1bb322245dd766f21b2c629f",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "9d1d7a8ff4055f61e790092a9b73bc9770e094fd53e016d673d48cafda3e4e43",
+              "content_type": "table",
+              "page_number": 60,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "3539d4041b0dc8d0e31db635197f2aa3702f9ff0ed4d29b5b9f2a204bd21cfda",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "3339462c05df14532163f9c7334244e87abd9230d06bd8a7dd1ead825ecf1ed0",
+              "content_type": "table",
+              "page_number": 53,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "ff7d9a423a8eb94561367035350d4ac012919743d92d4f203a8f838271a526f3",
+              "content_type": "table",
+              "page_number": 127,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 8413,
+          "latency_ms": 8413,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 1840,
+            "output_tokens": 386,
+            "total_tokens": 2226
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "36c7f7ecb086445190518f4a3667e6307814f26a1bb322245dd766f21b2c629f",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "9d1d7a8ff4055f61e790092a9b73bc9770e094fd53e016d673d48cafda3e4e43",
+              "content_type": "table",
+              "page_number": 60,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "3539d4041b0dc8d0e31db635197f2aa3702f9ff0ed4d29b5b9f2a204bd21cfda",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "3339462c05df14532163f9c7334244e87abd9230d06bd8a7dd1ead825ecf1ed0",
+              "content_type": "table",
+              "page_number": 53,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "ff7d9a423a8eb94561367035350d4ac012919743d92d4f203a8f838271a526f3",
+              "content_type": "table",
+              "page_number": 127,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_07",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，五粮液2024年度合并利润表中的净利润为33,193,460,484.32元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "124d42c6b6683e9a28c5eb71a84f3352e77e2d030feb83cb56cedbe3276707a3",
+              "content_type": "table",
+              "page_number": 147,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "4d599069e95b37089cfb2317db5d6bfdcd725aa87959b4f5c63da37083269efc",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "36c7f7ecb086445190518f4a3667e6307814f26a1bb322245dd766f21b2c629f",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "ff7d9a423a8eb94561367035350d4ac012919743d92d4f203a8f838271a526f3",
+              "content_type": "table",
+              "page_number": 127,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "9ee6421e831796dca075a68a7481007684ea3886aac5eb6dcc7f792b5d6720ed",
+              "content_type": "table",
+              "page_number": 62,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 13369,
+          "latency_ms": 13369,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2108,
+            "output_tokens": 681,
+            "total_tokens": 2789
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "124d42c6b6683e9a28c5eb71a84f3352e77e2d030feb83cb56cedbe3276707a3",
+              "content_type": "table",
+              "page_number": 147,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "4d599069e95b37089cfb2317db5d6bfdcd725aa87959b4f5c63da37083269efc",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "36c7f7ecb086445190518f4a3667e6307814f26a1bb322245dd766f21b2c629f",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "ff7d9a423a8eb94561367035350d4ac012919743d92d4f203a8f838271a526f3",
+              "content_type": "table",
+              "page_number": 127,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "9ee6421e831796dca075a68a7481007684ea3886aac5eb6dcc7f792b5d6720ed",
+              "content_type": "table",
+              "page_number": 62,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_08",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，五粮液2024年度归属于母公司股东（归属于上市公司股东）的净利润为31,853,172,533.98元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "9ee6421e831796dca075a68a7481007684ea3886aac5eb6dcc7f792b5d6720ed",
+              "content_type": "table",
+              "page_number": 62,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "4d599069e95b37089cfb2317db5d6bfdcd725aa87959b4f5c63da37083269efc",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "124d42c6b6683e9a28c5eb71a84f3352e77e2d030feb83cb56cedbe3276707a3",
+              "content_type": "table",
+              "page_number": 147,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "36c7f7ecb086445190518f4a3667e6307814f26a1bb322245dd766f21b2c629f",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "d47408567b6d111b7eb08a88c7aa4ca2e1122a009eb11d6c180891a079b6e5e6",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 9826,
+          "latency_ms": 9826,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2075,
+            "output_tokens": 481,
+            "total_tokens": 2556
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "9ee6421e831796dca075a68a7481007684ea3886aac5eb6dcc7f792b5d6720ed",
+              "content_type": "table",
+              "page_number": 62,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "4d599069e95b37089cfb2317db5d6bfdcd725aa87959b4f5c63da37083269efc",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "124d42c6b6683e9a28c5eb71a84f3352e77e2d030feb83cb56cedbe3276707a3",
+              "content_type": "table",
+              "page_number": 147,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "36c7f7ecb086445190518f4a3667e6307814f26a1bb322245dd766f21b2c629f",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "d47408567b6d111b7eb08a88c7aa4ca2e1122a009eb11d6c180891a079b6e5e6",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "海尔智家_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_09",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，五粮液2024年度合并现金流量表中经营活动产生的现金流量净额为33,939,755,192.78元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "45b0dc628efe56d81b5b99ed09b933a4c4ddd106a29122354c54d7431e6301b6",
+              "content_type": "table",
+              "page_number": 18,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "a0da69e1847abcc3d8edb0cfdfb986bf74ee609c7b34ae118081fc3feb4d6d74",
+              "content_type": "table",
+              "page_number": 121,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "1d0c3d8b02c272661cfac6781e7878043657592f7ac6e4aee306b65da75f3af7",
+              "content_type": "table",
+              "page_number": 64,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "afa633173d188cca065aa5a9b34b4cfeb4c16e9d92b955ab8e65890e0181d7d3",
+              "content_type": "table",
+              "page_number": 66,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "3a41f8e4721a26815e17d7226ad4581bd8a90b5931c9fd9d1eccfe12e22bed4f",
+              "content_type": "text",
+              "page_number": 18,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 5360,
+          "latency_ms": 5360,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2237,
+            "output_tokens": 222,
+            "total_tokens": 2459
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "45b0dc628efe56d81b5b99ed09b933a4c4ddd106a29122354c54d7431e6301b6",
+              "content_type": "table",
+              "page_number": 18,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "a0da69e1847abcc3d8edb0cfdfb986bf74ee609c7b34ae118081fc3feb4d6d74",
+              "content_type": "table",
+              "page_number": 121,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "1d0c3d8b02c272661cfac6781e7878043657592f7ac6e4aee306b65da75f3af7",
+              "content_type": "table",
+              "page_number": 64,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "afa633173d188cca065aa5a9b34b4cfeb4c16e9d92b955ab8e65890e0181d7d3",
+              "content_type": "table",
+              "page_number": 66,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "3a41f8e4721a26815e17d7226ad4581bd8a90b5931c9fd9d1eccfe12e22bed4f",
+              "content_type": "text",
+              "page_number": 18,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_10",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，截至2024年12月31日，五粮液合并资产负债表中的资产总计为188,252,218,704.17元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "ecbaaf307f59f7d5146d5d9a6581e83d18088e3a6a1169bc76c2c5cec06e0673",
+              "content_type": "table",
+              "page_number": 59,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "08102bd50c52ee30a476649290ab39a2a575141817e1a042e63d5d0988d836b0",
+              "content_type": "table",
+              "page_number": 57,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "58a5f22f3184871d240bbd01f6b5ed90e0f54fb1dea2d17dfa55e42360b334a5",
+              "content_type": "table",
+              "page_number": 127,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "139fdad84cdb83b72b1282e1d3f99cc640a4d73eb109ca9b8960622d08a55e83",
+              "content_type": "table",
+              "page_number": 157,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "3339462c05df14532163f9c7334244e87abd9230d06bd8a7dd1ead825ecf1ed0",
+              "content_type": "table",
+              "page_number": 53,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 22872,
+          "latency_ms": 22873,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2202,
+            "output_tokens": 1204,
+            "total_tokens": 3406
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "ecbaaf307f59f7d5146d5d9a6581e83d18088e3a6a1169bc76c2c5cec06e0673",
+              "content_type": "table",
+              "page_number": 59,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "08102bd50c52ee30a476649290ab39a2a575141817e1a042e63d5d0988d836b0",
+              "content_type": "table",
+              "page_number": 57,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "58a5f22f3184871d240bbd01f6b5ed90e0f54fb1dea2d17dfa55e42360b334a5",
+              "content_type": "table",
+              "page_number": 127,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "139fdad84cdb83b72b1282e1d3f99cc640a4d73eb109ca9b8960622d08a55e83",
+              "content_type": "table",
+              "page_number": 157,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "3339462c05df14532163f9c7334244e87abd9230d06bd8a7dd1ead825ecf1ed0",
+              "content_type": "table",
+              "page_number": 53,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_11",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，五粮液2024年酒类业务的毛利率为82.21%。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "431f937b12d51131b43ff4da60e019e1b02bbc693c7813304445472e6cdd48ea",
+              "content_type": "table",
+              "page_number": 14,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "294912e053057a12c1b3dfba890e8284c0bcebd6b878ea74245422a034ea8da0",
+              "content_type": "table",
+              "page_number": 14,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "dffd786f47e906494d82ae734f350739926f5ccc210872f35fb8601e9f98b6dc",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "4db5d0a8d09b5d69b2f28d1f0e942b0ccf500ff1e9810ee571ab2b94c749db60",
+              "content_type": "table",
+              "page_number": 115,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "9d1d7a8ff4055f61e790092a9b73bc9770e094fd53e016d673d48cafda3e4e43",
+              "content_type": "table",
+              "page_number": 60,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 3415,
+          "latency_ms": 3415,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 1860,
+            "output_tokens": 122,
+            "total_tokens": 1982
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "431f937b12d51131b43ff4da60e019e1b02bbc693c7813304445472e6cdd48ea",
+              "content_type": "table",
+              "page_number": 14,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "294912e053057a12c1b3dfba890e8284c0bcebd6b878ea74245422a034ea8da0",
+              "content_type": "table",
+              "page_number": 14,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "dffd786f47e906494d82ae734f350739926f5ccc210872f35fb8601e9f98b6dc",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "五粮液_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "4db5d0a8d09b5d69b2f28d1f0e942b0ccf500ff1e9810ee571ab2b94c749db60",
+              "content_type": "table",
+              "page_number": 115,
+              "source": "海尔智家_2024年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "9d1d7a8ff4055f61e790092a9b73bc9770e094fd53e016d673d48cafda3e4e43",
+              "content_type": "table",
+              "page_number": 60,
+              "source": "五粮液_2024年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 10754,
+          "latency_ms": 10755,
+          "refusal_code": "fact_1:evidence_mismatch_or_cross_fragment",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2070,
+            "output_tokens": 537,
+            "total_tokens": 2607
+          },
+          "verification": {
+            "errors": [
+              "fact_1:evidence_mismatch_or_cross_fragment"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": 0
+        }
+      }
+    },
+    {
+      "case_id": "holdout_12",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，格力电器2023年度合并利润表中的营业收入为 **203,979,266,387.09元**。\n\n（注：证据C4的合并利润表中该数据存在文本识别错误显示为“203,979,26,87.09”，结合证据C1和C2中的主要会计数据，准确金额应为203,979,266,387.09元。）",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "c38dc74a8572cbf7170bb947596a6d09e8405a3c750aed4e5468dfa3e5f29b57",
+              "content_type": "table",
+              "page_number": 20,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "373b96fd7a1373fdba9f93b6832a13e2c8fa22b5040d1d5c7c140d7a0f7ea660",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "7ef32a375ffb990ccdebea9fd3fc6694048315d6afdb2a5feadd7241978b0a79",
+              "content_type": "table",
+              "page_number": 116,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "8ccdff18dc5bb4fc96cd9cb9bd92b0ac914c3a0d184b3bb3d95aaa882484e818",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 23194,
+          "latency_ms": 23194,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2568,
+            "output_tokens": 1213,
+            "total_tokens": 3781
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "c38dc74a8572cbf7170bb947596a6d09e8405a3c750aed4e5468dfa3e5f29b57",
+              "content_type": "table",
+              "page_number": 20,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "373b96fd7a1373fdba9f93b6832a13e2c8fa22b5040d1d5c7c140d7a0f7ea660",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "7ef32a375ffb990ccdebea9fd3fc6694048315d6afdb2a5feadd7241978b0a79",
+              "content_type": "table",
+              "page_number": 116,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "8ccdff18dc5bb4fc96cd9cb9bd92b0ac914c3a0d184b3bb3d95aaa882484e818",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_13",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，格力电器2023年度合并利润表中的净利润为27,048,972,857.62元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "373b96fd7a1373fdba9f93b6832a13e2c8fa22b5040d1d5c7c140d7a0f7ea660",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "57372a85857d756b4673ab0795aac4935d1adbd020c729ea2c8632e8fa22a19a",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "3a4d228a188dd2a03eae61544cc87300a812250d9c28a1b97d89797eaa2c39fe",
+              "content_type": "table",
+              "page_number": 203,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "195eee1f820ba73f0c32bb018598184d7b32dbd09538020409d915d4545192f5",
+              "content_type": "table",
+              "page_number": 222,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 14299,
+          "latency_ms": 14299,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2508,
+            "output_tokens": 712,
+            "total_tokens": 3220
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "373b96fd7a1373fdba9f93b6832a13e2c8fa22b5040d1d5c7c140d7a0f7ea660",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "57372a85857d756b4673ab0795aac4935d1adbd020c729ea2c8632e8fa22a19a",
+              "content_type": "table",
+              "page_number": 122,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "3a4d228a188dd2a03eae61544cc87300a812250d9c28a1b97d89797eaa2c39fe",
+              "content_type": "table",
+              "page_number": 203,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "195eee1f820ba73f0c32bb018598184d7b32dbd09538020409d915d4545192f5",
+              "content_type": "table",
+              "page_number": 222,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_14",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，格力电器2023年度归属于母公司股东的净利润为29,017,387,604.18元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "6565fada6d67b38bbafa582aa7a8084ff7edef6b02a3b2069aec6c7c9aa1cd6b",
+              "content_type": "table",
+              "page_number": 116,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "3a4d228a188dd2a03eae61544cc87300a812250d9c28a1b97d89797eaa2c39fe",
+              "content_type": "table",
+              "page_number": 203,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "373b96fd7a1373fdba9f93b6832a13e2c8fa22b5040d1d5c7c140d7a0f7ea660",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "417e9200d8194d287ac20eb60756b57eea7b81b67998db661c5c9bef85019b39",
+              "content_type": "table",
+              "page_number": 119,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 5758,
+          "latency_ms": 5758,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2359,
+            "output_tokens": 255,
+            "total_tokens": 2614
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "6565fada6d67b38bbafa582aa7a8084ff7edef6b02a3b2069aec6c7c9aa1cd6b",
+              "content_type": "table",
+              "page_number": 116,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "3a4d228a188dd2a03eae61544cc87300a812250d9c28a1b97d89797eaa2c39fe",
+              "content_type": "table",
+              "page_number": 203,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "373b96fd7a1373fdba9f93b6832a13e2c8fa22b5040d1d5c7c140d7a0f7ea660",
+              "content_type": "table",
+              "page_number": 8,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "417e9200d8194d287ac20eb60756b57eea7b81b67998db661c5c9bef85019b39",
+              "content_type": "table",
+              "page_number": 119,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_15",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，格力电器2023年度经营活动产生的现金流量净额为56,398,426,354.17元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "ec901ab9d885832ed33e88a46954b06f59aa51ea98c3b30246c469ba3ef32305",
+              "content_type": "table",
+              "page_number": 211,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "8631e856516adbb3db1ded1f7c944cbba44fccf8321d322ebf6958e966672551",
+              "content_type": "table",
+              "page_number": 123,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "af976a2ff03bd6766b81d751270155a427c99a8a44d9cf1d7e1a2da715f18190",
+              "content_type": "table",
+              "page_number": 28,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "0e0442772057511d4af73d27daa5c647718c62a51ff4728cc16867122b0051a4",
+              "content_type": "table",
+              "page_number": 117,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 6205,
+          "latency_ms": 6205,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2544,
+            "output_tokens": 229,
+            "total_tokens": 2773
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "ec901ab9d885832ed33e88a46954b06f59aa51ea98c3b30246c469ba3ef32305",
+              "content_type": "table",
+              "page_number": 211,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "8631e856516adbb3db1ded1f7c944cbba44fccf8321d322ebf6958e966672551",
+              "content_type": "table",
+              "page_number": 123,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "af976a2ff03bd6766b81d751270155a427c99a8a44d9cf1d7e1a2da715f18190",
+              "content_type": "table",
+              "page_number": 28,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "0e0442772057511d4af73d27daa5c647718c62a51ff4728cc16867122b0051a4",
+              "content_type": "table",
+              "page_number": 117,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_16",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料，截至2023年12月31日，格力电器合并资产负债表中的资产总计为368,053,902,576.37元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "19492b457c34c0f7ae40ed0d96090cf7cb9330e2db9daeff4d11205d118a70fb",
+              "content_type": "table",
+              "page_number": 81,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "139fdad84cdb83b72b1282e1d3f99cc640a4d73eb109ca9b8960622d08a55e83",
+              "content_type": "table",
+              "page_number": 157,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "44d7d854bda35d68bf4b36e0c16e6d39e3fbe7a6ef261b92cdf7783c2a265045",
+              "content_type": "table",
+              "page_number": 114,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "0676222827d222b150003816086dc6e5e08824815e44f6dca9fcc5d312565ab8",
+              "content_type": "text",
+              "page_number": 81,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "fe6e63c9b2916fc23a0d7c71333561ad72a4bab80ce1740156241fb02adadc69",
+              "content_type": "table",
+              "page_number": 29,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 18351,
+          "latency_ms": 18351,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2268,
+            "output_tokens": 945,
+            "total_tokens": 3213
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "19492b457c34c0f7ae40ed0d96090cf7cb9330e2db9daeff4d11205d118a70fb",
+              "content_type": "table",
+              "page_number": 81,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "139fdad84cdb83b72b1282e1d3f99cc640a4d73eb109ca9b8960622d08a55e83",
+              "content_type": "table",
+              "page_number": 157,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "44d7d854bda35d68bf4b36e0c16e6d39e3fbe7a6ef261b92cdf7783c2a265045",
+              "content_type": "table",
+              "page_number": 114,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "0676222827d222b150003816086dc6e5e08824815e44f6dca9fcc5d312565ab8",
+              "content_type": "text",
+              "page_number": 81,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "fe6e63c9b2916fc23a0d7c71333561ad72a4bab80ce1740156241fb02adadc69",
+              "content_type": "table",
+              "page_number": 29,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_17",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，格力电器2023年制造业的毛利率为34.98%。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "c38dc74a8572cbf7170bb947596a6d09e8405a3c750aed4e5468dfa3e5f29b57",
+              "content_type": "table",
+              "page_number": 20,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "fd9face3e805744b67dfb9ab85663dad1da0e5fc70b38872c79b8e6123a78d7c",
+              "content_type": "table",
+              "page_number": 21,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "e130fefb5f37ddb4f83286d3096a01836abd14f865450228e66698b57a03e2c1",
+              "content_type": "table",
+              "page_number": 21,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "102ea68d6fb5be07afae3c0aa56c771111eec1df7734671d02aceda1f68b0660",
+              "content_type": "table",
+              "page_number": 204,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 9790,
+          "latency_ms": 9790,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2499,
+            "output_tokens": 451,
+            "total_tokens": 2950
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "c38dc74a8572cbf7170bb947596a6d09e8405a3c750aed4e5468dfa3e5f29b57",
+              "content_type": "table",
+              "page_number": 20,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "fd9face3e805744b67dfb9ab85663dad1da0e5fc70b38872c79b8e6123a78d7c",
+              "content_type": "table",
+              "page_number": 21,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "e130fefb5f37ddb4f83286d3096a01836abd14f865450228e66698b57a03e2c1",
+              "content_type": "table",
+              "page_number": 21,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "102ea68d6fb5be07afae3c0aa56c771111eec1df7734671d02aceda1f68b0660",
+              "content_type": "table",
+              "page_number": 204,
+              "source": "格力电器_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "71d3516c16cf35482d4abe0e6dafa7091c8978aefa6eb7ab9de18c567ea720b4",
+              "content_type": "table",
+              "page_number": 7,
+              "source": "格力电器_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_18",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，美的集团2023年度合并口径的营业收入为372,037,280千元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "2d8db223e03751e9903f4d212fcf2cd76591c0a491c50f18edb650dd45ea13db",
+              "content_type": "table",
+              "page_number": 161,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "32a54e01138959f247a35c5dcb019fb563fc5cd994a7c1ed52ecbb3f432da4b1",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "3a5da0be79a8d285011c06560857d91fac549812ae1b95b4bf9f4ac6ea4f7eef",
+              "content_type": "text",
+              "page_number": 246,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "2a3a3680b35037d0d5531db2bf0b92d1d03701a2aec4893e041959546f2599a7",
+              "content_type": "table",
+              "page_number": 252,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 10591,
+          "latency_ms": 10591,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2252,
+            "output_tokens": 506,
+            "total_tokens": 2758
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "2d8db223e03751e9903f4d212fcf2cd76591c0a491c50f18edb650dd45ea13db",
+              "content_type": "table",
+              "page_number": 161,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "32a54e01138959f247a35c5dcb019fb563fc5cd994a7c1ed52ecbb3f432da4b1",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "3a5da0be79a8d285011c06560857d91fac549812ae1b95b4bf9f4ac6ea4f7eef",
+              "content_type": "text",
+              "page_number": 246,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "2a3a3680b35037d0d5531db2bf0b92d1d03701a2aec4893e041959546f2599a7",
+              "content_type": "table",
+              "page_number": 252,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_19",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，美的集团2023年度合并口径的净利润为 **33,745,352千元**（参考证据C5现金流量表补充资料中的净利润数据）。 \n\n*(注：若指归属于母公司/上市公司股东的净利润，则为 33,719,935千元，参考证据C2和C4)*。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "f1b588be9f965707a28bbc8d468c9546a6dcb2538b091568296863ef210a5d6b",
+              "content_type": "table",
+              "page_number": 290,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "9331213cd27e5e887a2b420a491ba3ab2b7817f57aaee08c36c667d51761d105",
+              "content_type": "table",
+              "page_number": 167,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "f0834806f04ff463d187fabecc50c7ed058967092ed4012a98a7447a5aca0414",
+              "content_type": "table",
+              "page_number": 244,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "1e6804ef318a517273451ada59dc631a1a70a0c0beec3cdc17eb8cf8965ed8b7",
+              "content_type": "table",
+              "page_number": 254,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 17826,
+          "latency_ms": 17826,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2315,
+            "output_tokens": 912,
+            "total_tokens": 3227
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "f1b588be9f965707a28bbc8d468c9546a6dcb2538b091568296863ef210a5d6b",
+              "content_type": "table",
+              "page_number": 290,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "9331213cd27e5e887a2b420a491ba3ab2b7817f57aaee08c36c667d51761d105",
+              "content_type": "table",
+              "page_number": 167,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "f0834806f04ff463d187fabecc50c7ed058967092ed4012a98a7447a5aca0414",
+              "content_type": "table",
+              "page_number": 244,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "1e6804ef318a517273451ada59dc631a1a70a0c0beec3cdc17eb8cf8965ed8b7",
+              "content_type": "table",
+              "page_number": 254,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 26307,
+          "latency_ms": 26307,
+          "refusal_code": "answer_missing_citation",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2525,
+            "output_tokens": 1383,
+            "total_tokens": 3908
+          },
+          "verification": {
+            "errors": [
+              "answer_missing_citation",
+              "answer_fact_citation_mismatch",
+              "fact_1:evidence_mismatch_or_cross_fragment",
+              "fact_2:evidence_mismatch_or_cross_fragment"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": 0
+        }
+      }
+    },
+    {
+      "case_id": "holdout_20",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，美的集团2023年度归属于母公司股东的净利润为33,719,935千元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "f0834806f04ff463d187fabecc50c7ed058967092ed4012a98a7447a5aca0414",
+              "content_type": "table",
+              "page_number": 244,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "f1b588be9f965707a28bbc8d468c9546a6dcb2538b091568296863ef210a5d6b",
+              "content_type": "table",
+              "page_number": 290,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "637a500051625be518a203cd3cfcc91987b21840ef5dae1c36c7610864244b6a",
+              "content_type": "table",
+              "page_number": 161,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "32a54e01138959f247a35c5dcb019fb563fc5cd994a7c1ed52ecbb3f432da4b1",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 8007,
+          "latency_ms": 8007,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2123,
+            "output_tokens": 385,
+            "total_tokens": 2508
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "f0834806f04ff463d187fabecc50c7ed058967092ed4012a98a7447a5aca0414",
+              "content_type": "table",
+              "page_number": 244,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "f1b588be9f965707a28bbc8d468c9546a6dcb2538b091568296863ef210a5d6b",
+              "content_type": "table",
+              "page_number": 290,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "637a500051625be518a203cd3cfcc91987b21840ef5dae1c36c7610864244b6a",
+              "content_type": "table",
+              "page_number": 161,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "32a54e01138959f247a35c5dcb019fb563fc5cd994a7c1ed52ecbb3f432da4b1",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 17406,
+          "latency_ms": 17407,
+          "refusal_code": "answer_missing_citation",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2333,
+            "output_tokens": 909,
+            "total_tokens": 3242
+          },
+          "verification": {
+            "errors": [
+              "answer_missing_citation",
+              "answer_fact_citation_mismatch",
+              "fact_1:question_scope_mismatch",
+              "fact_1:evidence_mismatch_or_cross_fragment"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": 0
+        }
+      }
+    },
+    {
+      "case_id": "holdout_21",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据参考资料，美的集团2023年度经营活动产生的现金流量净额为57,902,611千元。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "32a54e01138959f247a35c5dcb019fb563fc5cd994a7c1ed52ecbb3f432da4b1",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "41f03e4828dad76dd066d61e9ef0838e1c96dc276909c6819c921d6019621283",
+              "content_type": "table",
+              "page_number": 55,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "d11117fcf4ae929401a5cc42f8d4dbdad1bcaa2c5d64737f1dbd6f6f9cde3b21",
+              "content_type": "table",
+              "page_number": 254,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0bf859e349fadd88b0537d9f07db3488e1c10312453300b82f72e03dbd9eeece",
+              "content_type": "table",
+              "page_number": 163,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 8987,
+          "latency_ms": 8988,
+          "refusal_code": null,
+          "status": "accepted",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2344,
+            "output_tokens": 427,
+            "total_tokens": 2771
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "32a54e01138959f247a35c5dcb019fb563fc5cd994a7c1ed52ecbb3f432da4b1",
+              "content_type": "table",
+              "page_number": 11,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "41f03e4828dad76dd066d61e9ef0838e1c96dc276909c6819c921d6019621283",
+              "content_type": "table",
+              "page_number": 55,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "d11117fcf4ae929401a5cc42f8d4dbdad1bcaa2c5d64737f1dbd6f6f9cde3b21",
+              "content_type": "table",
+              "page_number": 254,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "0bf859e349fadd88b0537d9f07db3488e1c10312453300b82f72e03dbd9eeece",
+              "content_type": "table",
+              "page_number": 163,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_22",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料无法回答该问题。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "f1c83f8dd2305c72749faf0be3bc03d62fab26ee301bfc16357e52229d9967ed",
+              "content_type": "table",
+              "page_number": 159,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "2d8db223e03751e9903f4d212fcf2cd76591c0a491c50f18edb650dd45ea13db",
+              "content_type": "table",
+              "page_number": 161,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "d86d5cb4a9ea42a24f98bca6184b43983370c1b148027c99d9d5e62406202a72",
+              "content_type": "table",
+              "page_number": 288,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "9866b321d309020d72de820a5f897b7319a9c4760f22fafee0d7e5fd783b6d2f",
+              "content_type": "table",
+              "page_number": 167,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "dad9cfaca7df5e95e9c9cfbd159fcb80a2a9cdc9e721fdb57391902cc41469a8",
+              "content_type": "table",
+              "page_number": 267,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 17130,
+          "latency_ms": 17130,
+          "refusal_code": null,
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2084,
+            "output_tokens": 906,
+            "total_tokens": 2990
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "f1c83f8dd2305c72749faf0be3bc03d62fab26ee301bfc16357e52229d9967ed",
+              "content_type": "table",
+              "page_number": 159,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "2d8db223e03751e9903f4d212fcf2cd76591c0a491c50f18edb650dd45ea13db",
+              "content_type": "table",
+              "page_number": 161,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "d86d5cb4a9ea42a24f98bca6184b43983370c1b148027c99d9d5e62406202a72",
+              "content_type": "table",
+              "page_number": 288,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "9866b321d309020d72de820a5f897b7319a9c4760f22fafee0d7e5fd783b6d2f",
+              "content_type": "table",
+              "page_number": 167,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "dad9cfaca7df5e95e9c9cfbd159fcb80a2a9cdc9e721fdb57391902cc41469a8",
+              "content_type": "table",
+              "page_number": 267,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 1,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_23",
+      "outputs": {
+        "legacy": {
+          "answer_text": "根据现有资料无法回答该问题。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "78dcc2aed8c2e32fe768dc880114f5f50e7f1a158ec85b654b57ae665fa72618",
+              "content_type": "table",
+              "page_number": 51,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "f1b588be9f965707a28bbc8d468c9546a6dcb2538b091568296863ef210a5d6b",
+              "content_type": "table",
+              "page_number": 290,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "9331213cd27e5e887a2b420a491ba3ab2b7817f57aaee08c36c667d51761d105",
+              "content_type": "table",
+              "page_number": 167,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "1111e54523b079448c8314ba82cd6c8151220a0dd721c3ff3e9f7e99d930c58f",
+              "content_type": "table",
+              "page_number": 165,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": 5485,
+          "latency_ms": 5486,
+          "refusal_code": null,
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {
+            "input_tokens": 2266,
+            "output_tokens": 223,
+            "total_tokens": 2489
+          },
+          "verification": null,
+          "verification_ms": null
+        },
+        "verified_v3": {
+          "answer_text": "根据现有资料无法可靠回答该问题。系统未找到可同时验证数值、单位、年度和引用的证据。",
+          "citation_ledger": [
+            {
+              "citation_id": "C1",
+              "content_sha256": "78dcc2aed8c2e32fe768dc880114f5f50e7f1a158ec85b654b57ae665fa72618",
+              "content_type": "table",
+              "page_number": 51,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C2",
+              "content_sha256": "f1b588be9f965707a28bbc8d468c9546a6dcb2538b091568296863ef210a5d6b",
+              "content_type": "table",
+              "page_number": 290,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C3",
+              "content_sha256": "42a66fba75e973b7bf28e6d76a4388f80d29122c3b72d2683592129f375bab3d",
+              "content_type": "table",
+              "page_number": 10,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C4",
+              "content_sha256": "9331213cd27e5e887a2b420a491ba3ab2b7817f57aaee08c36c667d51761d105",
+              "content_type": "table",
+              "page_number": 167,
+              "source": "美的集团_2023年年度报告.pdf"
+            },
+            {
+              "citation_id": "C5",
+              "content_sha256": "1111e54523b079448c8314ba82cd6c8151220a0dd721c3ff3e9f7e99d930c58f",
+              "content_type": "table",
+              "page_number": 165,
+              "source": "美的集团_2023年年度报告.pdf"
+            }
+          ],
+          "estimated_cost": {
+            "reason": "pricing_or_usage_unavailable",
+            "status": "unavailable"
+          },
+          "generation_ms": null,
+          "latency_ms": 0,
+          "refusal_code": "no_fact_binding",
+          "status": "refused",
+          "structured_output": null,
+          "token_usage": {},
+          "verification": {
+            "errors": [
+              "no_fact_binding"
+            ],
+            "passed": false,
+            "status": "failed",
+            "verified_citation_ids": []
+          },
+          "verification_ms": null
+        }
+      }
+    }
+  ],
+  "ground_truth_loaded": false,
+  "identities": {
+    "candidate_file_sha256": "ab6dc313a6d202b9034253901737512f602177ff8213bd6458e30b301b0ac74d",
+    "model_identity": "openai-compatible:https://llm-5hd4wz54ihkatppj.cn-beijing.maas.aliyuncs.com/compatible-mode/v1:qwen3.7-plus-2026-05-26",
+    "prompt_config_sha256": "f45f63ccaca6b8e3731bc6ecb3509d4cff495607b12529003750d1a8483e9400",
+    "thresholds_file_sha256": "a39a7e4428f0b4d0a05815795babaa0b390e08e6cf0a8f9421f7b609ded5ae71"
+  },
+  "profiles": [
+    "legacy",
+    "verified_v3"
+  ],
+  "run_id": "v3-holdout-20260729-r1",
+  "schema_version": "rag-answer-v3-generation-v1",
+  "status": "completed"
+}

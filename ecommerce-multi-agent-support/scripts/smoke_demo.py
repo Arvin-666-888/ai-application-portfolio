@@ -1,10 +1,18 @@
 """Exercise the V1 API without starting an external server."""
+import os
 from pathlib import Path
 import sys
+import tempfile
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
+
+# MIGRATION: legacy in-place demo DB smoke -> isolated cross-border ecommerce schema smoke.
+SMOKE_ROOT = Path(tempfile.mkdtemp(prefix="voltcore_smoke_"))
+os.environ["DATABASE_URL"] = f"sqlite:///{(SMOKE_ROOT / 'smoke.db').as_posix()}"
+os.environ.setdefault("SECRET_KEY", "smoke-secret-key-that-is-longer-than-32-bytes")
+os.environ["SEED_DEMO_DATA"] = "true"
 
 from fastapi.testclient import TestClient
 

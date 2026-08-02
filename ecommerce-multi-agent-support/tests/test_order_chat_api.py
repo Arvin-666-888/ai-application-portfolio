@@ -13,7 +13,7 @@ def test_chat_order_route_returns_owned_facts(client):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["route"] == "order"
+    assert data["route"] == "logistics_tracking"
     assert data["order_id"] == "VLT-2026-0001"
     assert data["order_facts"]["order_no"] == "VLT-2026-0001"
     assert data["shipment_facts"]["order_no"] == "VLT-2026-0001"
@@ -32,7 +32,7 @@ def test_chat_order_route_blocks_cross_user_access(client):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["route"] == "order"
+    assert data["route"] == "logistics_tracking"
     assert data["order_facts"] is None
     assert data["shipment_facts"] is None
     assert data["answer"] == "订单不存在或无权访问，请检查订单号是否属于当前账号。"
@@ -51,7 +51,7 @@ def test_chat_order_route_asks_for_missing_order_number(client):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["route"] == "order"
+    assert data["route"] == "logistics_tracking"
     assert data["order_id"] is None
     assert data["tool_trace"] == []
     assert "请提供" in data["answer"]

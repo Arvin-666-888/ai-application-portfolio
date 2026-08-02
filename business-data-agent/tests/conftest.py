@@ -35,18 +35,17 @@ def client():
     Base.metadata.drop_all(bind=engine)
 
 
-def auth_headers(client: TestClient, username: str = "demo_user") -> dict[str, str]:
+def auth_headers(
+    client: TestClient,
+    username: str = "demo_user",
+    shop_id: str = "amazon-us",
+) -> dict[str, str]:
     password = "password123"
-    register_response = client.post(
-        "/api/auth/register",
-        json={"username": username, "password": password},
-    )
+    credentials = {"shop_id": shop_id, "username": username, "password": password}
+    register_response = client.post("/api/auth/register", json=credentials)
     assert register_response.status_code in {200, 400}
 
-    login_response = client.post(
-        "/api/auth/login",
-        json={"username": username, "password": password},
-    )
+    login_response = client.post("/api/auth/login", json=credentials)
     assert login_response.status_code == 200
     token = login_response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -59,7 +58,7 @@ def create_sample_datasource(client: TestClient, headers: dict[str, str]) -> int
         "/api/datasources",
         headers=headers,
         json={
-            "name": "内置财务样例库",
+            "name": "内置跨境电商样例库",
             "db_type": "sqlite",
             "connection_string": f"sqlite:///{Path(settings.SAMPLE_DB_PATH).as_posix()}",
         },

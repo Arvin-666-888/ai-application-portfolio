@@ -1,4 +1,4 @@
-"""LangChain comparison demo for the financial RAG project.
+"""LangChain comparison demo for the cross-border ecommerce RAG project.
 
 This script is intentionally separate from the FastAPI application. The main
 project keeps its hand-written RAG pipeline, while this demo shows the same
@@ -28,7 +28,11 @@ except ImportError as exc:  # pragma: no cover - exercised by users without opti
     ) from exc
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-FIXTURE_DIR = PROJECT_ROOT / "evals" / "fixtures"
+FIXTURE_NAMES = (
+    "ecommerce_product_manual.txt",
+    "ecommerce_customs_compliance.txt",
+    "ecommerce_logistics_records.txt",
+)
 
 
 class HashEmbeddings(Embeddings):
@@ -86,11 +90,13 @@ def load_env_file(path: Path) -> None:
 
 def load_fixture_documents() -> list[Document]:
     documents: list[Document] = []
-    for path in sorted(FIXTURE_DIR.glob("*.txt")):
+    fixture_dir = PROJECT_ROOT / "evals" / "fixtures"
+    for name in FIXTURE_NAMES:
+        path = fixture_dir / name
         content = path.read_text(encoding="utf-8")
         documents.append(Document(page_content=content, metadata={"source": path.name}))
     if not documents:
-        raise FileNotFoundError(f"No fixture documents found in {FIXTURE_DIR}")
+        raise FileNotFoundError(f"No ecommerce fixture documents found in {fixture_dir}")
     return documents
 
 
@@ -125,16 +131,27 @@ def build_embeddings(force_mock: bool) -> Embeddings:
 
 
 def build_vector_store(chunks: list[Document], embeddings: Embeddings) -> Chroma:
-    collection_name = "langchain_rag_financial_demo"
+    collection_name = "langchain_rag_ecommerce_demo"
     vector_store = Chroma(collection_name=collection_name, embedding_function=embeddings)
     vector_store.add_documents(chunks)
     return vector_store
 
 
-def is_entity_mismatch(question: str, docs: list[Document]) -> bool:
-    corpus = "\n".join(doc.page_content for doc in docs)
-    competitor_terms = ["竞争对手", "A公司", "同行公司", "其他公司"]
-    return any(term in question for term in competitor_terms) and not any(term in corpus for term in competitor_terms)
+def is_unsupported_ecommerce_scope(question: str) -> bool:
+    unsupported_terms = ["重量", "尺寸", "电压", "功率", "汇率", "换算"]
+    return any(term in question for term in unsupported_terms)
+
+
+def requested_skus(question: str) -> set[str]:
+    return {match.upper() for match in re.findall(r"(?i)SKU-[A-Z0-9._-]+", question)}
+
+
+def corpus_skus(docs: list[Document]) -> set[str]:
+    return {
+        match.upper()
+        for doc in docs
+        for match in re.findall(r"(?i)SKU-[A-Z0-9._-]+", doc.page_content)
+    }
 
 
 def normalize_relevance(raw_score: float) -> float:
@@ -158,8 +175,11 @@ def make_sources(results: list[tuple[Document, float]]) -> list[dict]:
 def generate_answer(question: str, sources: list[dict], docs: list[Document], force_mock: bool) -> str:
     load_env_file(PROJECT_ROOT / ".env")
     api_key = os.getenv("API_KEY", "")
-    if is_entity_mismatch(question, docs):
-        return "根据现有资料无法回答该问题：样例资料只包含本公司信息，没有竞争对手A公司的披露数据。"
+    if is_unsupported_ecommerce_scope(question):
+        return "根据现有资料无法回答该问题：活动样例只发布商品价格、库存数量、配送时长和关税税率。"
+    unknown_skus = requested_skus(question) - corpus_skus(docs)
+    if unknown_skus:
+        return f"根据现有资料无法回答该问题：活动权威资料不包含 {', '.join(sorted(unknown_skus))}。"
     if not sources:
         return "根据现有资料无法回答该问题：没有检索到相关片段。"
 
@@ -185,7 +205,7 @@ def generate_answer(question: str, sources: list[dict], docs: list[Document], fo
         temperature=0.2,
     )
     response = llm.invoke([
-        SystemMessage(content="你是一个金融文档 RAG 助手，只能根据参考资料回答。资料不足时必须拒答。"),
+        SystemMessage(content="你是一个跨境电商商品事实 RAG 助手，只能根据参考资料回答价格、库存数量、配送时长和关税税率。资料不足或超出范围时必须拒答。"),
         HumanMessage(content=f"参考资料：\n{context}\n\n问题：{question}"),
     ])
     return str(response.content)
@@ -193,6 +213,22 @@ def generate_answer(question: str, sources: list[dict], docs: list[Document], fo
 
 def run_demo(question: str, top_k: int = 3, force_mock: bool = False) -> dict:
     docs = load_fixture_documents()
+    mode = "mock" if force_mock or not os.getenv("API_KEY", "") else "real_llm"
+    if is_unsupported_ecommerce_scope(question):
+        return {
+            "mode": mode,
+            "question": question,
+            "answer": "根据现有资料无法回答该问题：活动样例只发布商品价格、库存数量、配送时长和关税税率。",
+            "sources": [],
+        }
+    unknown_skus = requested_skus(question) - corpus_skus(docs)
+    if unknown_skus:
+        return {
+            "mode": mode,
+            "question": question,
+            "answer": f"根据现有资料无法回答该问题：活动权威资料不包含 {', '.join(sorted(unknown_skus))}。",
+            "sources": [],
+        }
     chunks = split_documents(docs)
     embeddings = build_embeddings(force_mock=force_mock)
     vector_store = build_vector_store(chunks, embeddings)
@@ -200,7 +236,7 @@ def run_demo(question: str, top_k: int = 3, force_mock: bool = False) -> dict:
     sources = make_sources(results)
     answer = generate_answer(question, sources, docs, force_mock=force_mock)
     return {
-        "mode": "mock" if force_mock or not os.getenv("API_KEY", "") else "real_llm",
+        "mode": mode,
         "question": question,
         "answer": answer,
         "sources": sources,
@@ -209,7 +245,7 @@ def run_demo(question: str, top_k: int = 3, force_mock: bool = False) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the LangChain comparison RAG demo.")
-    parser.add_argument("--question", default="2024年公司营业收入是多少？")
+    parser.add_argument("--question", default="2026-07-15 Amazon 美国市场 SKU-A100 的价格是多少？")
     parser.add_argument("--top-k", type=int, default=3)
     parser.add_argument("--mock", action="store_true", help="Force offline HashEmbeddings/mock answer mode.")
     args = parser.parse_args()

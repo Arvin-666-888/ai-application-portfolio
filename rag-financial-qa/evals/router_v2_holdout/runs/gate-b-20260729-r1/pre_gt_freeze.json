@@ -1,0 +1,86 @@
+{
+  "schema_version": "router-v2-holdout-pre-gt-freeze-v1",
+  "status": "frozen",
+  "ground_truth_loaded": false,
+  "run_id": "gate-b-20260729-r1",
+  "preregistration_file_sha256": "ed8fc08564edc222d395685ba992fb6d701422c0f5eba9596bf51e2e54339b00",
+  "identities": {
+    "source_pdf_file_sha256": {
+      "海尔智家_2024年年度报告.pdf": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "五粮液_2024年年度报告.pdf": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+      "格力电器_2023年年度报告.pdf": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+      "美的集团_2023年年度报告.pdf": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86"
+    },
+    "query_only_file_sha256": "c66207293f093f2559d2acd2a4be3de7ccdac0dbff9af905a9899f35db56ed19",
+    "candidate_policy_fingerprint": "839996581d15ade3592ccd72014a911a71d545a9a993b8daafee828e703eeccb",
+    "parser_profile_fingerprint": "d4e151d1db486b4c074bbd62ab82f4cb9bd8388fc7fb93849d7baa3c5840ee76",
+    "ocr_engine_fingerprint": "2f7a6c2f4ebd4599f953ab37072d3705cdb3c307b030e0b108448360f22667e6",
+    "corpus_file_sha256": "789212124102dbc4a7e979d1d357e8591979316005b67c1ec3dd16ae8bca7b6d",
+    "corpus_canonical_sha256": "1c6f3a4978a610300fe6f07eb570fd53d9710eebfbedbea47373c5c46f216b6c",
+    "retrieval_config_file_sha256": "2c1be462581fa8f75e2ccff3bd9d7866a81569c226c8418403ab4f11503fb339",
+    "retrieval_config_canonical_sha256": "635501cd11a8d9dc24ce56a73c12d90d2dcb46f435472c1ebb06a10d5277857e",
+    "embedding_identity": {
+      "contract": "openai-compatible-embeddings-v1",
+      "base_url": "https://llm-5hd4wz54ihkatppj.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+      "model": "text-embedding-v2"
+    },
+    "embedding_namespace_fingerprint": "ef7ecc45f828a5a9e94cdfaae31f81a8dd0db8ee9917a530da3636562ace9687",
+    "candidate_file_sha256": "2a253f76256735f1215eec518c15c6dbed5b329d3625e5d32192ce9fb2a616d3",
+    "ranking_sha256": "155d26c05f2823a41a1e60750bce268d98605ec168e7d1bec0080f7dba67bc70",
+    "candidate_canonical_sha256": "c5b34b8237178185ea667857834acbf200123316686645e8337c8455a9d5a842",
+    "scorer_file_sha256": "3076514ce31eed58651f0389171f130ee3a497036e12720cd65f5d9890dd714c"
+  },
+  "stages": {
+    "inventory": {
+      "path": "inventory.json",
+      "file_sha256": "4219b1c7899c5093bc571aad15ca918378393fd18f71548ec1dbcd94d5aaeedc"
+    },
+    "select": {
+      "path": "candidate_pages.json",
+      "file_sha256": "a509e51adb7a0c5432422e7ab97914c06667ed350d3200a7e6608b90a2f6e715"
+    },
+    "ocr-preflight": {
+      "path": "ocr_preflight.json",
+      "file_sha256": "aab29090d2086994b74de2ae83f78da538c87a4f396d54aa6e547371a7692ea7"
+    },
+    "ocr": {
+      "path": "ocr_run.json",
+      "file_sha256": "747c89f65b434d8594af33c8fdeefcb93b1c50a2fc6c71d7fe8da2182974517f"
+    },
+    "ocr-audit": {
+      "path": "ocr_audit.json",
+      "file_sha256": "32b2656722e082f0238e3c8e3648b2a0b6afe995ca86fc6f8adfbb88c5390537"
+    },
+    "build-l1": {
+      "path": "l1_corpus.json",
+      "file_sha256": "599c856704ea0305dd9e8c5696a1d869d1865add6ba1b72e34f688054697c5c4"
+    },
+    "build-corpus": {
+      "path": "routed_corpus.json",
+      "file_sha256": "789212124102dbc4a7e979d1d357e8591979316005b67c1ec3dd16ae8bca7b6d"
+    },
+    "embed": {
+      "path": "embedding_summary.json",
+      "file_sha256": "6f69b8d2538fc4924100ebb00ab47cfe731208ba2a6cc29db8ec65a6ae816b2d"
+    },
+    "candidate": {
+      "path": "paired_candidates.json",
+      "file_sha256": "2a253f76256735f1215eec518c15c6dbed5b329d3625e5d32192ce9fb2a616d3"
+    }
+  },
+  "contract": {
+    "required_freeze_identities": [
+      "source_pdf_file_sha256",
+      "query_only_file_sha256",
+      "candidate_policy_fingerprint",
+      "parser_profile_fingerprint",
+      "ocr_engine_fingerprint",
+      "corpus_file_and_canonical_sha256",
+      "retrieval_config_file_and_canonical_sha256",
+      "embedding_identity",
+      "scorer_file_sha256"
+    ],
+    "case_count": 24,
+    "report_count": 4
+  }
+}

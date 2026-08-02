@@ -9,9 +9,9 @@ from app.graph import build_routing_graph
 @pytest.mark.parametrize(
     ("message", "expected_route"),
     [
-        ("比较两款充电器的价格和参数", "catalog"),
-        ("我的订单什么时候送到", "order"),
-        ("收到的商品错发了，需要换货", "aftersales"),
+        ("比较两款充电器的价格和参数", "product_inquiry"),
+        ("我的订单什么时候送到", "logistics_tracking"),
+        ("收到的商品错发了，需要换货", "aftersales_handling"),
         ("解释一下量子力学", "unsupported"),
     ],
 )

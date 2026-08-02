@@ -23,8 +23,8 @@ def test_chat_preview_executes_catalog_tool(client):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["route"] == "catalog"
-    assert data["dispatched_to"] == "catalog"
+    assert data["route"] == "product_inquiry"
+    assert data["dispatched_to"] == "product_inquiry"
     assert data["product_filters"]["category"] == "charger"
     assert data["product_filters"]["power_w"] == 65
     assert data["products"]
@@ -46,7 +46,7 @@ def test_chat_preview_calls_only_order_tool_for_order_route(client):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["route"] == "order"
+    assert data["route"] == "logistics_tracking"
     assert [trace["tool"] for trace in data["tool_trace"]] == ["get_order_status"]
     assert data["products"] == []
     assert data["order_facts"]["order_no"] == "VLT-2026-0001"

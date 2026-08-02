@@ -45,16 +45,12 @@ def main():
     password = "password123"
 
     with TestClient(app) as client:
-        register_response = client.post(
-            "/api/auth/register",
-            json={"username": username, "password": password},
-        )
+        shop_id = "amazon-us"
+        credentials = {"shop_id": shop_id, "username": username, "password": password}
+        register_response = client.post("/api/auth/register", json=credentials)
         register_response.raise_for_status()
 
-        login_response = client.post(
-            "/api/auth/login",
-            json={"username": username, "password": password},
-        )
+        login_response = client.post("/api/auth/login", json=credentials)
         login_response.raise_for_status()
         token = login_response.json()["access_token"]
         headers = {"Authorization": f"Bearer {token}"}
@@ -63,7 +59,7 @@ def main():
             "/api/datasources",
             headers=headers,
             json={
-                "name": "内置财务样例库",
+                "name": "内置跨境电商样例库",
                 "db_type": "sqlite",
                 "connection_string": f"sqlite:///{Path(settings.SAMPLE_DB_PATH).as_posix()}",
             },
@@ -74,7 +70,7 @@ def main():
         ask_response = client.post(
             "/api/analysis/ask",
             headers=headers,
-            json={"ds_id": ds_id, "question": "2024 年每月收入趋势如何？"},
+            json={"ds_id": ds_id, "question": "2026 年广告 ROAS 和 ROI 趋势如何？"},
         )
         ask_response.raise_for_status()
         body = ask_response.json()
@@ -89,7 +85,8 @@ def main():
         "mode": "real_llm" if args.real_llm else "mock",
         "record_id": body["id"],
         "answer_preview": body["answer"][:160],
-        "sql_contains": "revenue_records" if "revenue_records" in body["sql_query"] else "unknown",
+        "shop_id": shop_id,
+        "sql_contains": "ad_performance" if "ad_performance" in body["sql_query"] else "unknown",
         "rows": len(body["data"]),
         "tools": [item["tool"] for item in body["tool_trace"]],
         "report_bytes": len(report_response.content),

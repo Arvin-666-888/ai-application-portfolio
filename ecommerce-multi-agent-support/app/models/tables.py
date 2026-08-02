@@ -17,6 +17,9 @@ class UserTable(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(String(50), unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(100))
+    shop_id: Mapped[str] = mapped_column(String(40), index=True)
+    market: Mapped[str] = mapped_column(String(20))
+    timezone: Mapped[str] = mapped_column(String(64))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
 
     orders: Mapped[list["OrderTable"]] = relationship(back_populates="user")
@@ -26,10 +29,12 @@ class ProductTable(Base):
     __tablename__ = "products"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    shop_id: Mapped[str] = mapped_column(String(40), index=True)
     sku: Mapped[str] = mapped_column(String(40), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(160), index=True)
     category: Mapped[str] = mapped_column(String(80), index=True)
     price: Mapped[Decimal] = mapped_column(Numeric(12, 2))
+    currency: Mapped[str] = mapped_column(String(3))
     stock: Mapped[int] = mapped_column(Integer)
     specifications: Mapped[str] = mapped_column(Text, default="{}")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
@@ -39,21 +44,20 @@ class OrderTable(Base):
     __tablename__ = "orders"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    shop_id: Mapped[str] = mapped_column(String(40), index=True)
     order_no: Mapped[str] = mapped_column(String(40), unique=True, index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
     status: Mapped[str] = mapped_column(String(30), index=True)
     total_amount: Mapped[Decimal] = mapped_column(Numeric(12, 2))
+    currency: Mapped[str] = mapped_column(String(3))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
 
     user: Mapped[UserTable] = relationship(back_populates="orders")
     items: Mapped[list["OrderItemTable"]] = relationship(
-        back_populates="order",
-        cascade="all, delete-orphan",
+        back_populates="order", cascade="all, delete-orphan"
     )
     shipment: Mapped["ShipmentTable | None"] = relationship(
-        back_populates="order",
-        cascade="all, delete-orphan",
-        uselist=False,
+        back_populates="order", cascade="all, delete-orphan", uselist=False
     )
 
 
@@ -89,6 +93,7 @@ class AuditLogTable(Base):
     __tablename__ = "audit_logs"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    shop_id: Mapped[str] = mapped_column(String(40), index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
     order_id: Mapped[int | None] = mapped_column(ForeignKey("orders.id"), nullable=True, index=True)
     request_id: Mapped[str] = mapped_column(String(50), index=True)

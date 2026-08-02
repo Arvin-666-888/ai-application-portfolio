@@ -1,0 +1,10 @@
+{
+  "schema_version": "retrieval-development-manifest-v1",
+  "role": "development_regression",
+  "case_count": 30,
+  "report_count": 5,
+  "reports": "2024 Chinese A-share annual reports used during smoke, coverage diagnostics, and retrieval design",
+  "eligible_for_business_claim": false,
+  "reason": "The same cases were inspected during parser and retrieval development, so they are not an independent holdout.",
+  "required_next_validation": "Freeze a new-company and new-year holdout before claiming business value."
+}

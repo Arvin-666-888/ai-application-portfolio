@@ -1,0 +1,100 @@
+{
+  "schema_version": "router-v2-holdout-ocr-audit-v1",
+  "status": "passed",
+  "inputs": {
+    "candidate_manifest_sha256": "a509e51adb7a0c5432422e7ab97914c06667ed350d3200a7e6608b90a2f6e715",
+    "engine_configuration_fingerprint": "2f7a6c2f4ebd4599f953ab37072d3705cdb3c307b030e0b108448360f22667e6",
+    "ocr_preflight_file_sha256": "aab29090d2086994b74de2ae83f78da538c87a4f396d54aa6e547371a7692ea7",
+    "ocr_run_file_sha256": "747c89f65b434d8594af33c8fdeefcb93b1c50a2fc6c71d7fe8da2182974517f"
+  },
+  "counts": {
+    "expected_pages": 320,
+    "artifact_pages": 320,
+    "completed_pages": 320,
+    "failed_pages": 0,
+    "missing_pages": 0,
+    "stale_pages": 0,
+    "unexpected_pages": 0,
+    "page_mapping_errors": 0,
+    "pages_with_tables": 243,
+    "pages_without_tables": 77,
+    "total_tables": 549
+  },
+  "per_report": [
+    {
+      "source": "五粮液_2024年年度报告.pdf",
+      "expected_pages": 80,
+      "completed_pages": 80,
+      "failed_pages": 0,
+      "missing_pages": 0,
+      "stale_pages": 0,
+      "pages_with_tables": 65,
+      "pages_without_tables": 15,
+      "total_tables": 169
+    },
+    {
+      "source": "格力电器_2023年年度报告.pdf",
+      "expected_pages": 80,
+      "completed_pages": 80,
+      "failed_pages": 0,
+      "missing_pages": 0,
+      "stale_pages": 0,
+      "pages_with_tables": 65,
+      "pages_without_tables": 15,
+      "total_tables": 158
+    },
+    {
+      "source": "海尔智家_2024年年度报告.pdf",
+      "expected_pages": 80,
+      "completed_pages": 80,
+      "failed_pages": 0,
+      "missing_pages": 0,
+      "stale_pages": 0,
+      "pages_with_tables": 57,
+      "pages_without_tables": 23,
+      "total_tables": 129
+    },
+    {
+      "source": "美的集团_2023年年度报告.pdf",
+      "expected_pages": 80,
+      "completed_pages": 80,
+      "failed_pages": 0,
+      "missing_pages": 0,
+      "stale_pages": 0,
+      "pages_with_tables": 56,
+      "pages_without_tables": 24,
+      "total_tables": 93
+    }
+  ],
+  "bounded_diagnostics": {
+    "failed_page_keys": [],
+    "missing_page_keys": [],
+    "stale_page_keys": [],
+    "page_mapping_error_keys": [],
+    "no_table_page_keys_first_20": [
+      "海尔智家_2024年年度报告.pdf:p13",
+      "海尔智家_2024年年度报告.pdf:p136",
+      "海尔智家_2024年年度报告.pdf:p137",
+      "海尔智家_2024年年度报告.pdf:p138",
+      "海尔智家_2024年年度报告.pdf:p139",
+      "海尔智家_2024年年度报告.pdf:p140",
+      "海尔智家_2024年年度报告.pdf:p141",
+      "海尔智家_2024年年度报告.pdf:p143",
+      "海尔智家_2024年年度报告.pdf:p144",
+      "海尔智家_2024年年度报告.pdf:p145",
+      "海尔智家_2024年年度报告.pdf:p147",
+      "海尔智家_2024年年度报告.pdf:p148",
+      "海尔智家_2024年年度报告.pdf:p150",
+      "海尔智家_2024年年度报告.pdf:p151",
+      "海尔智家_2024年年度报告.pdf:p152",
+      "海尔智家_2024年年度报告.pdf:p153",
+      "海尔智家_2024年年度报告.pdf:p154",
+      "海尔智家_2024年年度报告.pdf:p155",
+      "海尔智家_2024年年度报告.pdf:p157",
+      "海尔智家_2024年年度报告.pdf:p158"
+    ],
+    "unexpected_artifacts_first_20": []
+  },
+  "next_step": "OCR 产物完整；可进入表格 chunk 构建。",
+  "ground_truth_loaded": false
+}

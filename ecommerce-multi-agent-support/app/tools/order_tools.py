@@ -15,46 +15,35 @@ class GetOrderStatusToolResult:
 class GetOrderStatusTool:
     name = "get_order_status"
 
-    def __init__(
-        self,
-        order_repository: OrderRepository,
-        shipment_repository: ShipmentRepository,
-    ) -> None:
+    def __init__(self, order_repository: OrderRepository, shipment_repository: ShipmentRepository) -> None:
         self.order_repository = order_repository
         self.shipment_repository = shipment_repository
 
     def execute(
-        self,
-        *,
-        order_no: str,
-        user_id: int,
-        request_id: str,
+        self, *, order_no: str, user_id: int, shop_id: str, request_id: str
     ) -> GetOrderStatusToolResult:
         started = perf_counter()
-        order = self.order_repository.get_owned_order(order_no=order_no, user_id=user_id)
+        order = self.order_repository.get_owned_order(
+            shop_id=shop_id, order_no=order_no, user_id=user_id
+        )
         shipment = None
         if order is not None:
             shipment = self.shipment_repository.get_owned_order_shipment(
-                order_no=order_no,
-                user_id=user_id,
+                shop_id=shop_id, order_no=order_no, user_id=user_id
             )
-
         order_data = self._serialize_order(order) if order else None
         shipment_data = self._serialize_shipment(shipment) if shipment else None
         trace = {
             "step": 1,
             "request_id": request_id,
             "tool": self.name,
+            # Trusted user/shop context is deliberately not copied into public trace arguments.
             "arguments": {"order_no": order_no},
             "success": order is not None,
             "result_count": 1 if order is not None else 0,
             "duration_ms": round((perf_counter() - started) * 1000, 2),
         }
-        return GetOrderStatusToolResult(
-            order=order_data,
-            shipment=shipment_data,
-            trace=trace,
-        )
+        return GetOrderStatusToolResult(order=order_data, shipment=shipment_data, trace=trace)
 
     @staticmethod
     def _serialize_order(order: Order) -> dict:
@@ -63,6 +52,7 @@ class GetOrderStatusTool:
             "order_no": order.order_no,
             "status": order.status,
             "total_amount": str(order.total_amount),
+            "currency": order.currency,
             "created_at": order.created_at.isoformat(),
             "items": [
                 {
@@ -86,10 +76,6 @@ class GetOrderStatusTool:
             "tracking_no": shipment.tracking_no,
             "status": shipment.status,
             "exception_type": shipment.exception_type,
-            "estimated_delivery_at": (
-                shipment.estimated_delivery_at.isoformat()
-                if shipment.estimated_delivery_at is not None
-                else None
-            ),
+            "estimated_delivery_at": shipment.estimated_delivery_at.isoformat() if shipment.estimated_delivery_at is not None else None,
             "updated_at": shipment.updated_at.isoformat(),
         }

@@ -9,6 +9,7 @@ from app.models.tables import AuditLogTable
 def record_audit(
     db: Session,
     *,
+    shop_id: str,
     user_id: int,
     request_id: str,
     action: str,
@@ -19,6 +20,7 @@ def record_audit(
 ) -> None:
     db.add(
         AuditLogTable(
+            shop_id=shop_id,
             user_id=user_id,
             order_id=order_id,
             request_id=request_id,
@@ -31,16 +33,17 @@ def record_audit(
     db.commit()
 
 
-def list_user_audits(db: Session, *, user_id: int, limit: int = 20) -> list[dict]:
+def list_user_audits(db: Session, *, shop_id: str, user_id: int, limit: int = 20) -> list[dict]:
     rows = db.scalars(
         select(AuditLogTable)
-        .where(AuditLogTable.user_id == user_id)
+        .where(AuditLogTable.shop_id == shop_id, AuditLogTable.user_id == user_id)
         .order_by(AuditLogTable.created_at.desc(), AuditLogTable.id.desc())
         .limit(max(1, min(limit, 100)))
     ).all()
     return [
         {
             "id": row.id,
+            "shop_id": row.shop_id,
             "request_id": row.request_id,
             "action": row.action,
             "success": row.success,

@@ -1,0 +1,50 @@
+[
+  {
+    "subset": "new_company",
+    "company": "海尔智家股份有限公司",
+    "stock_code": "600690",
+    "report_year": 2024,
+    "filename": "海尔智家_2024年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2025-03-28/1222926246.PDF",
+    "page_count": 247,
+    "size_bytes": 5167345,
+    "sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+    "identity_status": "verified"
+  },
+  {
+    "subset": "new_company",
+    "company": "宜宾五粮液股份有限公司",
+    "stock_code": "000858",
+    "report_year": 2024,
+    "filename": "五粮液_2024年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2025-04-26/1223311527.PDF",
+    "page_count": 147,
+    "size_bytes": 7895552,
+    "sha256": "b737191a758994a35e9442d46847de771fe48b758feb9a7f35601def922435e7",
+    "identity_status": "verified"
+  },
+  {
+    "subset": "new_year",
+    "company": "珠海格力电器股份有限公司",
+    "stock_code": "000651",
+    "report_year": 2023,
+    "filename": "格力电器_2023年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2024-04-30/1219928418.PDF",
+    "page_count": 249,
+    "size_bytes": 3911496,
+    "sha256": "32ebc475a2291ce4f1b5c1a9f9da55227e03192f07e75041e976c29d213ec8aa",
+    "identity_status": "verified"
+  },
+  {
+    "subset": "new_year",
+    "company": "美的集团股份有限公司",
+    "stock_code": "000333",
+    "report_year": 2023,
+    "filename": "美的集团_2023年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2024-03-28/1219429374.PDF",
+    "page_count": 291,
+    "size_bytes": 6617110,
+    "sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+    "identity_status": "verified"
+  }
+]

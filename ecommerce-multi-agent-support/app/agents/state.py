@@ -8,6 +8,9 @@ class GraphState(TypedDict, total=False):
     request_id: str
     session_id: str
     user_id: int
+    shop_id: str
+    market: str
+    timezone: str
     message: str
 
     route: RouteName

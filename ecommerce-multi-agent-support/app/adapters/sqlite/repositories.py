@@ -19,10 +19,12 @@ def _to_product(row: ProductTable) -> Product:
         specifications = {}
     return Product(
         id=row.id,
+        shop_id=row.shop_id,
         sku=row.sku,
         name=row.name,
         category=row.category,
         price=Decimal(row.price),
+        currency=row.currency,
         stock=row.stock,
         specifications=specifications,
         is_active=row.is_active,
@@ -42,10 +44,12 @@ def _to_order(row: OrderTable) -> Order:
     ]
     return Order(
         id=row.id,
+        shop_id=row.shop_id,
         order_no=row.order_no,
         user_id=row.user_id,
         status=row.status,
         total_amount=Decimal(row.total_amount),
+        currency=row.currency,
         created_at=row.created_at,
         items=items,
     )
@@ -58,13 +62,18 @@ class SQLiteCatalogRepository:
     def search(
         self,
         *,
+        shop_id: str,
         keyword: str | None = None,
         category: str | None = None,
         max_price: Decimal | None = None,
         in_stock_only: bool = True,
         limit: int = 10,
     ) -> list[Product]:
-        statement: Select[tuple[ProductTable]] = select(ProductTable).where(ProductTable.is_active.is_(True))
+        # MIGRATION: shop scope is applied at the first real catalog mapping boundary.
+        statement: Select[tuple[ProductTable]] = select(ProductTable).where(
+            ProductTable.shop_id == shop_id,
+            ProductTable.is_active.is_(True),
+        )
         if keyword:
             normalized = f"%{keyword.strip().lower()}%"
             statement = statement.where(
@@ -81,9 +90,10 @@ class SQLiteCatalogRepository:
         statement = statement.order_by(ProductTable.price, ProductTable.id).limit(_bounded_limit(limit))
         return [_to_product(row) for row in self.session.scalars(statement).all()]
 
-    def get_by_sku(self, sku: str) -> Product | None:
+    def get_by_sku(self, *, shop_id: str, sku: str) -> Product | None:
         row = self.session.scalar(
             select(ProductTable).where(
+                ProductTable.shop_id == shop_id,
                 ProductTable.sku == sku.strip(),
                 ProductTable.is_active.is_(True),
             )
@@ -101,19 +111,21 @@ class SQLiteOrderRepository:
             selectinload(OrderTable.items).selectinload(OrderItemTable.product)
         )
 
-    def get_owned_order(self, *, order_no: str, user_id: int) -> Order | None:
+    def get_owned_order(self, *, shop_id: str, order_no: str, user_id: int) -> Order | None:
+        # MIGRATION: authorization is enforced by shop + user + order number together.
         row = self.session.scalar(
             self._base_statement().where(
+                OrderTable.shop_id == shop_id,
                 OrderTable.order_no == order_no.strip(),
                 OrderTable.user_id == user_id,
             )
         )
         return _to_order(row) if row else None
 
-    def list_owned_orders(self, *, user_id: int, limit: int = 10) -> list[Order]:
+    def list_owned_orders(self, *, shop_id: str, user_id: int, limit: int = 10) -> list[Order]:
         rows = self.session.scalars(
             self._base_statement()
-            .where(OrderTable.user_id == user_id)
+            .where(OrderTable.shop_id == shop_id, OrderTable.user_id == user_id)
             .order_by(OrderTable.created_at.desc(), OrderTable.id.desc())
             .limit(_bounded_limit(limit))
         ).all()
@@ -125,15 +137,14 @@ class SQLiteShipmentRepository:
         self.session = session
 
     def get_owned_order_shipment(
-        self,
-        *,
-        order_no: str,
-        user_id: int,
+        self, *, shop_id: str, order_no: str, user_id: int
     ) -> Shipment | None:
+        # MIGRATION: shipment reuse keeps repository logic single-sourced and tenant-scoped.
         row = self.session.execute(
             select(ShipmentTable, OrderTable.order_no)
             .join(OrderTable, ShipmentTable.order_id == OrderTable.id)
             .where(
+                OrderTable.shop_id == shop_id,
                 OrderTable.order_no == order_no.strip(),
                 OrderTable.user_id == user_id,
             )

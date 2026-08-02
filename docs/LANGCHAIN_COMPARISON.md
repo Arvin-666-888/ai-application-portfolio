@@ -10,8 +10,8 @@
 cd rag-financial-qa
 pip install -r requirements.txt
 pip install -r requirements-langchain.txt
-python examples/langchain_rag_demo.py --mock --question "2024年公司营业收入是多少？"
-python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收入是多少？"
+python examples/langchain_rag_demo.py --mock --question "Amazon 美国市场 SKU-A100 的价格是多少？"
+python examples/langchain_rag_demo.py --mock --question "SKU-Z999 的价格是多少？"
 ```
 
 实现点：
@@ -19,6 +19,7 @@ python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收�
 - 使用 LangChain `Document` 承载文档内容和 `source` metadata。
 - 使用 `RecursiveCharacterTextSplitter` 对照主项目的递归文本切分逻辑。
 - 使用 Chroma retriever 完成 top-k 检索，并输出 `answer`、`sources`、`snippet` 和 `relevance`。
+- 活动样例只加载商品手册、关税合规和物流记录，支持价格、库存数量、物流时效、关税税率；资料外 SKU 或超范围事实在 mock 路径中 fail closed。
 - 无 API Key 时使用本地 `HashEmbeddings` 跑通流程；有 API Key 时可切换到 `OpenAIEmbeddings` 和 `ChatOpenAI`。
 
 ## Agent 对照
@@ -29,14 +30,14 @@ python examples/langchain_rag_demo.py --mock --question "竞争对手A公司收�
 cd business-data-agent
 pip install -r requirements.txt
 pip install -r requirements-langchain.txt
-python examples/langchain_sql_agent_demo.py --mock --question "2024年每月收入趋势如何？"
+python examples/langchain_sql_agent_demo.py --mock --question "Amazon 广告的 ROAS 和 ROI 表现如何？"
 ```
 
 实现点：
 
 - 复用主项目的 `DatabaseConnector`、`validate_sql`、`sanitize_sql`。
 - 使用 LangChain `@tool` 封装 `list_tables`、`get_schema`、`execute_sql`。
-- `execute_sql` 仍然复用主项目 SQL 安全逻辑，只允许 SELECT，并拦截危险 SQL。
+- `execute_sql` 仍然复用主项目基于 `sqlglot` AST 的 SELECT-only、LIMIT 和 `shop_id` 绑定边界，不另建一套 SQL 安全规则。
 - 无 API Key 时离线展示工具注册和固定工具链；有 API Key 时使用 `create_agent` 让模型选择工具。
 - 输出 `tool_trace`，与主项目工具轨迹结构保持一致。
 

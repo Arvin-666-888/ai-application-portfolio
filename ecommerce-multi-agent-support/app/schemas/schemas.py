@@ -17,9 +17,11 @@ class UserLogin(BaseModel):
 
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
     username: str
+    shop_id: str
+    market: str
+    timezone: str
     created_at: datetime
 
 
@@ -30,12 +32,13 @@ class TokenResponse(BaseModel):
 
 class ProductResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
+    shop_id: str
     sku: str
     name: str
     category: str
     price: Decimal
+    currency: str
     stock: int
     specifications: dict[str, Any]
     is_active: bool
@@ -43,7 +46,6 @@ class ProductResponse(BaseModel):
 
 class OrderItemResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     product_id: int
     sku: str
     product_name: str
@@ -53,18 +55,18 @@ class OrderItemResponse(BaseModel):
 
 class OrderResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
+    shop_id: str
     order_no: str
     status: str
     total_amount: Decimal
+    currency: str
     created_at: datetime
     items: list[OrderItemResponse]
 
 
 class ShipmentResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
     order_id: int
     order_no: str
@@ -127,8 +129,8 @@ class ChatPreviewResponse(BaseModel):
 
 class AuditLogResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
+    shop_id: str
     request_id: str
     action: str
     success: bool

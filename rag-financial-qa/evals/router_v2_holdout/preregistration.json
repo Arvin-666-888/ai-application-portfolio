@@ -1,0 +1,61 @@
+{
+  "schema_version": "router-v2-holdout-preregistration-v1",
+  "role": "independent_holdout",
+  "status": "frozen_before_ground_truth",
+  "frozen_on": "2026-07-28",
+  "case_count": 24,
+  "report_count": 4,
+  "subsets": {
+    "new_company": ["holdout_00", "holdout_01", "holdout_02", "holdout_03", "holdout_04", "holdout_05", "holdout_06", "holdout_07", "holdout_08", "holdout_09", "holdout_10", "holdout_11"],
+    "new_year": ["holdout_12", "holdout_13", "holdout_14", "holdout_15", "holdout_16", "holdout_17", "holdout_18", "holdout_19", "holdout_20", "holdout_21", "holdout_22", "holdout_23"]
+  },
+  "metric_families": [
+    "revenue",
+    "net_profit",
+    "parent_net_profit",
+    "operating_cash_flow",
+    "total_assets",
+    "gross_margin"
+  ],
+  "release_gates": {
+    "overall_row_aware_recall_at_5_min": 0.5,
+    "new_company_row_aware_recall_at_5_min": 0.4,
+    "new_year_row_aware_recall_at_5_min": 0.4,
+    "must_not_underperform_legacy": true,
+    "infrastructure_duplicate_effective_jobs_max": 0,
+    "infrastructure_permanent_running_jobs_max": 0,
+    "ground_truth_fields_in_candidate_stage_max": 0
+  },
+  "evaluation_contract": {
+    "top_k_values": [3, 5],
+    "candidate_recall_k_values": [20, 50, 100],
+    "report_mrr": true,
+    "paired_profiles": ["legacy", "financial_v2"],
+    "single_official_run_after_ground_truth_unseal": true,
+    "tuning_after_unseal_forbidden": true
+  },
+  "required_freeze_identities": [
+    "source_pdf_file_sha256",
+    "query_only_file_sha256",
+    "candidate_policy_fingerprint",
+    "parser_profile_fingerprint",
+    "ocr_engine_fingerprint",
+    "corpus_file_and_canonical_sha256",
+    "retrieval_config_file_and_canonical_sha256",
+    "embedding_identity",
+    "scorer_file_sha256"
+  ],
+  "ground_truth_policy": {
+    "path": "private/ground_truth.json",
+    "must_not_exist_before_freeze_validation": true,
+    "candidate_loader_forbidden_fields": [
+      "expected_value",
+      "expected_page",
+      "expected_source",
+      "expected_table_id",
+      "answer",
+      "ground_truth"
+    ]
+  },
+  "claim_boundary": "Failure to pass any release gate keeps legacy as the default and must be reported as V2 infrastructure complete but quality acceptance failed."
+}

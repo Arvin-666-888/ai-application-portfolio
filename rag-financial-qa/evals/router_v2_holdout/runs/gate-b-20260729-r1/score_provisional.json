@@ -1,0 +1,522 @@
+{
+  "schema_version": "router-v2-holdout-score-v1",
+  "status": "provisional",
+  "provisional": true,
+  "ground_truth_loaded": true,
+  "official_score_blockers": [
+    "ground_truth_attestation_missing"
+  ],
+  "inputs": {
+    "pre_gt_freeze_file_sha256": "e5e96d924d69fe2c197c5fe2758d4a00baed80dbbe28ef48d96ce4a470023319",
+    "candidate_file_sha256": "2a253f76256735f1215eec518c15c6dbed5b329d3625e5d32192ce9fb2a616d3",
+    "candidate_canonical_sha256": "c5b34b8237178185ea667857834acbf200123316686645e8337c8455a9d5a842",
+    "candidate_ranking_sha256": "155d26c05f2823a41a1e60750bce268d98605ec168e7d1bec0080f7dba67bc70",
+    "ground_truth_file_sha256": "4542f2bb63c6bd9bbf815487c6d9e62a2f8794c54e1c92a3a8e36bca62562c3a",
+    "ground_truth_validation_file_sha256": "12552c849139b629c565aab6e515af42cb519164ef67795025d89c54df8e5715",
+    "ground_truth_attestation_file_sha256": null,
+    "scorer_file_sha256": "3076514ce31eed58651f0389171f130ee3a497036e12720cd65f5d9890dd714c"
+  },
+  "attestation": null,
+  "metrics": {
+    "legacy": {
+      "overall": {
+        "cases": 24,
+        "hits_at_5": 4,
+        "recall_at_5": 0.166667,
+        "mrr": 0.118056
+      },
+      "subsets": {
+        "new_company": {
+          "cases": 12,
+          "hits_at_5": 2,
+          "recall_at_5": 0.166667,
+          "mrr": 0.111111
+        },
+        "new_year": {
+          "cases": 12,
+          "hits_at_5": 2,
+          "recall_at_5": 0.166667,
+          "mrr": 0.125
+        }
+      }
+    },
+    "financial_v2": {
+      "overall": {
+        "cases": 24,
+        "hits_at_5": 12,
+        "recall_at_5": 0.5,
+        "mrr": 0.231944
+      },
+      "subsets": {
+        "new_company": {
+          "cases": 12,
+          "hits_at_5": 7,
+          "recall_at_5": 0.583333,
+          "mrr": 0.273611
+        },
+        "new_year": {
+          "cases": 12,
+          "hits_at_5": 5,
+          "recall_at_5": 0.416667,
+          "mrr": 0.190278
+        }
+      }
+    }
+  },
+  "gate_b": {
+    "passed": true,
+    "checks": {
+      "overall_min": true,
+      "new_company_min": true,
+      "new_year_min": true,
+      "not_underperform_legacy": true
+    }
+  },
+  "cases": [
+    {
+      "case_id": "holdout_00",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 5,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_01",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_02",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 4,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_03",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 2,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_04",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing",
+            "value_missing"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_05",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_06",
+      "scores": {
+        "legacy": {
+          "hit": true,
+          "hit_rank": 3,
+          "miss_reason": null
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 2,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_07",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_08",
+      "scores": {
+        "legacy": {
+          "hit": true,
+          "hit_rank": 1,
+          "miss_reason": null
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 1,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_09",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "conditions_not_in_same_context"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 3,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_10",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 2,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_11",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_12",
+      "scores": {
+        "legacy": {
+          "hit": true,
+          "hit_rank": 1,
+          "miss_reason": null
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "conditions_not_in_same_context"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_13",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "value_missing"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_14",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 1,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_15",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "conditions_not_in_same_context"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 4,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_16",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 3,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_17",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_18",
+      "scores": {
+        "legacy": {
+          "hit": true,
+          "hit_rank": 2,
+          "miss_reason": null
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 2,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_19",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_20",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "conditions_not_in_same_context"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_21",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "conditions_not_in_same_context"
+          ]
+        },
+        "financial_v2": {
+          "hit": true,
+          "hit_rank": 5,
+          "miss_reason": null
+        }
+      }
+    },
+    {
+      "case_id": "holdout_22",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "metric_missing",
+            "value_missing"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "holdout_23",
+      "scores": {
+        "legacy": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        },
+        "financial_v2": {
+          "hit": false,
+          "hit_rank": null,
+          "miss_reason": [
+            "page_mismatch",
+            "metric_missing",
+            "value_missing"
+          ]
+        }
+      }
+    }
+  ]
+}

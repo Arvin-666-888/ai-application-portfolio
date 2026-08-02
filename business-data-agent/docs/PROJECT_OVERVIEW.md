@@ -1,46 +1,43 @@
-# 企业经营数据智能分析 Agent 技术说明
+# 跨境电商经营数据分析 Agent 技术说明
 
-## 项目定位
+## 定位
 
-这是一个经营数据分析 Agent 后端原型，重点验证自然语言问题到工具调用、SQL 查询、结果解释、图表生成和报告导出的完整链路。项目保留 mock mode 和真实模型分支，便于在没有 API Key 的情况下复现后端流程。
+该后端原型验证从店铺身份、自然语言问题、Function Calling、受控 SQL 到分析记录和导出的完整链路。业务范围固定为 Amazon、TikTok Shop、Shopee 的广告 ROAS/ROI、选品、库存周转和竞品价差。
 
-## 核心能力
+## 实现
 
-- 基于 FastAPI、SQLAlchemy 和 OpenAI-compatible Function Calling 实现经营数据分析 Agent。
-- 通过 `get_schema`、`execute_sql`、`generate_chart`、`list_tables`、`preview_table` 等工具完成多步分析。
-- 围绕收入趋势、产品线毛利率、预算执行、应收账款风险和现金流构建财务经营样例库。
-- 支持 SQL 查询、图表生成、分析记录保存、CSV 导出和 Markdown 报告导出。
-- 实现 SQL 安全控制：仅允许 SELECT，拦截危险关键字、多语句和注释，自动追加 LIMIT。
-- 保存 `tool_trace`，记录工具名称、参数、执行状态和结果摘要，方便复核和排错。
+- FastAPI Router / Service + SQLAlchemy Repository 依赖注入。
+- JWT 同时携带 `sub`（user_id）与 `shop_id`。
+- User、DataSource、AnalysisRecord 直接保存 `shop_id`，不增加 Shop 表或 Adapter 层。
+- connector cache 使用 `(ds_id, user_id, shop_id)`，连接串变化时重建 connector。
+- `parse_and_guard_sql` 负责原 SELECT-only AST 规则；`enforce_shop_scope` 独立负责业务表行级隔离。
+- 店铺谓词以 `:shop_id` 绑定参数施加到 alias、JOIN、CTE、subquery、UNION 的每个业务 Select scope。
+- preview 也通过同一执行边界，记录详情、CSV 和 Markdown 导出均执行 `user_id + shop_id` 所有权过滤。
 
-## 运行与验证
+## 数据与口径
 
-```powershell
-pip install -r requirements.txt
-pytest
+四张业务表均包含 `shop_id/platform/marketplace/currency/timezone`：
+
+- `sales_records`：经营贡献 = gross_sales - refunds - platform_fees - cogs。
+- `ad_performance`：ROAS = attributed_sales / ad_spend；ROI = (attributed_sales - attributed_refunds - attributed_platform_fees - attributed_cogs - ad_spend) / ad_spend。
+- `inventory_snapshots`：30 天周转率 = trailing_30d_units_sold / average_inventory_units_30d；周转天数 = 30 / 周转率。
+- `competitor_prices`：价差 = own_price - competitor_price；价差率 = 价差 / competitor_price。
+
+所有金额分析必须保留 `currency`，没有汇率时不跨币种直接聚合。
+
+## 验证
+
+```bash
+pytest -q --basetemp=.pytest-migration
+python evals/run_agent_eval.py --json
 python scripts/smoke_demo.py
-python evals/run_agent_eval.py
-uvicorn app.main:app --reload --port 8000
 ```
 
-验证重点：
-
-- `scripts/smoke_demo.py` 验证注册、登录、创建数据源、自然语言分析和报告导出。
-- `evals/run_agent_eval.py` 验证工具选择、SQL 结构、结果行数和危险 SQL 拦截。
-- `pytest` 覆盖 SQL 安全、鉴权、数据源权限隔离、分析链路和报告导出。
-- Swagger 可用于手工验证登录、数据源创建、提问、结果详情和导出接口。
-
-## 技术取舍
-
-- **受控工具执行**：模型只返回工具调用意图，数据库访问由后端工具层统一执行。
-- **先 schema 后 SQL**：让模型先了解真实表结构，降低编造表名和字段的概率。
-- **只读 SQL**：数据分析场景只需要查询，不应允许模型修改业务数据。
-- **工具轨迹**：保存 tool trace，便于复核分析过程和定位工具调用问题。
-- **mock mode**：用于验证后端链路；真实模型分支用于验证完整 Function Calling 能力。
+pytest 覆盖 SELECT-only、防绕过、每种 SQL scope、绑定参数执行、Repository 双维度隔离、JWT、数据源、preview、分析记录与导出。eval 覆盖四类业务问题与危险 SQL。smoke 覆盖注册、登录、数据源、分析和报告导出。
 
 ## 当前边界
 
-- 默认样例数据使用 SQLite；MySQL 连接形式已预留，但未做多数据库方言专项适配。
-- SQL 安全是规则级防护，生产环境还需要 SQL AST、只读账号、表/字段白名单、查询超时、审计日志、结果脱敏和资源配额。
-- RAG 工具通过 HTTP 调外部服务，当前项目只保留对接点，不内置向量库和文档索引流程。
-- 前端暂未实现，当前通过 Swagger、脚本和导出报告完成验证。
+- 只支持 SQLite；不依赖 MySQL、Redis、CI 或 Docker。
+- V1 注册中的 `shop_id` 仅用于受控 Demo/预配置店铺，证明后续 JWT、Repository 和 SQL 行级隔离；它不构成生产级店铺归属证明。公开生产注册必须由服务端邀请、审批或 membership/角色关系授予店铺身份。
+- mock mode 证明后端链路和确定性口径，不证明真实模型效果。
+- 生产仍需数据库只读账号、超时、资源配额、审计、密钥轮换和 CORS 收敛。

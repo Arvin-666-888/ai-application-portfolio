@@ -2,10 +2,10 @@ import logging
 from datetime import datetime, timedelta
 
 import jwt
-from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.models.models import User
+from app.repositories import UserRepository
 
 logger = logging.getLogger("kb_qa.auth")
 
@@ -40,34 +40,31 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 
 def create_access_token(data: dict) -> str:
+    # MIGRATION: 仅用户身份 JWT -> 由服务端签发 user_id + shop_id 联合租户上下文。
     to_encode = data.copy()
     expire = datetime.now() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 
-def register_user(db: Session, username: str, password: str) -> User:
-    existing = db.query(User).filter(User.username == username).first()
+def register_user(users: UserRepository, shop_id: str, username: str, password: str) -> User:
+    existing = users.get_by_username(username, shop_id)
     if existing:
-        raise ValueError("用户名已存在")
-    user = User(username=username, hashed_password=hash_password(password))
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+        raise ValueError("该店铺下用户名已存在")
+    return users.add(
+        User(shop_id=shop_id, username=username, hashed_password=hash_password(password))
+    )
+
+
+def authenticate_user(users: UserRepository, shop_id: str, username: str, password: str) -> User:
+    user = users.get_by_username(username, shop_id)
+    if not user or not verify_password(password, user.hashed_password):
+        raise ValueError("店铺、用户名或密码错误")
     return user
 
 
-def authenticate_user(db: Session, username: str, password: str) -> User:
-    user = db.query(User).filter(User.username == username).first()
-    if not user:
-        raise ValueError("用户名或密码错误")
-    if not verify_password(password, user.hashed_password):
-        raise ValueError("用户名或密码错误")
-    return user
-
-
-def get_user_by_id(db: Session, user_id: int) -> User:
-    user = db.query(User).filter(User.id == user_id).first()
+def get_user_by_id(users: UserRepository, user_id: int, shop_id: str) -> User:
+    user = users.get_by_id(user_id, shop_id)
     if not user:
         raise ValueError("用户不存在")
     return user

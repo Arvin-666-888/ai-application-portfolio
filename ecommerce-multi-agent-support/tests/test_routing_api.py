@@ -21,6 +21,6 @@ def test_routing_preview_dispatches_aftersales(client):
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["route"] == "aftersales"
-    assert data["dispatched_to"] == "aftersales"
+    assert data["route"] == "aftersales_handling"
+    assert data["dispatched_to"] == "aftersales_handling"
     assert data["route_source"] == "rule_fallback"

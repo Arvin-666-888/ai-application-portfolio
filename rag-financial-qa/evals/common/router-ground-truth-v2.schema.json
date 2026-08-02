@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "router-ground-truth-v2.schema.json",
+  "type": "object",
+  "required": ["schema_version", "metadata", "cases"],
+  "properties": {
+    "schema_version": {"const": "router-ground-truth-v2"},
+    "metadata": {"type": "object"},
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["case_id", "pdf", "question", "metric", "expected_value", "expected_page", "should_refuse", "expected_unit", "expected_year", "expected_company", "expected_scope", "expected_source", "evidence_excerpt", "review_notes"],
+        "properties": {
+          "case_id": {"type": "string", "minLength": 1},
+          "pdf": {"type": "string", "minLength": 1},
+          "question": {"type": "string", "minLength": 1},
+          "metric": {"type": "string"},
+          "expected_value": {"type": ["string", "null"]},
+          "expected_page": {"type": ["integer", "null"], "minimum": 1},
+          "should_refuse": {"type": "boolean"},
+          "expected_unit": {"type": ["string", "null"]},
+          "expected_year": {"type": ["string", "null"]},
+          "expected_company": {"type": ["string", "null"]},
+          "expected_scope": {"type": ["string", "null"]},
+          "expected_source": {"type": ["string", "null"]},
+          "evidence_excerpt": {"type": "string"},
+          "review_notes": {"type": "string"},
+          "refusal_reason": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

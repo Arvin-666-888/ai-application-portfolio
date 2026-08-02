@@ -1,0 +1,26 @@
+{
+  "schema_version": "router-ground-truth-v2",
+  "metadata": {
+    "holdout_id": "replace-with-new-sealed-holdout-id",
+    "page_number_basis": "1-based-physical",
+    "review_protocol_version": "independent-source-only-v1"
+  },
+  "cases": [
+    {
+      "case_id": "replace-from-query-only",
+      "pdf": "replace-from-source-manifest.pdf",
+      "question": "copy-byte-for-byte-from-query-only",
+      "metric": "replace",
+      "expected_value": "replace-with-string-or-null-for-refusal",
+      "expected_page": 1,
+      "should_refuse": false,
+      "expected_unit": "replace",
+      "expected_year": "replace",
+      "expected_company": "replace",
+      "expected_scope": "replace",
+      "expected_source": "replace-from-source-manifest.pdf",
+      "evidence_excerpt": "minimal excerpt manually transcribed from the PDF",
+      "review_notes": "state how the year, scope, unit, and same-name rows were disambiguated"
+    }
+  ]
+}

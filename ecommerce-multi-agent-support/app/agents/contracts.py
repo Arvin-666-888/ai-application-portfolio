@@ -4,7 +4,13 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 
-RouteName = Literal["catalog", "order", "aftersales", "unsupported"]
+RouteName = Literal[
+    "product_inquiry",
+    "aftersales_handling",
+    "order_query",
+    "logistics_tracking",
+    "unsupported",
+]
 RouteSource = Literal["llm", "rule_fallback"]
 
 
@@ -18,14 +24,7 @@ class RouteDecision(BaseModel):
 
 
 CatalogCategory = Literal[
-    "charger",
-    "power_bank",
-    "cable",
-    "hub",
-    "wireless_charger",
-    "accessory",
-    "audio",
-    "adapter",
+    "charger", "power_bank", "cable", "hub", "wireless_charger", "accessory", "audio", "adapter"
 ]
 
 
@@ -35,6 +34,7 @@ class CatalogSearchDecision(BaseModel):
     keyword: str | None = Field(default=None, max_length=100)
     category: CatalogCategory | None = None
     max_price: Decimal | None = Field(default=None, gt=0)
+    budget_currency: Literal["USD", "EUR", "GBP"] | None = None
     power_w: int | None = Field(default=None, gt=0, le=500)
     in_stock_only: bool = True
     limit: int = Field(default=5, ge=1, le=10)
@@ -49,6 +49,7 @@ AftersalesIssueType = Literal[
     "cancel_request",
     "return_request",
     "warranty",
+    "address_change",
     "other",
 ]
 RequestedAction = Literal[
@@ -58,6 +59,7 @@ RequestedAction = Literal[
     "cancel",
     "return",
     "warranty_service",
+    "change_address",
     "investigate",
 ]
 
