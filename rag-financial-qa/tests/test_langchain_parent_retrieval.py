@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import builtins
 import importlib.util
 import json
 import sys
@@ -127,7 +128,7 @@ def test_scorer_rejects_ground_truth_count_mismatch():
         scorer.score(candidates, [])
 
 
-def test_candidate_script_requires_recall_at_five_contract(tmp_path):
+def test_candidate_script_requires_recall_at_five_contract(tmp_path, monkeypatch):
     args = argparse.Namespace(
         top_k=3,
         dense_k=100,
@@ -136,6 +137,14 @@ def test_candidate_script_requires_recall_at_five_contract(tmp_path):
         questions=tmp_path / "missing.jsonl",
         embedding_cache_dir=tmp_path,
     )
+    original_import = builtins.__import__
+
+    def fail_on_optional_import(name, *args, **kwargs):
+        if name == "langchain_chroma":
+            raise AssertionError("optional dependencies must load after contract validation")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", fail_on_optional_import)
 
     with pytest.raises(module.evaluator.RetrievalInputError, match="top_k=5"):
         module.run(args)

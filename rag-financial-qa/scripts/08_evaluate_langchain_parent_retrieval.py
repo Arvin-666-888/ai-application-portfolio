@@ -122,15 +122,19 @@ def _parent_score(features: dict[str, float]) -> float:
     )
 
 
-def run(args: argparse.Namespace) -> dict[str, Any]:
-    import chromadb
-    from langchain_chroma import Chroma
-    from langchain_core.documents import Document
-
+def _validate_retrieval_contract(args: argparse.Namespace) -> None:
     if args.top_k != 5:
         raise evaluator.RetrievalInputError("正式对照固定 top_k=5")
     if args.dense_k < args.top_k or args.lexical_k < args.top_k:
         raise evaluator.RetrievalInputError("候选池必须大于等于 top_k")
+
+
+def run(args: argparse.Namespace) -> dict[str, Any]:
+    _validate_retrieval_contract(args)
+
+    import chromadb
+    from langchain_chroma import Chroma
+    from langchain_core.documents import Document
 
     corpus_path = args.corpus.resolve()
     corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
