@@ -3,11 +3,13 @@
 ## 自动验收
 
 ```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe evals\run_eval.py
+.\.venv\Scripts\python.exe scripts\smoke_demo.py
 ```
 
-预期：pytest `94 passed`；eval `47/47`，五路外部契约均被覆盖。`scripts/smoke_demo.py` 使用系统临时 SQLite，不读取或覆盖已有旧 schema 演示库。
+预期：pytest `97 passed`；eval `47/47`，五路外部契约均被覆盖。`scripts/smoke_demo.py` 使用系统临时 SQLite，不读取或覆盖已有旧 schema 演示库。
 
 ## 核心演示
 

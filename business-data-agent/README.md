@@ -48,16 +48,18 @@
 ## 本地运行
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 pytest -q --basetemp=.pytest-migration
 python evals/run_agent_eval.py --json
 python scripts/smoke_demo.py
 uvicorn app.main:app --reload --port 8000
 ```
 
+生产 API 或 Docker 镜像只安装 `requirements.txt`。LangChain 对照 Demo 请在独立 Python 3.12 虚拟环境安装 `requirements/langchain-baseline.txt`；依赖职责见 [`requirements/README.md`](requirements/README.md)。
+
 未配置 `API_KEY` 时使用确定性 mock mode；真实模型模式仍经过同一 SQL 执行边界。
 
-Fresh 本地验证：`58 passed`；固定 mock eval `8/8`，tool/SQL/row/answer/scope/safety 指标均为 `100%`；API smoke 完成注册、登录、店铺数据源、广告分析和 Markdown 报告导出。已跟踪 `sample_data/sample.db` 通过只读完整性与 schema contract，重复 seed 检查保持文件 SHA 不变。
+Fresh 本地验证：默认开发入口 `64 passed, 1 skipped module`（该模块包含 2 项 LangChain optional tests）；LangChain optional profile 专项 `2 passed`。固定 mock eval `8/8`，tool/SQL/row/answer/scope/safety 指标均为 `100%`；API smoke 完成注册、登录、店铺数据源、广告分析和 Markdown 报告导出。已跟踪 `sample_data/sample.db` 通过只读完整性与 schema contract，重复 seed 检查保持文件 SHA 不变。
 
 注册和登录请求都必须包含店铺：
 

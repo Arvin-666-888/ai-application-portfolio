@@ -27,8 +27,7 @@ python examples/langchain_rag_demo.py --mock --question "SKU-Z999 的价格是�
 
 ```powershell
 cd business-data-agent
-pip install -r requirements.txt
-pip install -r requirements-langchain.txt
+pip install -r requirements/langchain-baseline.txt
 python examples/langchain_sql_agent_demo.py --mock --question "Amazon 广告的 ROAS 和 ROI 表现如何？"
 ```
 

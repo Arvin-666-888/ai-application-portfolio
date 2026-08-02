@@ -5,6 +5,7 @@
 在 `business-data-agent` 目录执行：
 
 ```bash
+pip install -r requirements-dev.txt
 pytest -q --basetemp=.pytest-migration
 python evals/run_agent_eval.py --json
 python scripts/smoke_demo.py
@@ -12,7 +13,7 @@ python scripts/smoke_demo.py
 
 三项分别验证：
 
-1. AST SELECT-only 与 shop scope、JWT、Repository、preview、记录和导出隔离；本轮 fresh pytest 为 `58 passed`。
+1. AST SELECT-only 与 shop scope、JWT、Repository、preview、记录和导出隔离；默认开发入口 fresh pytest 为 `64 passed, 1 skipped module`（包含 2 项 LangChain optional tests），独立 LangChain optional profile 专项为 `2 passed`。
 2. 广告 ROAS/ROI、选品、库存周转、竞品价差与危险 SQL 固定评测；mock eval 为 `8/8`，tool/SQL/row/answer/scope/safety 均为 `100%`。
 3. `shop_id=amazon-us` 的注册、登录、数据源、自然语言分析和 Markdown 导出；本轮 smoke 已通过。
 

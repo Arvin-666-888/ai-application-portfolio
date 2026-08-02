@@ -38,7 +38,7 @@
 
 ## 验证结果
 
-- pytest：`94 passed`
+- pytest：`97 passed`
 - 本地确定性 eval：`47/47`，路由准确率 `100%`，工具选择准确率 `100%`，安全案例 `4/4`
 - 隔离数据库 smoke：商品/订单/物流/售后链路通过，跨用户订单返回 404，退款只生成 `refund_review + requires_approval=true`
 - 结果见 [`docs/V1_EVALUATION_REPORT.md`](docs/V1_EVALUATION_REPORT.md)
@@ -50,7 +50,7 @@
 ```powershell
 cd ecommerce-multi-agent-support
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe evals\run_eval.py
 .\.venv\Scripts\python.exe scripts\smoke_demo.py

@@ -8,8 +8,8 @@
 
 | 项目 | 业务场景 | 核心能力 | Fresh 验证 |
 |---|---|---|---|
-| [`ecommerce-multi-agent-support`](ecommerce-multi-agent-support/) | 跨境电商多 Agent 客服 | 商品咨询、售后处理、订单查询、物流追踪、JWT 店铺隔离、敏感动作待审批 | **94 passed**；eval **47/47** |
-| [`business-data-agent`](business-data-agent/) | 跨境电商经营数据分析 | Amazon / TikTok Shop / Shopee 销售、广告、库存、竞品数据；Function Calling；SQL AST Guardrail | **58 passed**；eval **8/8** |
+| [`ecommerce-multi-agent-support`](ecommerce-multi-agent-support/) | 跨境电商多 Agent 客服 | 商品咨询、售后处理、订单查询、物流追踪、JWT 店铺隔离、敏感动作待审批 | **97 passed**；eval **47/47** |
+| [`business-data-agent`](business-data-agent/) | 跨境电商经营数据分析 | Amazon / TikTok Shop / Shopee 销售、广告、库存、竞品数据；Function Calling；SQL AST Guardrail | **64 core + 2 optional passed**；eval **8/8** |
 | [`rag-financial-qa`](rag-financial-qa/) | 跨境电商商品文档 RAG | 商品手册、关税合规、物流单据；Citation Ledger；四类数值事实校验；三层 PDF 解析 | **378 passed**；活动集 **11 条 PASS** |
 
 > `rag-financial-qa` 是历史兼容目录名。当前活动业务已迁移为跨境电商商品事实 RAG；历史金融 PDF Router、PaddleOCR 和真实评测证据仍按原结果保留。
@@ -140,7 +140,7 @@ PDF L1: pdfplumber 全页正文
 ```powershell
 cd ecommerce-multi-agent-support
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe evals\run_eval.py
 .\.venv\Scripts\python.exe scripts\smoke_demo.py
@@ -154,7 +154,7 @@ Swagger：`http://127.0.0.1:8002/docs`
 ```powershell
 cd business-data-agent
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe evals\run_agent_eval.py --json
 .\.venv\Scripts\python.exe scripts\smoke_demo.py
@@ -208,10 +208,10 @@ docker compose up --build
 
 | 项目 | pytest | 活动评测 / Smoke |
 |---|---:|---|
-| 多 Agent 客服 | 94 passed | 47/47；route/tool 100%；security 4/4；隔离 SQLite smoke 通过 |
-| 数据分析 Agent | 58 passed | 8/8；tool/SQL/row/answer/scope/safety 均为 100%；API smoke 通过 |
+| 多 Agent 客服 | 97 passed | 47/47；route/tool 100%；security 4/4；隔离 SQLite smoke 通过 |
+| 数据分析 Agent | 64 core + 2 LangChain optional passed | 8/8；tool/SQL/row/answer/scope/safety 均为 100%；API smoke 通过 |
 | 商品文档 RAG | 378 passed | 11 条活动集结构校验通过；发布边界预检 50 PASS / 0 FAIL |
-| **合计** | **530 passed** | 固定本地工程合同，不代表生产业务指标 |
+| **合计** | **541 passed** | 固定本地工程合同，不代表生产业务指标 |
 
 RAG 历史证据没有被当前电商结果覆盖：
 

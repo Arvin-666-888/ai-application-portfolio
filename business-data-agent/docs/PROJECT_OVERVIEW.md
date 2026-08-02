@@ -28,6 +28,7 @@
 ## 验证
 
 ```bash
+pip install -r requirements-dev.txt
 pytest -q --basetemp=.pytest-migration
 python evals/run_agent_eval.py --json
 python scripts/smoke_demo.py

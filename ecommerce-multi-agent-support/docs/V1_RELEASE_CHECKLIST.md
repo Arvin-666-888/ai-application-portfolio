@@ -9,8 +9,8 @@
 - [x] User/Product/Order/Audit 最小单店字段完成。
 - [x] 固定种子覆盖 US/EU/UK、USD/EUR/GBP 和三种 IANA timezone。
 - [x] trace/audit 地址脱敏测试。
-- [x] pytest：94 passed。
+- [x] pytest：97 passed。
 - [x] eval：47/47，route/tool 100%，security 4/4。
 - [x] 隔离 SQLite smoke：商品、订单、物流、售后、越权和 approval-only 链路通过。
 
-边界：未提交 commit；未变更架构基建、CI、Compose、Docker 或 requirements。旧 SQLite schema 不自动迁移，需重建本地演示库。
+历史边界（迁移验收时）：当时未提交 commit，也未变更架构基建、CI、Compose、Docker 或 requirements。后续依赖职责整理已将 pytest 移入 `requirements-dev.txt`；旧 SQLite schema 仍不自动迁移，需重建本地演示库。
