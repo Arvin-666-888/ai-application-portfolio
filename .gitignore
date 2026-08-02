@@ -76,12 +76,15 @@ Thumbs.db
 # Repository-local heavy environments and generated outputs
 .venv-*/
 /chroma_data/
-/benchmark/
 /smoke_test/
-/scripts/
 rag-financial-qa/chinese_sample_output/
 rag-financial-qa/parse_snapshots/
 rag-financial-qa/ocr_artifacts/
+
+# Root-level generated script artifacts (keep source scripts visible)
+/scripts/__pycache__/
+/scripts/**/bin/
+/scripts/**/obj/
 
 # RAG evaluation inputs, caches, and generated candidates
 rag-financial-qa/evals/**/embedding_cache/
@@ -103,7 +106,11 @@ rag-financial-qa/evals/router_v2_holdout/runs/*/l1_corpus.json
 rag-financial-qa/evals/router_v2_holdout/runs/*/routed_corpus.json
 rag-financial-qa/evals/router_v2_holdout/runs/*/paired_candidates.json
 rag-financial-qa/evals/phase4_holdout/
-rag-financial-qa/evals/phase4_holdout_2025/
+rag-financial-qa/evals/phase4_holdout_2025/private/
+rag-financial-qa/evals/phase4_holdout_2025/pdfs/
+rag-financial-qa/evals/phase4_holdout_2025/source_text/
+rag-financial-qa/evals/phase4_holdout_2025/runs/
+rag-financial-qa/evals/phase4_holdout_2025/embedding_cache/
 rag-financial-qa/evals/v3/runs/dev30-*
 rag-financial-qa/evals/v3/runs/*/diagnostic_*.json
 rag-financial-qa/evals/v3/runs/*/preflight_diagnostic.json

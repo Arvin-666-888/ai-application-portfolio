@@ -1,0 +1,63 @@
+{
+  "schema_version": "phase4-production-switch-preregistration-v1",
+  "role": "new_sealed_production_gate_holdout",
+  "status": "frozen_before_candidate_generation_and_ground_truth",
+  "frozen_on": "2026-07-30",
+  "case_id_prefix": "phase4",
+  "case_count": 24,
+  "report_count": 4,
+  "subsets": {
+    "new_company_new_year": [
+      "phase4_00", "phase4_01", "phase4_02", "phase4_03", "phase4_04", "phase4_05",
+      "phase4_06", "phase4_07", "phase4_08", "phase4_09", "phase4_10", "phase4_11",
+      "phase4_12", "phase4_13", "phase4_14", "phase4_15", "phase4_16", "phase4_17",
+      "phase4_18", "phase4_19", "phase4_20", "phase4_21", "phase4_22", "phase4_23"
+    ]
+  },
+  "data_isolation": {
+    "excluded_company_names": [
+      "格力电器", "美的集团", "贵州茅台", "比亚迪", "招商银行", "海尔智家", "五粮液"
+    ],
+    "excluded_report_years": [2023, 2024],
+    "selected_report_year": 2025,
+    "selected_reports_use_only_new_companies_and_new_year": true
+  },
+  "metric_families": [
+    "revenue", "net_profit", "parent_net_profit", "operating_cash_flow",
+    "total_assets", "company_specific_gross_margin"
+  ],
+  "frozen_retrieval": {
+    "profile": "financial_v3",
+    "dense_k": 100,
+    "lexical_k": 100,
+    "top_k": 5,
+    "reranker_backend": "deterministic_financial_v3",
+    "bge_claimed": false
+  },
+  "release_gates": {
+    "independent_human_ground_truth_attestation_required": true,
+    "candidate_ground_truth_loaded_must_equal": false,
+    "overall_source_physical_page_recall_at_5_min": 0.75,
+    "overall_row_strict_recall_at_5_exclusive_min": 0.70,
+    "per_report_source_physical_page_recall_at_5_min": 0.50,
+    "source_company_mapping_regressions_max": 0,
+    "chat_source_citation_regression_tests_must_pass": true
+  },
+  "evaluation_contract": {
+    "candidate_generation_before_ground_truth": true,
+    "single_official_score_after_ground_truth_unseal": true,
+    "tuning_after_unseal_forbidden": true,
+    "failed_holdout_must_remain_failed_and_disclosed": true,
+    "production_default_switch_only_after_all_gates_pass": true,
+    "rollback_profile_must_remain_explicit": true
+  },
+  "ground_truth_policy": {
+    "path": "private/ground_truth.json",
+    "attestation_path": "private/ground_truth_attestation.json",
+    "must_not_exist_before_candidate_freeze": true,
+    "reviewer_type": "human",
+    "independent_reconstruction_before_comparison": true,
+    "ai_attestation_forbidden": true
+  },
+  "claim_boundary": "No production default switch is authorized until candidate ranking is frozen, a non-AI independent human attestation is accepted, all retrieval gates pass, regressions pass, and rollback is verified."
+}

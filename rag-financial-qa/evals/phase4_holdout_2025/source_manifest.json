@@ -1,0 +1,50 @@
+[
+  {
+    "subset": "new_company_new_year",
+    "company": "中国长江电力股份有限公司",
+    "stock_code": "600900",
+    "report_year": 2025,
+    "filename": "长江电力_2025年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2026-04-30/1225262036.PDF",
+    "page_count": 259,
+    "size_bytes": 1533692,
+    "sha256": "aa0cdb92e3aad81b1e6454594a64cacbcfeb9013b10dd31f47a93a94e7a70f91",
+    "identity_status": "verified"
+  },
+  {
+    "subset": "new_company_new_year",
+    "company": "宁德时代新能源科技股份有限公司",
+    "stock_code": "300750",
+    "report_year": 2025,
+    "filename": "宁德时代_2025年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2026-03-10/1225002214.PDF",
+    "page_count": 232,
+    "size_bytes": 2043710,
+    "sha256": "c15272977147dee7e6935a38ea0e4fd6855370aabb106f54cfe20f7cf6048ec9",
+    "identity_status": "verified"
+  },
+  {
+    "subset": "new_company_new_year",
+    "company": "京东方科技集团股份有限公司",
+    "stock_code": "000725",
+    "report_year": 2025,
+    "filename": "京东方A_2025年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2026-04-01/1225068510.PDF",
+    "page_count": 227,
+    "size_bytes": 1860151,
+    "sha256": "34ba47131763d6992d0997e714fa2e741e38abbfbcb7b6f537cfe2fdb97b1a80",
+    "identity_status": "verified"
+  },
+  {
+    "subset": "new_company_new_year",
+    "company": "万华化学集团股份有限公司",
+    "stock_code": "600309",
+    "report_year": 2025,
+    "filename": "万华化学_2025年年度报告.pdf",
+    "pdf_url": "https://static.cninfo.com.cn/finalpage/2026-04-21/1225130793.PDF",
+    "page_count": 229,
+    "size_bytes": 1664944,
+    "sha256": "766717cc1a3b74221d4a20892b28152b3180ef5c63d683623e8a903eebddac95",
+    "identity_status": "verified"
+  }
+]
